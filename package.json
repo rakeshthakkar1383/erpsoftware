@@ -3,10 +3,12 @@
   "version": "0.1.0",
   "private": true,
   "description": "ERP software project",
-  "main": "backend/server.js",
+  "main": "api/index.js",
   "scripts": {
     "start": "node backend/server.js",
     "dev": "node backend/server.js",
+    "build": "cd frontend && npm install && npm run build",
+    "vercel-build": "cd backend && npm install",
     "test": "echo \"No tests specified\" && exit 0"
   },
   "dependencies": {},
