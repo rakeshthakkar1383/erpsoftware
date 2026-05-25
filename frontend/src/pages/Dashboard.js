@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const classes = Array.from({ length: 12 }, (_, i) => String(i + 1));
 
-function Dashboard({ user, teacherClass }) {
+function Dashboard({ user, teacherClass, schoolName }) {
   const [students, setStudents] = useState([]);
   const [divisions, setDivisions] = useState([]);
   const [fees, setFees] = useState([]);
@@ -67,6 +67,20 @@ function Dashboard({ user, teacherClass }) {
     <div>
       <h2 className="mb-4 text-2xl font-semibold">Dashboard</h2>
 
+      {/* School-wise summary */}
+      {schoolName && (
+        <div className="mb-6 rounded-lg border border-blue-200 bg-blue-50 p-4 shadow-sm">
+          <div className="flex items-center justify-between">
+            <div>
+              <div className="text-xs uppercase tracking-wide text-blue-600">School</div>
+              <div className="text-xl font-bold text-blue-800">{schoolName}</div>
+            </div>
+            <div className="text-right text-3xl font-bold text-blue-600">{students.length}</div>
+          </div>
+          <div className="mt-2 text-sm text-blue-600">Total Students</div>
+        </div>
+      )}
+
       {/* Class-wise summary cards */}
       <div className="mb-6 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
         {classes.map(cls => {
@@ -88,11 +102,6 @@ function Dashboard({ user, teacherClass }) {
             </button>
           );
         })}
-      </div>
-
-      <div className="mb-6 rounded-lg border bg-white p-4 shadow-sm">
-        <div className="text-lg font-semibold text-slate-700">Total Students</div>
-        <div className="text-3xl font-bold text-blue-600">{students.length}</div>
       </div>
 
       {/* Division-wise table with class teacher */}

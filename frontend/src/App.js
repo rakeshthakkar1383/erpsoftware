@@ -166,7 +166,7 @@ function App() {
 
       <main className="flex min-h-0 flex-1 flex-col p-6">
         <div className="mx-auto w-full max-w-6xl rounded-xl bg-white p-6 shadow-sm">
-          <PageComponent user={user} teacherClass={teacherClass} />
+          <PageComponent user={user} teacherClass={teacherClass} schoolName={schoolName} />
         </div>
       </main>
     </div>

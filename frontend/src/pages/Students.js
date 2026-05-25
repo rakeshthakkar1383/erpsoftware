@@ -6,17 +6,18 @@ const emptyForm = {
   full_name: '', gender: '', father_name: '', mother_name: '',
   dob: '', birthplace: '', address: '', village: '', district: '',
   city: '', last_school: '', roll_no: '', division: '', class_name: '', stream: '',
-  academic_year_id: '',
+  academic_year_id: '', school_id: '',
   photo_url: '', birth_cert_url: '', aadhar_url: '', father_aadhar_url: ''
 };
 
 const classes = Array.from({ length: 12 }, (_, i) => String(i + 1));
 
-function Students({ user, teacherClass }) {
+function Students({ user, teacherClass, schoolName }) {
   const [students, setStudents] = useState([]);
   const [academicYears, setAcademicYears] = useState([]);
   const [divisions, setDivisions] = useState([]);
   const [streams, setStreams] = useState([]);
+  const [schools, setSchools] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const [filterClass, setFilterClass] = useState('');
@@ -51,6 +52,10 @@ function Students({ user, teacherClass }) {
       const stRes = await axios.get('/api/streams');
       setStreams(stRes.data || []);
     } catch (err) { console.error('streams fetch error:', err); }
+    try {
+      const scRes = await axios.get('/api/school-info');
+      setSchools(scRes.data || []);
+    } catch (err) { console.error('schools fetch error:', err); }
     finally { setLoading(false); }
   };
 
@@ -75,11 +80,11 @@ function Students({ user, teacherClass }) {
   });
 
   const openAdd = () => {
-    setEditing(null); setForm({ ...emptyForm }); setMessage(''); setModal(true);
+    setEditing(null); setForm({ ...emptyForm, school_id: user?.school_id || '' }); setMessage(''); setModal(true);
   };
 
   const openEdit = (s) => {
-    setEditing(s); setForm({ ...s, academic_year_id: s.academic_year_id || '' }); setMessage(''); setModal(true);
+    setEditing(s); setForm({ ...s, academic_year_id: s.academic_year_id || '', school_id: s.school_id || '' }); setMessage(''); setModal(true);
   };
 
   const handleSave = async () => {
@@ -162,6 +167,7 @@ function Students({ user, teacherClass }) {
                 <th className="px-3 py-2">Class</th>
                 <th className="px-3 py-2">Division</th>
                 <th className="px-3 py-2">Stream</th>
+                <th className="px-3 py-2">School</th>
                 <th className="px-3 py-2">Year</th>
                 <th className="px-3 py-2">City</th>
                 <th className="px-3 py-2">Last School</th>
@@ -179,6 +185,7 @@ function Students({ user, teacherClass }) {
                   <td className="px-3 py-2">{s.class_name}</td>
                   <td className="px-3 py-2">{s.division || '-'}</td>
                   <td className="px-3 py-2">{s.stream || '-'}</td>
+                  <td className="px-3 py-2">{s.school_info?.school_name || schoolName || '-'}</td>
                   <td className="px-3 py-2">{ayMap[s.academic_year_id]?.year_name || '-'}</td>
                   <td className="px-3 py-2">{s.city || '-'}</td>
                   <td className="px-3 py-2">{s.last_school || '-'}</td>
@@ -215,6 +222,7 @@ function Students({ user, teacherClass }) {
               <div><span className="font-medium">District:</span> {detailStudent.district}</div>
               <div><span className="font-medium">City:</span> {detailStudent.city || '-'}</div>
               <div><span className="font-medium">Last School:</span> {detailStudent.last_school || '-'}</div>
+              <div><span className="font-medium">School:</span> {detailStudent.school_info?.school_name || schoolName || '-'}</div>
               <div><span className="font-medium">Class:</span> {detailStudent.class_name}</div>
               <div><span className="font-medium">Division:</span> {detailStudent.division || '-'}</div>
               <div><span className="font-medium">Stream:</span> {detailStudent.stream || '-'}</div>
@@ -260,11 +268,15 @@ function Students({ user, teacherClass }) {
           <div className="max-h-[90vh] w-full max-w-4xl overflow-y-auto rounded-lg bg-white p-6 shadow-xl">
             <h3 className="mb-4 text-xl font-semibold">{editing ? 'Edit Student' : 'Add Student'}</h3>
             <div className="grid gap-3 md:grid-cols-3">
+              <select className="w-full rounded border p-3 text-sm" value={form.school_id} onChange={e => setForm({ ...form, school_id: e.target.value })}>
+                <option value="">Select School</option>
+                {schools.map(s => <option key={s.id} value={s.id}>{s.school_name}</option>)}
+              </select>
               <input className="w-full rounded border p-3 text-sm" placeholder="Student Name *" value={form.full_name} onChange={set('full_name')} />
               <select className="w-full rounded border p-3 text-sm" value={form.gender} onChange={set('gender')}>
                 <option value="">Gender</option>
-                <option value="Male">Male</option>
-                <option value="Female">Female</option>
+                <option value="MALE">Male</option>
+                <option value="FEMALE">Female</option>
               </select>
               <input className="w-full rounded border p-3 text-sm" placeholder="Father's Name" value={form.father_name} onChange={set('father_name')} />
               <input className="w-full rounded border p-3 text-sm" placeholder="Mother's Name" value={form.mother_name} onChange={set('mother_name')} />
