@@ -1,16 +1,35 @@
 {
-  "name": "erpsoftware",
+  "name": "school-erp",
   "version": "0.1.0",
   "private": true,
-  "description": "ERP software project",
-  "main": "api/index.js",
   "scripts": {
-    "start": "node backend/server.js",
-    "dev": "node backend/server.js",
-    "build": "cd frontend && npm install && npm run build",
-    "vercel-build": "cd backend && npm install",
-    "test": "echo \"No tests specified\" && exit 0"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
-  "dependencies": {},
-  "devDependencies": {}
+  "dependencies": {
+    "@supabase/ssr": "^0.5.0",
+    "@supabase/supabase-js": "^2.45.0",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
+    "iconv-lite": "^0.7.2",
+    "lucide-react": "^0.400.0",
+    "next": "^14.2.0",
+    "pdfkit": "^0.15.0",
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0",
+    "tailwind-merge": "^2.4.0",
+    "xlsx": "^0.18.5"
+  },
+  "devDependencies": {
+    "@types/node": "^20.14.0",
+    "@types/pdfkit": "^0.13.0",
+    "@types/react": "^18.3.0",
+    "@types/react-dom": "^18.3.0",
+    "autoprefixer": "^10.4.19",
+    "postcss": "^8.4.38",
+    "tailwindcss": "^3.4.4",
+    "typescript": "^5.4.0"
+  }
 }
