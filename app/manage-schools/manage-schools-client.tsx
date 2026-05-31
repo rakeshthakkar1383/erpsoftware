@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { addSchool, deleteSchool, getAllSchools } from "../school-info/actions"
 import { createClient } from "@/lib/supabase/client"
+import { useRouter } from "next/navigation"
 
 const emptyForm = {
   school_name: "", address: "", phone: "", email: "", website: "",
@@ -10,6 +11,7 @@ const emptyForm = {
 }
 
 export default function ManageSchoolsClient({ initialSchools }: { initialSchools: any[] }) {
+  const router = useRouter()
   const [schools, setSchools] = useState(initialSchools)
   const [modal, setModal] = useState(false)
   const [form, setForm] = useState({ ...emptyForm })
@@ -51,6 +53,7 @@ export default function ManageSchoolsClient({ initialSchools }: { initialSchools
       setModal(false)
       setForm({ ...emptyForm })
       setSchools(await getAllSchools())
+      router.refresh()
     }
   }
 

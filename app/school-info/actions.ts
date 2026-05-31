@@ -22,9 +22,17 @@ export async function addSchool(formData: FormData) {
   const raw: any = {}
   formData.forEach((v, k) => { raw[k] = v })
 
-  const { error } = await supabase.from("school_info").insert([raw])
-  revalidatePath("/school-info")
-  return { success: !error, message: error?.message || "School created" }
+  const { data, error } = await supabase.from("school_info").insert([raw]).select("id").single()
+  if (!error && data?.id) {
+    const { data: { user } } = await supabase.auth.getUser()
+    if (user) {
+      await supabase.auth.updateUser({
+        data: { ...user.user_metadata, school_id: data.id }
+      })
+    }
+  }
+  revalidatePath("/", "layout")
+  return { success: !error, message: error?.message || "School created", schoolId: data?.id }
 }
 
 export async function deleteSchool(id: number) {
