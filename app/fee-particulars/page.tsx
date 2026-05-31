@@ -12,5 +12,7 @@ export default async function FeeParticularsPage() {
   if (schoolId) query = query.eq("school_id", schoolId)
   const { data } = await query
 
-  return <FeeParticularsClient initialParticulars={data || []} />
+  const { data: allSchools } = await supabase.from("school_info").select("id, school_name").order("school_name")
+
+  return <FeeParticularsClient initialParticulars={data || []} allSchools={allSchools || []} schoolId={schoolId} />
 }

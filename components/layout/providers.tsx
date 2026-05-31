@@ -4,7 +4,7 @@ import { usePathname, useRouter } from "next/navigation"
 import { useCallback, useEffect, useState } from "react"
 import { AuthProvider, useUser } from "./auth-provider"
 import { createClient } from "@/lib/supabase/client"
-import { getAllSchools, switchSchool } from "@/app/school-info/actions"
+import { getAllSchools, switchSchool } from "@/app/manage-schools/actions"
 import Sidebar from "./sidebar"
 
 const publicPaths = ["/login", "/signup", "/forgot-password"]
@@ -40,13 +40,19 @@ function AppShell({ children }: { children: React.ReactNode }) {
   }, [user, loading])
 
   useEffect(() => {
-    const tab = pathname.split("/").filter(Boolean)[0] || "dashboard"
+    const segments = pathname.split("/").filter(Boolean)
+    const tab = segments.length >= 2 ? `${segments[0]}/${segments[1]}` : (segments[0] || "dashboard")
     setActiveTab(tab)
   }, [pathname])
 
   const handleSchoolSwitch = useCallback(async (schoolId: number) => {
     await switchSchool(schoolId)
     router.refresh()
+  }, [])
+
+  const handleSchoolAdded = useCallback(async () => {
+    const updated = await getAllSchools()
+    setSchools(updated)
   }, [])
 
   const handleLogout = useCallback(async () => {
@@ -81,6 +87,7 @@ function AppShell({ children }: { children: React.ReactNode }) {
         onTabChange={(tab) => { setActiveTab(tab); router.push(`/${tab}`) }}
         onLogout={handleLogout}
         onSchoolSwitch={handleSchoolSwitch}
+        onSchoolAdded={handleSchoolAdded}
       />
       <main className="flex-1 overflow-y-auto p-6">
         {children}

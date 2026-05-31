@@ -1,11 +1,12 @@
 "use client"
 
 import { useState, useCallback, useRef } from "react"
+import { useRouter } from "next/navigation"
 import { getAllStudents, addStudent, updateStudent, deleteStudent } from "./actions"
 import { createClient } from "@/lib/supabase/client"
 
 const classes = Array.from({ length: 12 }, (_, i) => String(i + 1))
-const emptyForm = {
+const emptyForm: Record<string, string> = {
   full_name: "", gender: "", father_name: "", mother_name: "",
   dob: "", birthplace: "", address: "", village: "", district: "",
   city: "", last_school: "", roll_no: "", division: "", class_name: "", stream: "",
@@ -17,6 +18,7 @@ type StudentsClientProps = {
   divisions: any[]
   streams: any[]
   years: any[]
+  allSchools: { id: number; school_name: string | null }[]
   teacherClass: string
   schoolId: number | null
   schoolName?: string
@@ -24,7 +26,7 @@ type StudentsClientProps = {
 }
 
 export default function StudentsClient({ 
-  students: initialStudents, divisions, streams, years, teacherClass, schoolId, schoolName, schoolLogo 
+  students: initialStudents, divisions, streams, years, allSchools, teacherClass, schoolId, schoolName, schoolLogo 
 }: StudentsClientProps) {
   const [students, setStudents] = useState(initialStudents)
   const [filterClass, setFilterClass] = useState(teacherClass)
@@ -39,6 +41,7 @@ export default function StudentsClient({
   const [uploading, setUploading] = useState<string | null>(null)
   const [detailStudent, setDetailStudent] = useState<any>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const router = useRouter()
   const supabase = createClient()
 
   const refresh = useCallback(async () => {
@@ -85,13 +88,12 @@ export default function StudentsClient({
   const handleSave = async () => {
     if (!form.full_name || !form.class_name) { setMessage("Name and Class are required"); return }
     try {
-      if (editing) {
-        await updateStudent(editing.id, toFormData(form))
-      } else {
-        await addStudent(toFormData(form))
-      }
+      const res = editing
+        ? await updateStudent(editing.id, toFormData(form))
+        : await addStudent(toFormData(form))
+      if (!res.success) { setMessage(res.message); return }
       setModal(false)
-      refresh()
+      await refresh()
     } catch (err: any) {
       setMessage(err.message || "Save failed")
     }
@@ -99,8 +101,9 @@ export default function StudentsClient({
 
   const handleDelete = async (id: number) => {
     if (!window.confirm("Delete this student?")) return
-    await deleteStudent(id)
-    refresh()
+    const res = await deleteStudent(id)
+    if (!res.success) { setMessage(res.message); return }
+    await refresh()
   }
 
   const downloadFile = async (url: string, filename: string) => {
@@ -213,9 +216,9 @@ export default function StudentsClient({
                 <tr key={s.id}>
                   <td className="px-3 py-2">{i + 1}</td>
                   <td className="px-3 py-2">{s.roll_no || "-"}</td>
-                  <td className="px-3 py-2">
-                    <button className="text-blue-600 hover:underline" onClick={() => setDetailStudent(s)}>{s.full_name}</button>
-                  </td>
+                    <td className="px-3 py-2">
+                    <button className="text-blue-600 hover:underline" onClick={() => router.push(`/students/${s.id}`)}>{s.full_name}</button>
+                    </td>
                   <td className="px-3 py-2">{s.gender}</td>
                   <td className="px-3 py-2">{s.father_name}</td>
                   <td className="px-3 py-2">{s.mother_name}</td>
@@ -284,6 +287,18 @@ export default function StudentsClient({
                 <p className="text-sm font-semibold text-blue-600">{editing ? "EDIT STUDENT" : "ADD NEW STUDENT"}</p>
               </div>
             </div>
+
+            {!schoolId && (
+              <div className="mb-4 space-y-1">
+                <label className="text-[10px] font-bold text-slate-500 uppercase">School *</label>
+                <select className="w-full rounded border p-3 text-sm" value={form.school_id || ""} onChange={e => setForm({ ...form, school_id: e.target.value })}>
+                  <option value="">SELECT SCHOOL</option>
+                  {allSchools.map((s: any) => (
+                    <option key={s.id} value={s.id}>{s.school_name}</option>
+                  ))}
+                </select>
+              </div>
+            )}
 
             <div className="grid gap-3 md:grid-cols-3">
               <div className="space-y-1">

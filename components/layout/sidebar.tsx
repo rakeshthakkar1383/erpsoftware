@@ -3,27 +3,26 @@
 import { useState, useRef, useEffect } from "react"
 import {
   LayoutDashboard, Users, GraduationCap, DollarSign, CalendarCheck,
-  FileCheck, BookOpen, School, ListOrdered, Layers, GitBranch,
-  UserCheck, Settings, FileText, LogOut, ClipboardList, ChevronDown
+  FileCheck, BookOpen, ListOrdered, GitBranch,
+  UserCheck, FileText, LogOut, ChevronDown, Plus, Building2
 } from "lucide-react"
+import { addSchool } from "@/app/manage-schools/actions"
 
 const adminTabs = [
   { key: "dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { key: "students", label: "Students", icon: Users },
-  { key: "teachers", label: "Teachers", icon: GraduationCap },
+  { key: "teachers", label: "Teacher Entry", icon: GraduationCap },
+  { key: "students", label: "Students Entry", icon: Users },
+  { key: "fee-particulars", label: "Fees Particular", icon: ListOrdered },
   { key: "fees", label: "Fees", icon: DollarSign },
-  { key: "fee-particulars", label: "Fee Particulars", icon: ListOrdered },
+  { key: "trust-info", label: "Trust Info", icon: Building2 },
   { key: "attendance", label: "Attendance", icon: CalendarCheck },
   { key: "exams", label: "Exams", icon: FileCheck },
   { key: "marks", label: "Marks", icon: BookOpen },
-  { key: "dynamic-form", label: "Dynamic Form", icon: ClipboardList },
-  { key: "academic-years", label: "Academic Years", icon: Layers },
   { key: "divisions", label: "Divisions", icon: GitBranch },
   { key: "subjects", label: "Subjects", icon: BookOpen },
   { key: "streams", label: "Streams", icon: GitBranch },
   { key: "teacher-subjects", label: "Teacher Subjects", icon: UserCheck },
-  { key: "school-info", label: "School Info", icon: School },
-  { key: "manage-schools", label: "All Schools", icon: Settings },
+  { key: "manage-schools", label: "All Schools", icon: FileText },
 ]
 
 const teacherTabs = [
@@ -51,12 +50,17 @@ type SidebarProps = {
   onTabChange: (tab: string) => void
   onLogout: () => void
   onSchoolSwitch?: (schoolId: number) => void
+  onSchoolAdded?: () => void
 }
 
-export default function Sidebar({ user, schoolName, schoolLogo, schools = [], teacherClass, activeTab, onTabChange, onLogout, onSchoolSwitch }: SidebarProps) {
+export default function Sidebar({ user, schoolName, schoolLogo, schools = [], teacherClass, activeTab, onTabChange, onLogout, onSchoolSwitch, onSchoolAdded }: SidebarProps) {
   const role = user?.user_metadata?.role || user?.role
   const tabs = role === "admin" ? adminTabs : teacherTabs
   const [showSchools, setShowSchools] = useState(false)
+  const [showSchoolManager, setShowSchoolManager] = useState(false)
+  const [newSchoolForm, setNewSchoolForm] = useState({ school_name: "", trust_name: "", phone: "", address: "" })
+  const [schoolMsg, setSchoolMsg] = useState("")
+  const [addingSchool, setAddingSchool] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -74,6 +78,24 @@ export default function Sidebar({ user, schoolName, schoolLogo, schools = [], te
     if (onSchoolSwitch && schoolId !== user?.user_metadata?.school_id) {
       onSchoolSwitch(schoolId)
     }
+  }
+
+  const handleAddSchool = async () => {
+    if (!newSchoolForm.school_name) return
+    setAddingSchool(true)
+    setSchoolMsg("")
+    const fd = new FormData()
+    fd.append("school_name", newSchoolForm.school_name)
+    fd.append("trust_name", newSchoolForm.trust_name)
+    fd.append("phone", newSchoolForm.phone)
+    fd.append("address", newSchoolForm.address)
+    const result = await addSchool(fd)
+    setSchoolMsg(result.message)
+    if (result.success) {
+      setNewSchoolForm({ school_name: "", trust_name: "", phone: "", address: "" })
+      onSchoolAdded?.()
+    }
+    setAddingSchool(false)
   }
 
   return (
@@ -132,6 +154,53 @@ export default function Sidebar({ user, schoolName, schoolLogo, schools = [], te
           </p>
         </div>
       </div>
+      {role === "admin" && (
+        <div className="border-b border-slate-700">
+          <button
+            onClick={() => setShowSchoolManager(!showSchoolManager)}
+            className="flex w-full items-center justify-between px-5 py-2.5 text-[11px] font-bold text-slate-400 uppercase tracking-wider transition hover:bg-slate-700/50 hover:text-white"
+          >
+            <span>Add School</span>
+            <Plus className={`h-3.5 w-3.5 transition ${showSchoolManager ? "rotate-45" : ""}`} />
+          </button>
+          {showSchoolManager && (
+            <div className="space-y-2 px-4 pb-4">
+              <input
+                placeholder="SCHOOL NAME"
+                value={newSchoolForm.school_name}
+                onChange={e => setNewSchoolForm(prev => ({ ...prev, school_name: e.target.value.toUpperCase() }))}
+                className="w-full rounded border border-slate-600 bg-slate-700 p-2 text-xs text-white placeholder:text-slate-400"
+              />
+              <input
+                placeholder="TRUST NAME"
+                value={newSchoolForm.trust_name}
+                onChange={e => setNewSchoolForm(prev => ({ ...prev, trust_name: e.target.value.toUpperCase() }))}
+                className="w-full rounded border border-slate-600 bg-slate-700 p-2 text-xs text-white placeholder:text-slate-400"
+              />
+              <input
+                placeholder="PHONE"
+                value={newSchoolForm.phone}
+                onChange={e => setNewSchoolForm(prev => ({ ...prev, phone: e.target.value }))}
+                className="w-full rounded border border-slate-600 bg-slate-700 p-2 text-xs text-white placeholder:text-slate-400"
+              />
+              <input
+                placeholder="ADDRESS"
+                value={newSchoolForm.address}
+                onChange={e => setNewSchoolForm(prev => ({ ...prev, address: e.target.value.toUpperCase() }))}
+                className="w-full rounded border border-slate-600 bg-slate-700 p-2 text-xs text-white placeholder:text-slate-400"
+              />
+              <button
+                onClick={handleAddSchool}
+                disabled={addingSchool || !newSchoolForm.school_name}
+                className="w-full rounded bg-blue-600 py-1.5 text-xs font-bold text-white transition hover:bg-blue-700 disabled:opacity-50"
+              >
+                {addingSchool ? "ADDING..." : "ADD SCHOOL"}
+              </button>
+              {schoolMsg && <p className="text-[10px] text-blue-300">{schoolMsg}</p>}
+            </div>
+          )}
+        </div>
+      )}
       <nav className="flex min-h-0 flex-1 flex-col gap-0.5 overflow-y-auto px-3 py-3">
         {tabs.map((tab) => {
           const Icon = tab.icon

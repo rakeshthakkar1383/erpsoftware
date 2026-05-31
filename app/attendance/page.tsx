@@ -17,5 +17,7 @@ export default async function AttendancePage() {
     (await aq).data || [], (await sq).data || [], (await dq).data || [],
   ])
 
-  return <AttendanceClient initialRecords={attendance} students={students} divisions={divisions} teacherClass={user?.user_metadata?.class_name || ""} />
+  const { data: allSchools } = await supabase.from("school_info").select("id, school_name").order("school_name")
+
+  return <AttendanceClient initialRecords={attendance} students={students} divisions={divisions} allSchools={allSchools || []} schoolId={schoolId} teacherClass={user?.user_metadata?.class_name || ""} />
 }

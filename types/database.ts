@@ -1,6 +1,7 @@
 export interface SchoolInfo {
   id: number
   school_name: string | null
+  trust_name: string | null
   address: string | null
   phone: string | null
   email: string | null

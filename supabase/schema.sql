@@ -5,6 +5,7 @@
 CREATE TABLE IF NOT EXISTS school_info (
   id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   school_name text,
+  trust_name text,
   address text,
   phone text,
   email text,
@@ -47,7 +48,6 @@ CREATE TABLE IF NOT EXISTS students (
   class_name text,
   stream text,
   roll_no bigint,
-  academic_year_id bigint REFERENCES academic_years(id) ON DELETE SET NULL,
   photo_url text,
   birth_cert_url text,
   aadhar_url text,
@@ -70,6 +70,7 @@ CREATE TABLE IF NOT EXISTS teachers (
 CREATE TABLE IF NOT EXISTS fees (
   id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   student_id bigint REFERENCES students(id) ON DELETE CASCADE,
+  trust_id bigint REFERENCES trust_info(id) ON DELETE SET NULL,
   amount numeric(10,2),
   status text DEFAULT 'Paid',
   payment_date text,
@@ -79,6 +80,7 @@ CREATE TABLE IF NOT EXISTS fees (
   cheque_date text,
   bank_name text,
   particulars jsonb DEFAULT '[]'::jsonb,
+  receipt_file_url text,
   school_id bigint REFERENCES school_info(id) ON DELETE CASCADE,
   created_at timestamp DEFAULT now()
 );
@@ -106,6 +108,7 @@ CREATE TABLE IF NOT EXISTS exams (
   id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   exam_name text,
   class_name text,
+  semester text DEFAULT 'SEM 1',
   school_id bigint REFERENCES school_info(id) ON DELETE CASCADE,
   created_at timestamp DEFAULT now()
 );
@@ -128,17 +131,7 @@ CREATE TABLE IF NOT EXISTS subjects (
   school_id bigint REFERENCES school_info(id) ON DELETE CASCADE
 );
 
--- 11. academic_years
-CREATE TABLE IF NOT EXISTS academic_years (
-  id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
-  year_name text,
-  start_date text,
-  end_date text,
-  is_active boolean DEFAULT false,
-  school_id bigint REFERENCES school_info(id) ON DELETE CASCADE
-);
-
--- 12. divisions
+-- 11. divisions
 CREATE TABLE IF NOT EXISTS divisions (
   id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   class_name text,
@@ -164,7 +157,20 @@ CREATE TABLE IF NOT EXISTS teacher_subjects (
   school_id bigint REFERENCES school_info(id) ON DELETE CASCADE
 );
 
--- 15. auth_sessions (used by Supabase Auth — handled automatically)
+-- 15. trust_info
+CREATE TABLE IF NOT EXISTS trust_info (
+  id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  trust_name text NOT NULL,
+  address text,
+  phone text,
+  email text,
+  website text,
+  registration_no text,
+  school_id bigint REFERENCES school_info(id) ON DELETE CASCADE,
+  created_at timestamp DEFAULT now()
+);
+
+-- auth_sessions (used by Supabase Auth — handled automatically)
 -- No custom table needed; Supabase manages auth internally.
 
 -- ===== ROW LEVEL SECURITY =====
@@ -180,10 +186,10 @@ ALTER TABLE attendance ENABLE ROW LEVEL SECURITY;
 ALTER TABLE exams ENABLE ROW LEVEL SECURITY;
 ALTER TABLE marks ENABLE ROW LEVEL SECURITY;
 ALTER TABLE subjects ENABLE ROW LEVEL SECURITY;
-ALTER TABLE academic_years ENABLE ROW LEVEL SECURITY;
 ALTER TABLE divisions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE streams ENABLE ROW LEVEL SECURITY;
 ALTER TABLE teacher_subjects ENABLE ROW LEVEL SECURITY;
+ALTER TABLE trust_info ENABLE ROW LEVEL SECURITY;
 
 -- Helper function to get current user's school_id from auth.users.raw_user_meta_data
 CREATE OR REPLACE FUNCTION get_school_id()
@@ -274,12 +280,6 @@ CREATE POLICY subjects_insert ON subjects FOR INSERT WITH CHECK (school_id = get
 CREATE POLICY subjects_update ON subjects FOR UPDATE USING (school_id = get_school_id());
 CREATE POLICY subjects_delete ON subjects FOR DELETE USING (school_id = get_school_id());
 
--- academic_years
-CREATE POLICY academic_years_select ON academic_years FOR SELECT USING (school_id = get_school_id());
-CREATE POLICY academic_years_insert ON academic_years FOR INSERT WITH CHECK (school_id = get_school_id());
-CREATE POLICY academic_years_update ON academic_years FOR UPDATE USING (school_id = get_school_id());
-CREATE POLICY academic_years_delete ON academic_years FOR DELETE USING (school_id = get_school_id());
-
 -- divisions
 CREATE POLICY divisions_select ON divisions FOR SELECT USING (school_id = get_school_id());
 CREATE POLICY divisions_insert ON divisions FOR INSERT WITH CHECK (school_id = get_school_id());
@@ -297,3 +297,9 @@ CREATE POLICY teacher_subjects_select ON teacher_subjects FOR SELECT USING (scho
 CREATE POLICY teacher_subjects_insert ON teacher_subjects FOR INSERT WITH CHECK (school_id = get_school_id());
 CREATE POLICY teacher_subjects_update ON teacher_subjects FOR UPDATE USING (school_id = get_school_id());
 CREATE POLICY teacher_subjects_delete ON teacher_subjects FOR DELETE USING (school_id = get_school_id());
+
+-- trust_info
+CREATE POLICY trust_info_select ON trust_info FOR SELECT USING (school_id = get_school_id());
+CREATE POLICY trust_info_insert ON trust_info FOR INSERT WITH CHECK (school_id = get_school_id());
+CREATE POLICY trust_info_update ON trust_info FOR UPDATE USING (school_id = get_school_id());
+CREATE POLICY trust_info_delete ON trust_info FOR DELETE USING (school_id = get_school_id());

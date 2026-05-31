@@ -1,12 +1,13 @@
 "use client"
 
 import { useState } from "react"
-import { addSchool, deleteSchool, getAllSchools } from "../school-info/actions"
+import { addSchool, deleteSchool, getAllSchools, updateSchoolById } from "./actions"
 import { createClient } from "@/lib/supabase/client"
 import { useRouter } from "next/navigation"
+import { Pencil } from "lucide-react"
 
 const emptyForm = {
-  school_name: "", address: "", phone: "", email: "", website: "",
+  school_name: "", trust_name: "", address: "", phone: "", email: "", website: "",
   principal_name: "", affiliation: "", logo_url: "",
 }
 
@@ -14,6 +15,7 @@ export default function ManageSchoolsClient({ initialSchools }: { initialSchools
   const router = useRouter()
   const [schools, setSchools] = useState(initialSchools)
   const [modal, setModal] = useState(false)
+  const [editId, setEditId] = useState<number | null>(null)
   const [form, setForm] = useState({ ...emptyForm })
   const [message, setMessage] = useState("")
   const [uploading, setUploading] = useState(false)
@@ -22,6 +24,30 @@ export default function ManageSchoolsClient({ initialSchools }: { initialSchools
   const set = (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value.toUpperCase()
     setForm({ ...form, [field]: value })
+  }
+
+  const openAdd = () => {
+    setEditId(null)
+    setForm({ ...emptyForm })
+    setMessage("")
+    setModal(true)
+  }
+
+  const openEdit = (s: any) => {
+    setEditId(s.id)
+    setForm({
+      school_name: s.school_name || "",
+      trust_name: s.trust_name || "",
+      address: s.address || "",
+      phone: s.phone || "",
+      email: s.email || "",
+      website: s.website || "",
+      principal_name: s.principal_name || "",
+      affiliation: s.affiliation || "",
+      logo_url: s.logo_url || "",
+    })
+    setMessage("")
+    setModal(true)
   }
 
   const handleLogoUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -47,7 +73,9 @@ export default function ManageSchoolsClient({ initialSchools }: { initialSchools
 
   const handleSave = async () => {
     if (!form.school_name) { setMessage("School name is required"); return }
-    const result = await addSchool(toFD(form))
+    const result = editId
+      ? await updateSchoolById(editId, toFD(form))
+      : await addSchool(toFD(form))
     setMessage(result.message)
     if (result.success) {
       setModal(false)
@@ -70,7 +98,7 @@ export default function ManageSchoolsClient({ initialSchools }: { initialSchools
         <h2 className="text-2xl font-semibold">Manage All Schools</h2>
         <button 
           className="rounded bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-700"
-          onClick={() => { setModal(true); setMessage(""); setForm({...emptyForm}) }}
+          onClick={openAdd}
         >
           Add New School
         </button>
@@ -81,6 +109,13 @@ export default function ManageSchoolsClient({ initialSchools }: { initialSchools
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {schools.map((s) => (
           <div key={s.id} className="relative rounded-lg border bg-white p-5 shadow-sm transition hover:shadow-md">
+            <button
+              onClick={() => openEdit(s)}
+              className="absolute right-3 top-3 text-slate-400 hover:text-blue-600 transition"
+              title="Edit"
+            >
+              <Pencil className="h-4 w-4" />
+            </button>
             <div className="mb-4 flex items-center gap-4">
               {s.logo_url ? (
                 <img src={s.logo_url} alt="" className="h-12 w-12 rounded border object-contain bg-slate-50" />
@@ -89,10 +124,11 @@ export default function ManageSchoolsClient({ initialSchools }: { initialSchools
               )}
               <div>
                 <h3 className="font-bold text-slate-800 uppercase">{s.school_name}</h3>
-                <p className="text-xs text-slate-500">{s.city || "CITY NOT SET"}</p>
+                <p className="text-xs text-slate-500">{s.trust_name ? `TRUST: ${s.trust_name}` : s.city || "CITY NOT SET"}</p>
               </div>
             </div>
             <div className="space-y-1 text-xs text-slate-600">
+              <p><strong>Trust:</strong> {s.trust_name || "N/A"}</p>
               <p><strong>Principal:</strong> {s.principal_name || "N/A"}</p>
               <p><strong>Phone:</strong> {s.phone || "N/A"}</p>
               <p><strong>Affiliation:</strong> {s.affiliation || "N/A"}</p>
@@ -112,11 +148,15 @@ export default function ManageSchoolsClient({ initialSchools }: { initialSchools
       {modal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
           <div className="w-full max-w-2xl rounded-lg bg-white p-6 shadow-xl max-h-[90vh] overflow-y-auto">
-            <h3 className="mb-4 text-xl font-bold">ADD NEW SCHOOL</h3>
+            <h3 className="mb-4 text-xl font-bold">{editId ? "EDIT SCHOOL" : "ADD NEW SCHOOL"}</h3>
             <div className="grid gap-4 md:grid-cols-2">
               <div className="md:col-span-2">
                 <label className="text-[10px] font-bold text-slate-500 uppercase">School Name *</label>
                 <input className="w-full rounded border p-3 text-sm" placeholder="SCHOOL NAME" value={form.school_name} onChange={set("school_name")} />
+              </div>
+              <div className="md:col-span-2">
+                <label className="text-[10px] font-bold text-slate-500 uppercase">Trust Name</label>
+                <input className="w-full rounded border p-3 text-sm" placeholder="TRUST NAME" value={form.trust_name} onChange={set("trust_name")} />
               </div>
               <div>
                 <label className="text-[10px] font-bold text-slate-500 uppercase">Phone</label>
@@ -146,7 +186,9 @@ export default function ManageSchoolsClient({ initialSchools }: { initialSchools
               </div>
             </div>
             <div className="mt-6 flex gap-3">
-              <button className="rounded bg-blue-600 px-6 py-2 text-sm text-white font-bold hover:bg-blue-700" onClick={handleSave}>CREATE SCHOOL</button>
+              <button className="rounded bg-blue-600 px-6 py-2 text-sm text-white font-bold hover:bg-blue-700" onClick={handleSave}>
+                {editId ? "UPDATE SCHOOL" : "CREATE SCHOOL"}
+              </button>
               <button className="rounded bg-slate-200 px-6 py-2 text-sm text-slate-700 font-bold hover:bg-slate-300" onClick={() => setModal(false)}>CANCEL</button>
             </div>
           </div>

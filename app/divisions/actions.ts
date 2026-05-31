@@ -27,7 +27,7 @@ export async function addDivision(formData: FormData) {
   const raw: any = {}
   formData.forEach((v, k) => { raw[k] = v })
   if (raw.class_teacher_id === "") raw.class_teacher_id = null
-  if (user?.user_metadata?.school_id) raw.school_id = user.user_metadata.school_id
+  if (!raw.school_id && user?.user_metadata?.school_id) raw.school_id = user.user_metadata.school_id
   const { error } = await supabase.from("divisions").insert([raw])
   revalidatePath("/divisions")
   return { success: !error, message: error?.message || "Division added" }

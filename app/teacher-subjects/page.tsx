@@ -20,5 +20,7 @@ export default async function TeacherSubjectsPage() {
     (await tq).data || [],
   ])
 
-  return <TeacherSubjectsClient initialAssignments={assignments} teachers={teachers} />
+  const { data: allSchools } = await supabase.from("school_info").select("id, school_name").order("school_name")
+
+  return <TeacherSubjectsClient initialAssignments={assignments} teachers={teachers} allSchools={allSchools || []} schoolId={schoolId} />
 }

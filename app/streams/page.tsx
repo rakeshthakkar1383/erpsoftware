@@ -12,5 +12,7 @@ export default async function StreamsPage() {
   if (schoolId) query = query.eq("school_id", schoolId)
   const { data } = await query
 
-  return <StreamsClient initialStreams={data || []} />
+  const { data: allSchools } = await supabase.from("school_info").select("id, school_name").order("school_name")
+
+  return <StreamsClient initialStreams={data || []} allSchools={allSchools || []} schoolId={schoolId} />
 }

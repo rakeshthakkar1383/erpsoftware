@@ -31,10 +31,15 @@ export async function addFee(formData: FormData) {
     raw.amount = raw.particulars.reduce((sum: number, p: any) => sum + (Number(p.amount) || 0), 0)
     raw.particulars = JSON.stringify(raw.particulars)
   }
-  if (user?.user_metadata?.school_id) raw.school_id = user.user_metadata.school_id
-  const { error } = await supabase.from("fees").insert([raw])
+  if (raw.student_id) raw.student_id = Number(raw.student_id)
+  if (raw.trust_id) raw.trust_id = Number(raw.trust_id)
+  if (raw.school_id) raw.school_id = Number(raw.school_id)
+  else if (user?.user_metadata?.school_id) raw.school_id = Number(user.user_metadata.school_id)
+  if (!raw.payment_date) raw.payment_date = null
+  if (!raw.cheque_date) raw.cheque_date = null
+  const { data: inserted, error } = await supabase.from("fees").insert([raw]).select("id").single()
   revalidatePath("/fees")
-  return { success: !error, message: error?.message || "Fee added" }
+  return { success: !error, message: error?.message || "Fee added", id: inserted?.id }
 }
 
 export async function updateFee(id: number, formData: FormData) {
@@ -51,9 +56,15 @@ export async function updateFee(id: number, formData: FormData) {
     raw.amount = raw.particulars.reduce((sum: number, p: any) => sum + (Number(p.amount) || 0), 0)
     raw.particulars = JSON.stringify(raw.particulars)
   }
+  if (raw.student_id) raw.student_id = Number(raw.student_id)
+  if (raw.trust_id) raw.trust_id = Number(raw.trust_id)
+  if (raw.school_id) raw.school_id = Number(raw.school_id)
+  if (!raw.payment_date) raw.payment_date = null
+  if (!raw.cheque_date) raw.cheque_date = null
+  delete raw.id
   const { error } = await supabase.from("fees").update(raw).eq("id", id)
   revalidatePath("/fees")
-  return { success: !error, message: error?.message || "Fee updated" }
+  return { success: !error, message: error?.message || "Fee updated", id }
 }
 
 export async function deleteFee(id: number) {

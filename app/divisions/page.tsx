@@ -20,5 +20,7 @@ export default async function DivisionsPage() {
     (await tq).data || [],
   ])
 
-  return <DivisionsClient initialDivisions={divisions} teachers={teachers} />
+  const { data: allSchools } = await supabase.from("school_info").select("id, school_name").order("school_name")
+
+  return <DivisionsClient initialDivisions={divisions} teachers={teachers} allSchools={allSchools || []} schoolId={schoolId} />
 }

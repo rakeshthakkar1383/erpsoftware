@@ -3,9 +3,9 @@
 import { useState, useEffect, useRef } from "react"
 import { getAllTeachers, addTeacher, updateTeacher, deleteTeacher } from "./actions"
 
-const emptyForm = { full_name: "", subject: "", mobile: "", salary: "" }
+const emptyForm: Record<string, string> = { full_name: "", subject: "", mobile: "", salary: "" }
 
-export default function TeachersClient() {
+export default function TeachersClient({ allSchools, schoolId }: { allSchools: any[], schoolId: number | null }) {
   const [teachers, setTeachers] = useState<any[]>([])
   const [search, setSearch] = useState("")
   const [modal, setModal] = useState(false)
@@ -125,6 +125,12 @@ export default function TeachersClient() {
           <div className="w-full max-w-lg rounded-lg bg-white p-6 shadow-xl">
             <h3 className="mb-4 text-xl font-semibold">{editing ? "Edit Teacher" : "Add Teacher"}</h3>
             <div className="grid gap-3">
+              {!schoolId && (
+                <select className="w-full rounded border p-3 text-sm" value={form.school_id || ""} onChange={e => setForm({...form, school_id: e.target.value})}>
+                  <option value="">SELECT SCHOOL</option>
+                  {allSchools.map((s: any) => <option key={s.id} value={s.id}>{s.school_name}</option>)}
+                </select>
+              )}
               <input className="w-full rounded border p-3 text-sm" placeholder="Full Name *" value={form.full_name} onChange={set("full_name")} />
               <input className="w-full rounded border p-3 text-sm" placeholder="Subject" value={form.subject} onChange={set("subject")} />
               <input className="w-full rounded border p-3 text-sm" placeholder="Mobile" value={form.mobile} onChange={set("mobile")} />

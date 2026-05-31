@@ -4,9 +4,9 @@ import { useState } from "react"
 import { getAllStreams, addStream, updateStream, deleteStream } from "./actions"
 
 const classes = Array.from({ length: 12 }, (_, i) => String(i + 1))
-const emptyForm = { class_name: "", stream_name: "" }
+const emptyForm: Record<string, string> = { class_name: "", stream_name: "" }
 
-export default function StreamsClient({ initialStreams }: { initialStreams: any[] }) {
+export default function StreamsClient({ initialStreams, allSchools, schoolId }: { initialStreams: any[], allSchools: any[], schoolId: number | null }) {
   const [streams, setStreams] = useState(initialStreams)
   const [search, setSearch] = useState("")
   const [modal, setModal] = useState(false)
@@ -72,6 +72,12 @@ export default function StreamsClient({ initialStreams }: { initialStreams: any[
           <div className="w-full max-w-lg rounded-lg bg-white p-6 shadow-xl">
             <h3 className="mb-4 text-xl font-semibold">{editing ? "Edit Stream" : "Add Stream"}</h3>
             <div className="grid gap-3">
+              {!schoolId && (
+                <select className="w-full rounded border p-3 text-sm" value={form.school_id || ""} onChange={e => setForm({...form, school_id: e.target.value})}>
+                  <option value="">SELECT SCHOOL</option>
+                  {allSchools.map((s: any) => <option key={s.id} value={s.id}>{s.school_name}</option>)}
+                </select>
+              )}
               <select className="w-full rounded border p-3 text-sm" value={form.class_name} onChange={set("class_name")}>
                 <option value="">Class *</option>
                 {classes.map(c => <option key={c} value={c}>Class {c}</option>)}

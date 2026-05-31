@@ -20,6 +20,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 
   try {
     const particulars = typeof fee.particulars === "string" ? JSON.parse(fee.particulars) : (fee.particulars || [])
+    const copy = request.nextUrl.searchParams.get("copy") || "both"
     
     const pdfBuffer = await new Promise<Buffer>((resolve, reject) => {
       try {
@@ -28,6 +29,20 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
         doc.on("data", (chunk: Buffer) => buffers.push(chunk))
         doc.on("end", () => resolve(Buffer.concat(buffers)))
         doc.on("error", (err) => reject(err))
+
+        const numberToWords = (n: number): string => {
+          if (n === 0) return "Zero"
+          const a = ["","ONE ","TWO ","THREE ","FOUR ","FIVE ","SIX ","SEVEN ","EIGHT ","NINE ","TEN ","ELEVEN ","TWELVE ","THIRTEEN ","FOURTEEN ","FIFTEEN ","SIXTEEN ","SEVENTEEN ","EIGHTEEN ","NINETEEN "]
+          const b = ["","","TWENTY ","THIRTY ","FORTY ","FIFTY ","SIXTY ","SEVENTY ","EIGHTY ","NINETY "]
+          const fn = (num: number): string => {
+            if (num < 20) return a[num]
+            if (num < 100) return b[Math.floor(num / 10)] + a[num % 10]
+            if (num < 1000) return a[Math.floor(num / 100)] + "HUNDRED " + (num % 100 ? fn(num % 100) : "")
+            if (num < 100000) return fn(Math.floor(num / 1000)) + "THOUSAND " + (num % 1000 ? fn(num % 1000) : "")
+            return fn(Math.floor(num / 100000)) + "LAKH " + (num % 100000 ? fn(num % 100000) : "")
+          }
+          return fn(Math.floor(n)) + "ONLY"
+        }
 
         const renderReceipt = (title: string, yOffset: number) => {
           const schoolName = school?.school_name || "School Name"
@@ -57,6 +72,8 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
           doc.font("Helvetica-Bold").text("Student Details", 40, doc.y)
           doc.font("Helvetica")
           doc.text(`Name: ${fee.students?.full_name || "N/A"}`)
+          doc.text(`Father: ${fee.students?.father_name || "N/A"}`)
+          if (fee.students?.admission_no) doc.text(`Admission No: ${fee.students.admission_no}`)
           doc.text(`Class: ${fee.students?.class_name || ""}${fee.students?.division ? ` - ${fee.students.division}` : ""}`)
           doc.text(`Roll No: ${fee.students?.roll_no || "N/A"}`)
           doc.moveDown(0.5)
@@ -99,7 +116,17 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
           doc.moveDown(0.5)
 
           doc.font("Helvetica").fontSize(8)
+          doc.text(`Amount in Words: ${numberToWords(total)}`)
+          doc.moveDown(0.3)
           doc.text(`Payment Mode: ${fee.payment_mode || "N/A"}`)
+          if (fee.payment_mode === "Online" && fee.transaction_id) {
+            doc.text(`Transaction ID: ${fee.transaction_id}`)
+          }
+          if (fee.payment_mode === "Cheque") {
+            if (fee.cheque_number) doc.text(`Cheque No: ${fee.cheque_number}`)
+            if (fee.cheque_date) doc.text(`Cheque Date: ${fee.cheque_date}`)
+            if (fee.bank_name) doc.text(`Bank: ${fee.bank_name}`)
+          }
           doc.text(`Status: ${fee.status}`)
           
           doc.moveDown(1)
@@ -108,14 +135,15 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
           doc.text("Office Signature / Seal", 40, sigY, { align: "right" })
         }
 
-        // Office Copy
-        renderReceipt("FEE RECEIPT (OFFICE COPY)", 40)
-
-        // Cut line
-        doc.moveTo(40, 415).lineTo(555, 415).dash(5, { space: 5 }).strokeColor("#999999").stroke().undash()
-
-        // Student Copy
-        renderReceipt("FEE RECEIPT (STUDENT COPY)", 440)
+        if (copy === "office") {
+          renderReceipt("FEE RECEIPT (OFFICE COPY)", 40)
+        } else if (copy === "student") {
+          renderReceipt("FEE RECEIPT (STUDENT COPY)", 40)
+        } else {
+          renderReceipt("FEE RECEIPT (OFFICE COPY)", 40)
+          doc.moveTo(40, 415).lineTo(555, 415).dash(5, { space: 5 }).strokeColor("#999999").stroke().undash()
+          renderReceipt("FEE RECEIPT (STUDENT COPY)", 440)
+        }
 
         doc.end()
       } catch (err) {
@@ -124,11 +152,12 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     })
 
     const download = request.nextUrl.searchParams.get("download") === "1"
+    const copyLabel = copy === "office" ? "office" : copy === "student" ? "student" : "receipt"
 
     return new NextResponse(new Uint8Array(pdfBuffer), {
       headers: {
         "Content-Type": "application/pdf",
-        "Content-Disposition": download ? `attachment; filename="receipt_${fee.id}.pdf"` : "inline",
+        "Content-Disposition": download ? `attachment; filename="${copyLabel}_${fee.id}.pdf"` : "inline",
         "Content-Length": String(pdfBuffer.length),
       },
     })

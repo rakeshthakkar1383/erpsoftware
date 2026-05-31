@@ -1,6 +1,6 @@
 import { createClient } from "@/lib/supabase/server"
 import ManageSchoolsClient from "./manage-schools-client"
-import { getAllSchools } from "../school-info/actions"
+import { getAllSchools } from "./actions"
 
 export const dynamic = "force-dynamic"
 

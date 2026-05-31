@@ -4,9 +4,9 @@ import { useState, useRef } from "react"
 import { getAllDivisions, addDivision, updateDivision, deleteDivision } from "./actions"
 
 const classes = Array.from({ length: 12 }, (_, i) => String(i + 1))
-const emptyForm = { class_name: "", division_name: "", class_teacher_id: "" }
+const emptyForm: Record<string, string> = { class_name: "", division_name: "", class_teacher_id: "" }
 
-export default function DivisionsClient({ initialDivisions, teachers }: { initialDivisions: any[], teachers: any[] }) {
+export default function DivisionsClient({ initialDivisions, teachers, allSchools, schoolId }: { initialDivisions: any[], teachers: any[], allSchools: any[], schoolId: number | null }) {
   const [divisions, setDivisions] = useState(initialDivisions)
   const [search, setSearch] = useState("")
   const [modal, setModal] = useState(false)
@@ -114,6 +114,12 @@ export default function DivisionsClient({ initialDivisions, teachers }: { initia
           <div className="w-full max-w-lg rounded-lg bg-white p-6 shadow-xl">
             <h3 className="mb-4 text-xl font-semibold">{editing ? "Edit Division" : "Add Division"}</h3>
             <div className="grid gap-3">
+              {!schoolId && (
+                <select className="w-full rounded border p-3 text-sm" value={form.school_id || ""} onChange={e => setForm({...form, school_id: e.target.value})}>
+                  <option value="">SELECT SCHOOL</option>
+                  {allSchools.map((s: any) => <option key={s.id} value={s.id}>{s.school_name}</option>)}
+                </select>
+              )}
               <select className="w-full rounded border p-3 text-sm" value={form.class_name} onChange={set("class_name")}>
                 <option value="">Class *</option>
                 {classes.map(c => <option key={c} value={c}>Class {c}</option>)}

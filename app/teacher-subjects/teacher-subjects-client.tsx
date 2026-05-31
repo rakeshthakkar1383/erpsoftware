@@ -4,9 +4,9 @@ import { useState } from "react"
 import { getAllTeacherSubjects, addTeacherSubject, updateTeacherSubject, deleteTeacherSubject } from "./actions"
 
 const classes = Array.from({ length: 12 }, (_, i) => String(i + 1))
-const emptyForm = { teacher_id: "", class_name: "", subject: "" }
+const emptyForm: Record<string, string> = { teacher_id: "", class_name: "", subject: "" }
 
-export default function TeacherSubjectsClient({ initialAssignments, teachers }: { initialAssignments: any[], teachers: any[] }) {
+export default function TeacherSubjectsClient({ initialAssignments, teachers, allSchools, schoolId }: { initialAssignments: any[], teachers: any[], allSchools: any[], schoolId: number | null }) {
   const [assignments, setAssignments] = useState(initialAssignments)
   const [search, setSearch] = useState("")
   const [modal, setModal] = useState(false)
@@ -76,6 +76,12 @@ export default function TeacherSubjectsClient({ initialAssignments, teachers }: 
           <div className="w-full max-w-lg rounded-lg bg-white p-6 shadow-xl">
             <h3 className="mb-4 text-xl font-semibold">{editing ? "Edit Assignment" : "Add Assignment"}</h3>
             <div className="grid gap-3">
+              {!schoolId && (
+                <select className="w-full rounded border p-3 text-sm" value={form.school_id || ""} onChange={e => setForm({...form, school_id: e.target.value})}>
+                  <option value="">SELECT SCHOOL</option>
+                  {allSchools.map((s: any) => <option key={s.id} value={s.id}>{s.school_name}</option>)}
+                </select>
+              )}
               <select className="w-full rounded border p-3 text-sm" value={form.teacher_id} onChange={e => setForm({ ...form, teacher_id: e.target.value })}>
                 <option value="">Select Teacher *</option>
                 {teachers.map((t: any) => <option key={t.id} value={t.id}>{t.full_name}</option>)}

@@ -19,5 +19,7 @@ export default async function MarksPage() {
     (await mq).data || [], (await sq).data || [], (await eq).data || [], (await dq).data || [], (await tq).data || [],
   ])
 
-  return <MarksClient initialMarks={marks} students={students} exams={exams} divisions={divisions} teacherSubjects={teacherSubjects} teacherClass={user?.user_metadata?.class_name || ""} />
+  const { data: allSchools } = await supabase.from("school_info").select("id, school_name").order("school_name")
+
+  return <MarksClient initialMarks={marks} students={students} exams={exams} divisions={divisions} teacherSubjects={teacherSubjects} allSchools={allSchools || []} schoolId={schoolId} teacherClass={user?.user_metadata?.class_name || ""} />
 }

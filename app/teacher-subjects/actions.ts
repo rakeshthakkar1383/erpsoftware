@@ -26,7 +26,7 @@ export async function addTeacherSubject(formData: FormData) {
   const { data: { user } } = await supabase.auth.getUser()
   const raw: any = {}
   formData.forEach((v, k) => { raw[k] = v })
-  if (user?.user_metadata?.school_id) raw.school_id = user.user_metadata.school_id
+  if (!raw.school_id && user?.user_metadata?.school_id) raw.school_id = user.user_metadata.school_id
   const { error } = await supabase.from("teacher_subjects").insert([raw])
   revalidatePath("/teacher-subjects")
   return { success: !error, message: error?.message || "Teacher subject assignment added" }

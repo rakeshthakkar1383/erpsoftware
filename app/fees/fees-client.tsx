@@ -2,10 +2,12 @@
 
 import { useState, useCallback, useRef } from "react"
 import { getAllFees, addFee, updateFee, deleteFee } from "./actions"
+import { createClient } from "@/lib/supabase/client"
 
 const classes = Array.from({ length: 12 }, (_, i) => String(i + 1))
 type ParticularItem = { particular_name: string; amount: string }
-const emptyForm = { student_id: "", particulars: [] as ParticularItem[], status: "Paid", payment_date: "", payment_mode: "", transaction_id: "", cheque_number: "", cheque_date: "", bank_name: "" }
+type FeeForm = { student_id: string; trust_id: string; particulars: ParticularItem[]; status: string; payment_date: string; payment_mode: string; transaction_id: string; cheque_number: string; cheque_date: string; bank_name: string; school_id: string; receipt_file_url: string; [key: string]: any }
+const emptyForm: FeeForm = { student_id: "", trust_id: "", particulars: [] as ParticularItem[], status: "Paid", payment_date: "", payment_mode: "", transaction_id: "", cheque_number: "", cheque_date: "", bank_name: "", school_id: "", receipt_file_url: "" }
 
 type FeesClientProps = {
   initialFees: any[]
@@ -13,10 +15,13 @@ type FeesClientProps = {
   particulars: any[]
   divisions: any[]
   years: any[]
+  allSchools: any[]
+  schoolId: number | null
   teacherClass: string
+  trusts: any[]
 }
 
-export default function FeesClient({ initialFees, students, particulars, divisions, years, teacherClass }: FeesClientProps) {
+export default function FeesClient({ initialFees, students, particulars, divisions, years, allSchools, schoolId, teacherClass, trusts }: FeesClientProps) {
   const [fees, setFees] = useState(initialFees)
   const [filterClass, setFilterClass] = useState(teacherClass)
   const [filterDiv, setFilterDiv] = useState("")
@@ -26,7 +31,10 @@ export default function FeesClient({ initialFees, students, particulars, divisio
   const [editing, setEditing] = useState<any>(null)
   const [form, setForm] = useState({ ...emptyForm })
   const [message, setMessage] = useState("")
+  const [generateReceipt, setGenerateReceipt] = useState(false)
+  const [uploadingReceipt, setUploadingReceipt] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const supabase = createClient()
 
   const studentMap: any = {}
   students.forEach((s: any) => { studentMap[s.id] = s })
@@ -88,12 +96,18 @@ export default function FeesClient({ initialFees, students, particulars, divisio
       if (k === "particulars") fd.append(k, JSON.stringify(v))
       else fd.append(k, String(v ?? ""))
     })
-    try {
-      if (editing) { await updateFee(editing.id, fd) }
-      else { await addFee(fd) }
-      setModal(false)
-      refresh()
-    } catch (err: any) { setMessage(err.message || "Save failed") }
+    const feeId = editing?.id
+    const res = editing ? await updateFee(editing.id, fd) : await addFee(fd)
+    if (!res.success) { setMessage(res.message || "Save failed"); return }
+    setModal(false)
+    refresh()
+    if (generateReceipt) {
+      const savedId = res.id || feeId
+      if (savedId) {
+        downloadBlob(`/api/fees/receipt/${savedId}?copy=office&download=1`, `office_${savedId}.pdf`)
+        downloadBlob(`/api/fees/receipt/${savedId}?copy=student&download=1`, `student_${savedId}.pdf`)
+      }
+    }
   }
 
   const handleDelete = async (id: number) => {
@@ -144,7 +158,7 @@ export default function FeesClient({ initialFees, students, particulars, divisio
           <button className="rounded bg-slate-100 px-3 py-2 text-sm text-slate-700 hover:bg-slate-200" onClick={() => fileInputRef.current?.click()}>Import</button>
           <button className="rounded bg-green-600 px-4 py-2 text-sm text-white hover:bg-green-700" onClick={() => downloadBlob(`/api/fees/export?class_name=${filterClass}&division=${filterDiv}&academic_year_id=${filterAy}`, "fees_report.xlsx")}>Download Report</button>
           <button className="rounded bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-700"
-            onClick={() => { setEditing(null); setForm({ ...emptyForm }); setMessage(""); setModal(true) }}>Add New</button>
+            onClick={() => { setEditing(null); setForm({ ...emptyForm }); setMessage(""); setGenerateReceipt(false); setModal(true) }}>Add New</button>
         </div>
       </div>
       {message && <p className="mb-3 text-sm text-slate-700">{message}</p>}
@@ -192,9 +206,10 @@ export default function FeesClient({ initialFees, students, particulars, divisio
                     <td className="px-3 py-2">{f.payment_mode || "-"}</td>
                     <td className="px-3 py-2">{f.payment_date || "-"}</td>
                     <td className="flex gap-2 px-3 py-2">
-                      <button className="text-blue-600 hover:underline" onClick={() => { setEditing(f); setForm({ ...f, particulars: f.particulars?.length > 0 ? f.particulars : [{ particular_name: "Tuition Fee", amount: String(f.amount) }] }); setMessage(""); setModal(true) }}>Edit</button>
+                      <button className="text-blue-600 hover:underline" onClick={() => { setEditing(f); setForm({ ...f, particulars: f.particulars?.length > 0 ? f.particulars : [{ particular_name: "Tuition Fee", amount: String(f.amount) }] }); setMessage(""); setGenerateReceipt(false); setModal(true) }}>Edit</button>
                       <button className="text-red-600 hover:underline" onClick={() => handleDelete(f.id)}>Delete</button>
                       <button className="text-green-600 hover:underline" onClick={() => viewReceipt(f.id)}>Receipt</button>
+                      {f.receipt_file_url && <a href={f.receipt_file_url} target="_blank" className="text-purple-600 hover:underline">PDF</a>}
                     </td>
                   </tr>
                 )
@@ -208,11 +223,21 @@ export default function FeesClient({ initialFees, students, particulars, divisio
           <div className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-lg bg-white p-6 shadow-xl">
             <h3 className="mb-4 text-xl font-semibold">{editing ? "Edit Fee Record" : "Add Fee Record"}</h3>
             <div className="grid gap-3">
-              <select className="w-full rounded border p-3 text-sm" value={form.student_id} onChange={e => handleStudentSelect(e.target.value)}>
+              {!schoolId && (
+                <select className="w-full rounded border p-3 text-sm" value={form.school_id || ""} onChange={e => setForm({...form, school_id: e.target.value})}>
+                  <option value="">SELECT SCHOOL</option>
+                  {allSchools.map((s: any) => <option key={s.id} value={s.id}>{s.school_name}</option>)}
+                </select>
+              )}
+              <select className="w-full rounded border p-3 text-sm" value={form.student_id || ""} onChange={e => handleStudentSelect(e.target.value)}>
                 <option value="">Select Student *</option>
                 {filteredStudents.map((s: any) => (
                   <option key={s.id} value={s.id}>{s.full_name} ({s.class_name}{s.division ? ` - ${s.division}` : ""})</option>
                 ))}
+              </select>
+              <select className="w-full rounded border p-3 text-sm" value={form.trust_id || ""} onChange={setRaw("trust_id")}>
+                <option value="">Select Trust</option>
+                {trusts.map((t: any) => <option key={t.id} value={t.id}>{t.trust_name}</option>)}
               </select>
               <div className="rounded border bg-slate-50 p-3">
                 <h4 className="mb-2 text-sm font-semibold text-slate-700">Fee Particulars</h4>
@@ -233,12 +258,12 @@ export default function FeesClient({ initialFees, students, particulars, divisio
                   </div>
                 )}
               </div>
-              <select className="w-full rounded border p-3 text-sm" value={form.status} onChange={setRaw("status")}>
+              <select className="w-full rounded border p-3 text-sm" value={form.status || "Paid"} onChange={setRaw("status")}>
                 <option value="Paid">Paid</option>
                 <option value="Pending">Pending</option>
                 <option value="Partial">Partial</option>
               </select>
-              <select className="w-full rounded border p-3 text-sm" value={form.payment_mode} onChange={handleModeChange}>
+              <select className="w-full rounded border p-3 text-sm" value={form.payment_mode || ""} onChange={handleModeChange}>
                 <option value="">Select Mode</option>
                 <option value="Cash">Cash</option>
                 <option value="Online">Online</option>
@@ -255,6 +280,33 @@ export default function FeesClient({ initialFees, students, particulars, divisio
                 </div>
               )}
               <input className="w-full rounded border p-3 text-sm" type="date" value={form.payment_date} onChange={setRaw("payment_date")} />
+              <div className="rounded border bg-slate-50 p-3">
+                <h4 className="mb-2 text-sm font-semibold text-slate-700">Receipt Attachment (PDF)</h4>
+                <input type="file" className="w-full text-sm" accept=".pdf" onChange={async (e) => {
+                  const file = e.target.files?.[0]
+                  if (!file || !schoolId) return
+                  setUploadingReceipt(true)
+                  const path = `${schoolId}/fees/receipt_${Date.now()}.pdf`
+                  try {
+                    const { error } = await supabase.storage.from("school-files").upload(path, file)
+                    if (error) throw error
+                    const { data: { publicUrl } } = supabase.storage.from("school-files").getPublicUrl(path)
+                    setForm(prev => ({ ...prev, receipt_file_url: publicUrl }))
+                  } catch (err: any) { alert(err.message) }
+                  finally { setUploadingReceipt(false) }
+                }} />
+                {uploadingReceipt && <p className="text-[10px] text-blue-600 mt-1">Uploading...</p>}
+                {form.receipt_file_url && (
+                  <div className="mt-1 flex items-center gap-2">
+                    <span className="text-[10px] text-green-600">Uploaded</span>
+                    <a href={form.receipt_file_url} target="_blank" className="text-[10px] text-blue-600 hover:underline">View PDF</a>
+                  </div>
+                )}
+              </div>
+              <label className="flex items-center gap-3 rounded border p-3 text-sm">
+                <input type="checkbox" checked={generateReceipt} onChange={e => setGenerateReceipt(e.target.checked)} className="h-4 w-4" />
+                <span className="font-medium text-slate-700">Generate Receipt</span>
+              </label>
             </div>
             {message && <p className="mt-3 text-sm text-red-600">{message}</p>}
             <div className="mt-4 flex gap-3">

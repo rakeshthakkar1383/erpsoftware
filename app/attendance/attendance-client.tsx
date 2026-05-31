@@ -4,9 +4,9 @@ import { useState, useCallback, useRef } from "react"
 import { getAllAttendance, addAttendance, updateAttendance, deleteAttendance } from "./actions"
 
 const classes = Array.from({ length: 12 }, (_, i) => String(i + 1))
-const emptyForm = { student_id: "", attendance_date: "", status: "" }
+const emptyForm: Record<string, string> = { student_id: "", attendance_date: "", status: "" }
 
-export default function AttendanceClient({ initialRecords, students, divisions, teacherClass }: { initialRecords: any[], students: any[], divisions: any[], teacherClass: string }) {
+export default function AttendanceClient({ initialRecords, students, divisions, allSchools, schoolId, teacherClass }: { initialRecords: any[], students: any[], divisions: any[], allSchools: any[], schoolId: number | null, teacherClass: string }) {
   const [records, setRecords] = useState(initialRecords)
   const [filterClass, setFilterClass] = useState(teacherClass)
   const [filterDiv, setFilterDiv] = useState("")
@@ -140,6 +140,12 @@ export default function AttendanceClient({ initialRecords, students, divisions, 
           <div className="w-full max-w-lg rounded-lg bg-white p-6 shadow-xl">
             <h3 className="mb-4 text-xl font-semibold">{editing ? "Edit Attendance" : "Add Attendance"}</h3>
             <div className="grid gap-3">
+              {!schoolId && (
+                <select className="w-full rounded border p-3 text-sm" value={form.school_id || ""} onChange={e => setForm({...form, school_id: e.target.value})}>
+                  <option value="">SELECT SCHOOL</option>
+                  {allSchools.map((s: any) => <option key={s.id} value={s.id}>{s.school_name}</option>)}
+                </select>
+              )}
               <select className="w-full rounded border p-3 text-sm" value={form.student_id} onChange={set("student_id")}>
                 <option value="">Select Student *</option>
                 {filteredStudents.map((s: any) => (
