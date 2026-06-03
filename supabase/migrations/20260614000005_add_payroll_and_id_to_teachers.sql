@@ -1,0 +1,16 @@
+ALTER TABLE teachers 
+ADD COLUMN IF NOT EXISTS aadhar_no text,
+ADD COLUMN IF NOT EXISTS pan_no text,
+ADD COLUMN IF NOT EXISTS designation text,
+ADD COLUMN IF NOT EXISTS basic_pay numeric(10,2),
+ADD COLUMN IF NOT EXISTS grade_pay numeric(10,2),
+ADD COLUMN IF NOT EXISTS staff_code text,
+ADD COLUMN IF NOT EXISTS gender text,
+ADD COLUMN IF NOT EXISTS bank_account_no text,
+ADD COLUMN IF NOT EXISTS bank_ifsc text,
+ADD COLUMN IF NOT EXISTS bank_name text,
+ADD COLUMN IF NOT EXISTS blood_group text,
+ADD COLUMN IF NOT EXISTS marital_status text,
+ADD COLUMN IF NOT EXISTS email text,
+ADD COLUMN IF NOT EXISTS aadhar_url text,
+ADD COLUMN IF NOT EXISTS pan_url text;

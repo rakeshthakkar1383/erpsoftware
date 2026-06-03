@@ -17,7 +17,11 @@ export async function addAttendance(formData: FormData) {
   const { data: { user } } = await supabase.auth.getUser()
   const raw: any = {}
   formData.forEach((v, k) => { raw[k] = v })
-  if (!raw.school_id && user?.user_metadata?.school_id) raw.school_id = user.user_metadata.school_id
+  if (raw.student_id) raw.student_id = Number(raw.student_id)
+  else delete raw.student_id
+  if (raw.school_id) raw.school_id = Number(raw.school_id)
+  else if (user?.user_metadata?.school_id) raw.school_id = Number(user.user_metadata.school_id)
+  else delete raw.school_id
   const { error } = await supabase.from("attendance").insert([raw])
   revalidatePath("/attendance")
   return { success: !error, message: error?.message || "Attendance added" }
@@ -27,6 +31,10 @@ export async function updateAttendance(id: number, formData: FormData) {
   const supabase = await createClient()
   const raw: any = {}
   formData.forEach((v, k) => { raw[k] = v })
+  if (raw.student_id) raw.student_id = Number(raw.student_id)
+  else delete raw.student_id
+  if (raw.school_id) raw.school_id = Number(raw.school_id)
+  else delete raw.school_id
   const { error } = await supabase.from("attendance").update(raw).eq("id", id)
   revalidatePath("/attendance")
   return { success: !error, message: error?.message || "Attendance updated" }

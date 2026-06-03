@@ -17,7 +17,9 @@ export async function addStream(formData: FormData) {
   const { data: { user } } = await supabase.auth.getUser()
   const raw: any = {}
   formData.forEach((v, k) => { raw[k] = v })
-  if (!raw.school_id && user?.user_metadata?.school_id) raw.school_id = user.user_metadata.school_id
+  if (raw.school_id) raw.school_id = Number(raw.school_id)
+  else if (user?.user_metadata?.school_id) raw.school_id = Number(user.user_metadata.school_id)
+  else delete raw.school_id
   const { error } = await supabase.from("streams").insert([raw])
   revalidatePath("/streams")
   return { success: !error, message: error?.message || "Stream added" }
@@ -27,6 +29,8 @@ export async function updateStream(id: number, formData: FormData) {
   const supabase = await createClient()
   const raw: any = {}
   formData.forEach((v, k) => { raw[k] = v })
+  if (raw.school_id) raw.school_id = Number(raw.school_id)
+  else delete raw.school_id
   const { error } = await supabase.from("streams").update(raw).eq("id", id)
   revalidatePath("/streams")
   return { success: !error, message: error?.message || "Stream updated" }

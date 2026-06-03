@@ -11,17 +11,19 @@ type DashboardClientProps = {
   divisions: any[]
   fees: any[]
   teachers: any[]
+  trusts: any[]
   teacherClass: string
   defaultSchoolId: number | null
 }
 
 export default function DashboardClient({
-  user, schools, students, divisions, fees, teachers, teacherClass, defaultSchoolId,
+  user, schools, students, divisions, fees, teachers, trusts, teacherClass, defaultSchoolId,
 }: DashboardClientProps) {
   const [selectedSchoolId, setSelectedSchoolId] = useState<number | null>(defaultSchoolId)
   const [selectedClass, setSelectedClass] = useState<string | null>(teacherClass || null)
   const [selectedDiv, setSelectedDiv] = useState<string | null>(null)
   const [selectedFeeClass, setSelectedFeeClass] = useState<string | null>(teacherClass || null)
+  const [selectedTrust, setSelectedTrust] = useState<number | null>(null)
 
   const school = schools.find(s => s.id === selectedSchoolId)
 
@@ -41,19 +43,42 @@ export default function DashboardClient({
     () => teachers.filter(t => t.school_id === selectedSchoolId),
     [teachers, selectedSchoolId]
   )
+  const filteredTrusts = useMemo(
+    () => trusts.filter(t => t.school_id === selectedSchoolId),
+    [trusts, selectedSchoolId]
+  )
 
   const paidStudentIds = new Set(
     filteredFees.filter(f => f.status?.toLowerCase() === "paid").map(f => f.student_id)
+  )
+
+  const trustFees = useMemo(
+    () => filteredFees.filter(f => f.fee_category === "Trust"),
+    [filteredFees]
+  )
+
+  const trustPaidStudentIds = useMemo(
+    () => new Set(trustFees.filter(f => f.status?.toLowerCase() === "paid").map(f => f.student_id)),
+    [trustFees]
+  )
+
+  const getTrustStudentIds = (trustId: number) => new Set(
+    trustFees.filter(f => f.trust_id === trustId).map(f => f.student_id)
+  )
+
+  const getTrustPaidStudentIds = (trustId: number) => new Set(
+    trustFees.filter(f => f.trust_id === trustId && f.status?.toLowerCase() === "paid").map(f => f.student_id)
   )
 
   const getStudentsByClass = (cls: string) => filteredStudents.filter(s => s.class_name === cls)
   const getStudentsByDiv = (cls: string, div: string) => filteredStudents.filter(s => s.class_name === cls && s.division === div)
   const getDivisionsForClass = (cls: string) => filteredDivisions.filter(d => d.class_name === cls)
 
-  const renderStudentList = (list: any[]) => {
+  const renderStudentList = (list: any[], paidSet?: Set<number>) => {
     if (list.length === 0) return <p className="text-sm text-slate-500">No students</p>
-    const paid = list.filter(s => paidStudentIds.has(s.id))
-    const unpaid = list.filter(s => !paidStudentIds.has(s.id))
+    const isPaid = paidSet || paidStudentIds
+    const paid = list.filter(s => isPaid.has(s.id))
+    const unpaid = list.filter(s => !isPaid.has(s.id))
     return (
       <div className="space-y-1">
         {paid.length > 0 && (
@@ -120,6 +145,10 @@ export default function DashboardClient({
             <div className="text-xs uppercase tracking-wide text-amber-600">Fees Paid</div>
             <div className="text-3xl font-bold text-amber-800">{paidStudentIds.size}</div>
           </div>
+          <div className="rounded-lg border border-indigo-200 bg-indigo-50 p-4 shadow-sm">
+            <div className="text-xs uppercase tracking-wide text-indigo-600">Trust Fees Paid</div>
+            <div className="text-3xl font-bold text-indigo-800">{trustPaidStudentIds.size}</div>
+          </div>
         </div>
       )}
 
@@ -143,7 +172,42 @@ export default function DashboardClient({
 
       {selectedSchoolId && (
         <>
-          <div className="mb-6 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
+          <div className="mt-8">
+            <h3 className="mb-4 text-xl font-semibold text-slate-700">Trust-wise Fee Status</h3>
+            <div className="space-y-3">
+              {filteredTrusts.map((trust: any) => {
+                const studentIds = getTrustStudentIds(trust.id)
+                const studentsWithTrustFees = filteredStudents.filter(s => studentIds.has(s.id))
+                if (studentsWithTrustFees.length === 0) return null
+                const paidIds = getTrustPaidStudentIds(trust.id)
+                const paid = studentsWithTrustFees.filter(s => paidIds.has(s.id))
+                const unpaid = studentsWithTrustFees.filter(s => !paidIds.has(s.id))
+                return (
+                  <div key={trust.id} className="rounded-lg border bg-white shadow-sm">
+                    <button
+                      className="flex w-full items-center justify-between px-4 py-3 text-left hover:bg-slate-50"
+                      onClick={() => setSelectedTrust(selectedTrust === trust.id ? null : trust.id)}
+                    >
+                      <span className="font-semibold text-slate-700">{trust.trust_name}</span>
+                      <div className="flex items-center gap-4 text-sm">
+                        <span className="text-slate-500">{studentsWithTrustFees.length} students</span>
+                        <span className="text-green-600">{paid.length} Paid</span>
+                        <span className="text-red-600">{unpaid.length} Unpaid</span>
+                        <span className="text-slate-400">{selectedTrust === trust.id ? "▲" : "▼"}</span>
+                      </div>
+                    </button>
+                    {selectedTrust === trust.id && (
+                      <div className="border-t px-4 py-3">
+                        {renderStudentList(studentsWithTrustFees, paidIds)}
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+
+          <div className="mb-6 mt-8 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6">
             {classes.map(cls => {
               const list = getStudentsByClass(cls)
               if (teacherClass && cls !== teacherClass) return null

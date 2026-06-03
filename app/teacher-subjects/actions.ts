@@ -26,7 +26,11 @@ export async function addTeacherSubject(formData: FormData) {
   const { data: { user } } = await supabase.auth.getUser()
   const raw: any = {}
   formData.forEach((v, k) => { raw[k] = v })
-  if (!raw.school_id && user?.user_metadata?.school_id) raw.school_id = user.user_metadata.school_id
+  if (raw.teacher_id) raw.teacher_id = Number(raw.teacher_id)
+  else delete raw.teacher_id
+  if (raw.school_id) raw.school_id = Number(raw.school_id)
+  else if (user?.user_metadata?.school_id) raw.school_id = Number(user.user_metadata.school_id)
+  else delete raw.school_id
   const { error } = await supabase.from("teacher_subjects").insert([raw])
   revalidatePath("/teacher-subjects")
   return { success: !error, message: error?.message || "Teacher subject assignment added" }
@@ -36,6 +40,10 @@ export async function updateTeacherSubject(id: number, formData: FormData) {
   const supabase = await createClient()
   const raw: any = {}
   formData.forEach((v, k) => { raw[k] = v })
+  if (raw.teacher_id) raw.teacher_id = Number(raw.teacher_id)
+  else delete raw.teacher_id
+  if (raw.school_id) raw.school_id = Number(raw.school_id)
+  else delete raw.school_id
   const { error } = await supabase.from("teacher_subjects").update(raw).eq("id", id)
   revalidatePath("/teacher-subjects")
   return { success: !error, message: error?.message || "Teacher subject assignment updated" }

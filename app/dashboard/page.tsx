@@ -12,6 +12,7 @@ export default async function DashboardPage() {
   const { data: divisions } = await supabase.from("divisions").select("*, teachers!divisions_class_teacher_id_fkey(full_name)")
   const { data: fees } = await supabase.from("fees").select("*")
   const { data: teachers } = await supabase.from("teachers").select("*")
+  const { data: trusts } = await supabase.from("trust_info").select("*").order("trust_name")
 
   const teacherClass = user?.user_metadata?.class_name || ""
   const schoolId = user?.user_metadata?.school_id
@@ -24,6 +25,7 @@ export default async function DashboardPage() {
       divisions={divisions || []}
       fees={fees || []}
       teachers={teachers || []}
+      trusts={trusts || []}
       teacherClass={teacherClass}
       defaultSchoolId={schoolId ? Number(schoolId) : null}
     />

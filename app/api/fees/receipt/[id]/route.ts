@@ -10,7 +10,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
 
-  const { data: fee } = await supabase.from("fees").select("*, students!student_id(*)").eq("id", id).single()
+  const { data: fee } = await supabase.from("fees").select("*, students!student_id(*), trust_info!trust_id(*), fee_types!fee_type_id(*)").eq("id", id).single()
   if (!fee) return NextResponse.json({ error: "Not found" }, { status: 404 })
 
   const schoolId = fee.school_id || user.user_metadata?.school_id
@@ -19,9 +19,24 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     : { data: null }
 
   try {
-    const particulars = typeof fee.particulars === "string" ? JSON.parse(fee.particulars) : (fee.particulars || [])
+    let particulars: any[] = []
+    try {
+      const raw = fee.particulars
+      particulars = typeof raw === "string" ? JSON.parse(raw) : (Array.isArray(raw) ? raw : [])
+    } catch { particulars = [] }
     const copy = request.nextUrl.searchParams.get("copy") || "both"
     
+    let logoImage: Buffer | null = null
+    const logoUrl = (fee.fee_category === "Trust" ? fee.trust_info?.logo_url : school?.logo_url) || school?.logo_url
+    if (logoUrl) {
+      try {
+        const resp = await fetch(logoUrl)
+        if (resp.ok) logoImage = Buffer.from(await resp.arrayBuffer())
+      } catch (err) {
+        console.error("Logo fetch error:", err)
+      }
+    }
+
     const pdfBuffer = await new Promise<Buffer>((resolve, reject) => {
       try {
         const doc = new PDFDocument({ margin: 40, size: "A4" })
@@ -44,35 +59,57 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
           return fn(Math.floor(n)) + "ONLY"
         }
 
+        const formatDate = (dateStr: string) => {
+          const d = new Date(dateStr)
+          return `${String(d.getDate()).padStart(2, "0")}/${String(d.getMonth() + 1).padStart(2, "0")}/${d.getFullYear()}`
+        }
+
         const renderReceipt = (title: string, yOffset: number) => {
-          const schoolName = school?.school_name || "School Name"
+          const schoolName = (school?.school_name || "School Name").toUpperCase()
           const schoolAddr = school?.address || "Address"
           const schoolPhone = school?.phone || ""
           const schoolEmail = school?.email || ""
+          const trustName = fee.trust_info?.trust_name || school?.trust_name || ""
 
-          doc.fontSize(16).font("Helvetica-Bold").text(schoolName, 40, yOffset, { align: "center" })
-          doc.fontSize(8).font("Helvetica").text(schoolAddr, { align: "center" })
-          if (schoolPhone || schoolEmail) {
-            doc.text(`${schoolPhone}${schoolPhone && schoolEmail ? " | " : ""}${schoolEmail}`, { align: "center" })
+          if (logoImage) {
+            doc.image(logoImage, 40, yOffset, { fit: [80, 80] })
+            doc.fontSize(16).font("Helvetica-Bold").text(schoolName, 130, yOffset + 5, { width: 425, align: "center" })
+            if (trustName) {
+              doc.fontSize(10).font("Helvetica-Bold").text(trustName, 130, yOffset + 25, { width: 425, align: "center" })
+            }
+            doc.fontSize(9).font("Helvetica").text(schoolAddr, 130, yOffset + 42, { width: 425, align: "center" })
+            if (schoolPhone || schoolEmail) {
+              doc.fontSize(8).text(`${schoolPhone}${schoolPhone && schoolEmail ? " | " : ""}${schoolEmail}`, 130, yOffset + 58, { width: 425, align: "center" })
+            }
+            doc.y = yOffset + 85
+          } else {
+            doc.fontSize(16).font("Helvetica-Bold").text(schoolName, 40, yOffset, { align: "center" })
+            if (trustName) {
+              doc.fontSize(10).font("Helvetica-Bold").text(trustName, 40, yOffset + 20, { align: "center" })
+            }
+            doc.fontSize(9).font("Helvetica").text(schoolAddr, 40, yOffset + 38, { align: "center" })
+            if (schoolPhone || schoolEmail) {
+              doc.fontSize(8).text(`${schoolPhone}${schoolPhone && schoolEmail ? " | " : ""}${schoolEmail}`, 40, yOffset + 52, { align: "center" })
+            }
+            doc.y = yOffset + 70
           }
           
-          doc.moveDown(0.5)
-          doc.moveTo(40, doc.y).lineTo(555, doc.y).strokeColor("#cccccc").stroke()
-          doc.moveDown(0.5)
+          doc.moveTo(40, doc.y + 2).lineTo(555, doc.y + 2).strokeColor("#cccccc").stroke()
+          doc.y = doc.y + 10
 
-          doc.fontSize(12).font("Helvetica-Bold").text(title, { align: "center" })
-          doc.moveDown(0.5)
+          doc.fontSize(11).font("Helvetica-Bold").text(title, { align: "center" })
+          doc.moveDown(0.3)
 
           const topY = doc.y
-          doc.fontSize(9).font("Helvetica")
+          doc.fontSize(8).font("Helvetica")
           doc.text(`Receipt #: FEE-${String(fee.id).padStart(5, "0")}`, 40, topY)
-          doc.text(`Date: ${fee.payment_date || new Date().toISOString().split("T")[0]}`, 40, topY, { align: "right" })
+          doc.text(`Date: ${formatDate(fee.payment_date || new Date().toISOString())}`, 40, topY, { align: "right" })
           doc.moveDown(0.5)
 
           doc.font("Helvetica-Bold").text("Student Details", 40, doc.y)
           doc.font("Helvetica")
           doc.text(`Name: ${fee.students?.full_name || "N/A"}`)
-          doc.text(`Father: ${fee.students?.father_name || "N/A"}`)
+          if (fee.students?.gr_no) doc.text(`GR No: ${fee.students.gr_no}`)
           if (fee.students?.admission_no) doc.text(`Admission No: ${fee.students.admission_no}`)
           doc.text(`Class: ${fee.students?.class_name || ""}${fee.students?.division ? ` - ${fee.students.division}` : ""}`)
           doc.text(`Roll No: ${fee.students?.roll_no || "N/A"}`)
@@ -92,17 +129,19 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
           let total = 0
           if (particulars.length > 0) {
             particulars.forEach((p: any) => {
+              const name = p.particular_name || p.name || ""
               const amt = Number(p.amount) || 0
               total += amt
               doc.font("Helvetica")
               const currentY = doc.y
-              doc.text(p.particular_name || "Fee", 40, currentY, { width: 300 })
+              doc.text(name || "Fee", 40, currentY, { width: 300 })
               doc.text(amt.toFixed(2), 400, currentY, { width: 155, align: "right" })
             })
           } else {
             total = Number(fee.amount) || 0
+            const feeTypeName = fee.fee_types?.name || ""
             const currentY = doc.y
-            doc.text("Fee Amount", 40, currentY, { width: 300 })
+            doc.text(feeTypeName || "Fee Amount", 40, currentY, { width: 300 })
             doc.text(total.toFixed(2), 400, currentY, { width: 155, align: "right" })
           }
 
@@ -115,24 +154,28 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
           doc.text(total.toFixed(2), 400, footerY, { width: 155, align: "right" })
           doc.moveDown(0.5)
 
-          doc.font("Helvetica").fontSize(8)
-          doc.text(`Amount in Words: ${numberToWords(total)}`)
-          doc.moveDown(0.3)
+          // Amount in Words Full Row
+          const wordsY = doc.y
+          doc.rect(40, wordsY, 515, 18).fill("#f6f6f6")
+          doc.fillColor("#000000").fontSize(8).font("Helvetica-Bold")
+          doc.text(`AMOUNT IN WORDS: ${numberToWords(total)}`, 45, wordsY + 5, { width: 505 })
+          doc.moveDown(0.8)
+
+          doc.font("Helvetica").fontSize(7)
           doc.text(`Payment Mode: ${fee.payment_mode || "N/A"}`)
           if (fee.payment_mode === "Online" && fee.transaction_id) {
             doc.text(`Transaction ID: ${fee.transaction_id}`)
           }
           if (fee.payment_mode === "Cheque") {
             if (fee.cheque_number) doc.text(`Cheque No: ${fee.cheque_number}`)
-            if (fee.cheque_date) doc.text(`Cheque Date: ${fee.cheque_date}`)
+            if (fee.cheque_date) doc.text(`Cheque Date: ${formatDate(fee.cheque_date)}`)
             if (fee.bank_name) doc.text(`Bank: ${fee.bank_name}`)
           }
           doc.text(`Status: ${fee.status}`)
           
           doc.moveDown(1)
           const sigY = doc.y
-          doc.text("Student/Parent Signature", 40, sigY)
-          doc.text("Office Signature / Seal", 40, sigY, { align: "right" })
+          doc.fontSize(8).text("Office Signature / Seal", 40, sigY, { align: "right" })
         }
 
         if (copy === "office") {

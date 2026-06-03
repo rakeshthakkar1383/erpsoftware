@@ -20,7 +20,9 @@ export async function addStudent(formData: FormData) {
   const { data: { user } } = await supabase.auth.getUser()
   const raw: any = {}
   formData.forEach((v, k) => { raw[k] = v })
-  if (!raw.school_id && user?.user_metadata?.school_id) raw.school_id = user.user_metadata.school_id
+  if (raw.school_id) raw.school_id = Number(raw.school_id)
+  else if (user?.user_metadata?.school_id) raw.school_id = Number(user.user_metadata.school_id)
+  else delete raw.school_id
 
   if (!raw.roll_no && raw.class_name) {
     const { data: existing } = await supabase
@@ -35,8 +37,12 @@ export async function addStudent(formData: FormData) {
   }
 
   if (raw.roll_no) raw.roll_no = Number(raw.roll_no)
+  else delete raw.roll_no
   if (raw.academic_year_id) raw.academic_year_id = Number(raw.academic_year_id)
+  else delete raw.academic_year_id
   if (!raw.school_id && user?.user_metadata?.school_id) raw.school_id = Number(user.user_metadata.school_id)
+  if (raw.school_id) raw.school_id = Number(raw.school_id)
+  else delete raw.school_id
 
   const { error } = await supabase.from("students").insert([raw])
   revalidatePath("/students")
@@ -48,7 +54,12 @@ export async function updateStudent(id: number, formData: FormData) {
   const raw: any = {}
   formData.forEach((v, k) => { raw[k] = v })
   if (raw.roll_no) raw.roll_no = Number(raw.roll_no)
+  else delete raw.roll_no
   if (raw.academic_year_id) raw.academic_year_id = Number(raw.academic_year_id)
+  else delete raw.academic_year_id
+  if (raw.school_id) raw.school_id = Number(raw.school_id)
+  else delete raw.school_id
+  delete raw.id
   const { error } = await supabase.from("students").update(raw).eq("id", id)
   revalidatePath("/students")
   return { success: !error, message: error?.message || "Student updated" }

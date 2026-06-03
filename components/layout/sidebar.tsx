@@ -4,25 +4,28 @@ import { useState, useRef, useEffect } from "react"
 import {
   LayoutDashboard, Users, GraduationCap, DollarSign, CalendarCheck,
   FileCheck, BookOpen, ListOrdered, GitBranch,
-  UserCheck, FileText, LogOut, ChevronDown, Plus, Building2
+  UserCheck, FileText, LogOut, ChevronDown, Plus, Building2, ArrowRightLeft
 } from "lucide-react"
 import { addSchool } from "@/app/manage-schools/actions"
 
 const adminTabs = [
   { key: "dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { key: "trust-info", label: "Trust Info", icon: Building2 },
+  { key: "manage-schools", label: "All Schools", icon: FileText },
   { key: "teachers", label: "Teacher Entry", icon: GraduationCap },
   { key: "students", label: "Students Entry", icon: Users },
+  { key: "student-migration", label: "Student Migration", icon: ArrowRightLeft },
+  { key: "fee-types", label: "Fee Types", icon: ListOrdered },
   { key: "fee-particulars", label: "Fees Particular", icon: ListOrdered },
   { key: "fees", label: "Fees", icon: DollarSign },
-  { key: "trust-info", label: "Trust Info", icon: Building2 },
   { key: "attendance", label: "Attendance", icon: CalendarCheck },
   { key: "exams", label: "Exams", icon: FileCheck },
   { key: "marks", label: "Marks", icon: BookOpen },
   { key: "divisions", label: "Divisions", icon: GitBranch },
   { key: "subjects", label: "Subjects", icon: BookOpen },
   { key: "streams", label: "Streams", icon: GitBranch },
+  { key: "manage-users", label: "User Management", icon: UserCheck },
   { key: "teacher-subjects", label: "Teacher Subjects", icon: UserCheck },
-  { key: "manage-schools", label: "All Schools", icon: FileText },
 ]
 
 const teacherTabs = [

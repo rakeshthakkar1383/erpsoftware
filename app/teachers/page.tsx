@@ -8,6 +8,7 @@ export default async function TeachersPage() {
   const { data: { user } } = await supabase.auth.getUser()
   const schoolId = user?.user_metadata?.school_id
   const { data: allSchools } = await supabase.from("school_info").select("id, school_name").order("school_name")
+  const { data: allSubjects } = await supabase.from("subjects").select("*").order("subject_name")
 
-  return <TeachersClient allSchools={allSchools || []} schoolId={schoolId} />
+  return <TeachersClient allSchools={allSchools || []} schoolId={schoolId} allSubjects={allSubjects || []} />
 }

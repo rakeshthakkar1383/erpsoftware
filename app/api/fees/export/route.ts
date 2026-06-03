@@ -58,7 +58,7 @@ export async function GET(request: NextRequest) {
     const ws = XLSX.utils.json_to_sheet(rows)
     XLSX.utils.book_append_sheet(wb, ws, "Fees")
     const buf = XLSX.write(wb, { type: "buffer", bookType: "xlsx" })
-    return new NextResponse(buf, {
+    return new NextResponse(new Uint8Array(buf), {
       headers: {
         "Content-Type": "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
         "Content-Disposition": `attachment; filename="fees_report.xlsx"`,

@@ -11,6 +11,7 @@ export default async function FeesPage() {
   let fq = supabase.from("fees").select("*")
   let sq = supabase.from("students").select("*").order("full_name")
   let pq = supabase.from("fee_particulars").select("*")
+  let fqtypes = supabase.from("fee_types").select("*").eq("is_active", true)
   let dq = supabase.from("divisions").select("*")
   let yq = supabase.from("academic_years").select("*")
   let tq = supabase.from("trust_info").select("*").order("trust_name")
@@ -19,16 +20,24 @@ export default async function FeesPage() {
     fq = fq.eq("school_id", schoolId)
     sq = sq.eq("school_id", schoolId)
     pq = pq.eq("school_id", schoolId)
+    tq = tq.eq("school_id", schoolId)
   }
 
-  const [fees, students, particulars, divisions, years, trusts] = await Promise.all([
-    (await fq).data || [],
-    (await sq).data || [],
-    (await pq).data || [],
-    (await dq).data || [],
-    (await yq).data || [],
-    (await tq).data || [],
-  ])
+  const feesRes = await fq
+  const studentsRes = await sq
+  const particularsRes = await pq
+  const feeTypesRes = await fqtypes
+  const divisionsRes = await dq
+  const yearsRes = await yq
+  const trustsRes = await tq
+
+  const fees = feesRes.data || []
+  const students = studentsRes.data || []
+  const particulars = particularsRes.data || []
+  const feeTypes = feeTypesRes.data || []
+  const divisions = divisionsRes.data || []
+  const years = yearsRes.data || []
+  const trusts = trustsRes.error ? [] : trustsRes.data || []
 
   const { data: allSchools } = await supabase.from("school_info").select("id, school_name").order("school_name")
 
@@ -43,6 +52,7 @@ export default async function FeesPage() {
       }))}
       students={students}
       particulars={particulars}
+      feeTypes={feeTypes}
       divisions={divisions}
       years={years}
       allSchools={allSchools || []}

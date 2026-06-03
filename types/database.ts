@@ -63,6 +63,9 @@ export interface Teacher {
 export interface Fee {
   id: number
   student_id: number | null
+  trust_id: number | null
+  fee_type_id: number | null
+  fee_category: string | null
   amount: number | null
   status: string | null
   payment_date: string | null
@@ -72,6 +75,7 @@ export interface Fee {
   cheque_date: string | null
   bank_name: string | null
   particulars: any
+  receipt_file_url: string | null
   school_id: number | null
   created_at?: string
 }
@@ -81,7 +85,34 @@ export interface FeeParticular {
   class_name: string | null
   particular_name: string | null
   amount: number | null
+  duration_months: number | null
+  fee_type_id: number | null
+  fee_category: string | null
   school_id: number | null
+  trust_id: number | null
+}
+
+export interface FeeInstallment {
+  id: number
+  fee_id: number | null
+  month_number: number
+  due_date: string | null
+  amount: number | null
+  status: string | null
+  paid_date: string | null
+  payment_mode: string | null
+  transaction_id: string | null
+  school_id: number | null
+  created_at?: string
+}
+
+export interface FeeType {
+  id: number
+  name: string | null
+  description: string | null
+  school_id: number | null
+  is_active: boolean | null
+  created_at?: string
 }
 
 export interface Attendance {

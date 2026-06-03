@@ -181,8 +181,13 @@ export default function ManageSchoolsClient({ initialSchools }: { initialSchools
               <div className="md:col-span-2">
                 <label className="text-[10px] font-bold text-slate-500 uppercase">Logo</label>
                 <input type="file" className="w-full text-sm" accept="image/*" onChange={handleLogoUpload} />
-                {uploading && <p className="text-xs text-blue-600 mt-1 uppercase font-bold">Uploading logo...</p>}
-                {form.logo_url && <p className="text-xs text-green-600 mt-1 uppercase font-bold">Logo uploaded</p>}
+                {uploading && <p className="mt-1 text-xs font-bold uppercase text-blue-600">Uploading logo...</p>}
+                {form.logo_url && !uploading && (
+                  <div className="mt-2 flex items-center gap-3">
+                    <img src={form.logo_url} alt="" className="h-12 w-12 rounded border object-contain bg-slate-50" />
+                    <span className="text-xs font-bold uppercase text-green-600">Logo uploaded</span>
+                  </div>
+                )}
               </div>
             </div>
             <div className="mt-6 flex gap-3">

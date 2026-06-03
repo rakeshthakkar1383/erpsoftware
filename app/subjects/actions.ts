@@ -17,7 +17,9 @@ export async function addSubject(formData: FormData) {
   const { data: { user } } = await supabase.auth.getUser()
   const raw: any = {}
   formData.forEach((v, k) => { raw[k] = v })
-  if (!raw.school_id && user?.user_metadata?.school_id) raw.school_id = user.user_metadata.school_id
+  if (raw.school_id) raw.school_id = Number(raw.school_id)
+  else if (user?.user_metadata?.school_id) raw.school_id = Number(user.user_metadata.school_id)
+  else delete raw.school_id
   const { error } = await supabase.from("subjects").insert([raw])
   revalidatePath("/subjects")
   return { success: !error, message: error?.message || "Subject added" }
@@ -27,6 +29,8 @@ export async function updateSubject(id: number, formData: FormData) {
   const supabase = await createClient()
   const raw: any = {}
   formData.forEach((v, k) => { raw[k] = v })
+  if (raw.school_id) raw.school_id = Number(raw.school_id)
+  else delete raw.school_id
   const { error } = await supabase.from("subjects").update(raw).eq("id", id)
   revalidatePath("/subjects")
   return { success: !error, message: error?.message || "Subject updated" }

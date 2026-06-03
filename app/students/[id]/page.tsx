@@ -61,6 +61,7 @@ export default async function StudentDetailPage({ params }: { params: Promise<{ 
               {student.stream ? ` | ${student.stream}` : ""}
             </p>
             <p className="text-xs text-slate-400">Roll No: {student.roll_no || "-"}</p>
+            <p className="text-xs text-slate-400">GR No: {student.gr_no || "-"}</p>
             <p className="text-xs text-slate-400">Admission No: {student.admission_no || "-"}</p>
           </div>
         </div>
@@ -76,9 +77,9 @@ export default async function StudentDetailPage({ params }: { params: Promise<{ 
               <div><span className="font-medium text-slate-500">Birth Place:</span> <span className="text-slate-800">{student.birthplace || "-"}</span></div>
               <div><span className="font-medium text-slate-500">Mobile:</span> <span className="text-slate-800">{student.mobile || "-"}</span></div>
               <div className="col-span-2"><span className="font-medium text-slate-500">Address:</span> <span className="text-slate-800">{student.address || "-"}</span></div>
-              <div><span className="font-medium text-slate-500">Village:</span> <span className="text-slate-800">{student.village || "-"}</span></div>
+              <div><span className="font-medium text-slate-500">Village/City:</span> <span className="text-slate-800">{student.village || "-"}</span></div>
+              <div><span className="font-medium text-slate-500">Pincode:</span> <span className="text-slate-800">{student.pincode || "-"}</span></div>
               <div><span className="font-medium text-slate-500">District:</span> <span className="text-slate-800">{student.district || "-"}</span></div>
-              <div><span className="font-medium text-slate-500">City:</span> <span className="text-slate-800">{student.city || "-"}</span></div>
               <div className="col-span-2"><span className="font-medium text-slate-500">Last School:</span> <span className="text-slate-800">{student.last_school || "-"}</span></div>
             </div>
           </div>

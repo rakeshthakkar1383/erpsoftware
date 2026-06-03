@@ -38,7 +38,9 @@ export async function updateSchoolById(id: number, formData: FormData) {
   const supabase = await createClient()
   const raw: any = {}
   formData.forEach((v, k) => { raw[k] = v })
+  delete raw.id
   const { error } = await supabase.from("school_info").update(raw).eq("id", id)
+  if (error) console.error("updateSchoolById error", error)
   revalidatePath("/manage-schools")
   return { success: !error, message: error?.message || "School updated" }
 }

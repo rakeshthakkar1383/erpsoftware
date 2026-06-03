@@ -17,7 +17,14 @@ export async function addTeacher(formData: FormData) {
   const { data: { user } } = await supabase.auth.getUser()
   const raw: any = {}
   formData.forEach((v, k) => { raw[k] = v })
-  if (!raw.school_id && user?.user_metadata?.school_id) raw.school_id = user.user_metadata.school_id
+  if (raw.school_id) raw.school_id = Number(raw.school_id)
+  else if (user?.user_metadata?.school_id) raw.school_id = Number(user.user_metadata.school_id)
+  else delete raw.school_id
+  
+  if (raw.salary) raw.salary = Number(raw.salary)
+  if (raw.basic_pay) raw.basic_pay = Number(raw.basic_pay)
+  if (raw.grade_pay) raw.grade_pay = Number(raw.grade_pay)
+
   const { error } = await supabase.from("teachers").insert([raw])
   revalidatePath("/teachers")
   return { success: !error, message: error?.message || "Teacher added" }
@@ -27,6 +34,14 @@ export async function updateTeacher(id: number, formData: FormData) {
   const supabase = await createClient()
   const raw: any = {}
   formData.forEach((v, k) => { raw[k] = v })
+  if (raw.school_id) raw.school_id = Number(raw.school_id)
+  else delete raw.school_id
+  
+  if (raw.salary) raw.salary = Number(raw.salary)
+  if (raw.basic_pay) raw.basic_pay = Number(raw.basic_pay)
+  if (raw.grade_pay) raw.grade_pay = Number(raw.grade_pay)
+
+  delete raw.id
   const { error } = await supabase.from("teachers").update(raw).eq("id", id)
   revalidatePath("/teachers")
   return { success: !error, message: error?.message || "Teacher updated" }
