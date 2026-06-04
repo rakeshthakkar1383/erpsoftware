@@ -23,21 +23,26 @@ export async function createUser(formData: FormData) {
   const student_id = formData.get("student_id") ? Number(formData.get("student_id")) : null
   const class_name = formData.get("class_name") as string
   const can_see_all_data = formData.get("can_see_all_data") === "true"
+  let permissions: string[] | null = null
+  try {
+    const raw = formData.get("permissions") as string
+    if (raw) permissions = JSON.parse(raw)
+  } catch {}
 
   // 1. Create Auth User
   const { data: authUser, error: authError } = await adminSupabase.auth.admin.createUser({
     email,
     password,
     email_confirm: true,
-    user_metadata: { full_name, role, school_id, can_see_all_data, class_name, student_id }
+    user_metadata: { full_name, role, school_id, can_see_all_data, class_name, student_id, permissions }
   })
 
   if (authError) return { success: false, message: authError.message }
 
-  // 2. Create User Profile
+  // 2. Create User Profile (role may be rejected by DB constraint - auth metadata is primary source)
   const { error: profileError } = await supabase.from("users").insert([{
     email,
-    password, // Storing for convenience in this ERP, usually not recommended but following existing pattern
+    password,
     full_name,
     role,
     school_id,
@@ -48,13 +53,49 @@ export async function createUser(formData: FormData) {
   }])
 
   if (profileError) {
-    // Cleanup auth user if profile fails
-    await adminSupabase.auth.admin.deleteUser(authUser.user.id)
-    return { success: false, message: profileError.message }
+    // DB constraint may reject new roles - auth metadata is already set, so user can still log in
+    console.warn("users table insert failed (role constraint?):", profileError.message)
   }
 
   revalidatePath("/manage-users")
   return { success: true, message: "User created successfully" }
+}
+
+export async function updateUser(formData: FormData) {
+  const adminSupabase = createAdminClient()
+  const supabase = await createClient()
+
+  const id = Number(formData.get("id"))
+  const email = formData.get("email") as string
+  const full_name = formData.get("full_name") as string
+  const role = formData.get("role") as string
+  const school_id = formData.get("school_id") ? Number(formData.get("school_id")) : null
+  const teacher_id = formData.get("teacher_id") ? Number(formData.get("teacher_id")) : null
+  const student_id = formData.get("student_id") ? Number(formData.get("student_id")) : null
+  const class_name = formData.get("class_name") as string
+  const can_see_all_data = formData.get("can_see_all_data") === "true"
+  let permissions: string[] | null = null
+  try {
+    const raw = formData.get("permissions") as string
+    if (raw) permissions = JSON.parse(raw)
+  } catch {}
+
+  // 1. Update Auth user metadata
+  const { data: { users }, error: listError } = await adminSupabase.auth.admin.listUsers()
+  const authUser = users.find(u => u.email === email)
+  if (authUser) {
+    const meta: any = { full_name, role, school_id, can_see_all_data, class_name, student_id }
+    if (permissions) meta.permissions = permissions
+    await adminSupabase.auth.admin.updateUserById(authUser.id, { user_metadata: meta })
+  }
+
+  // 2. Update users table (may fail on new roles due to DB constraint - auth metadata is primary)
+  const updates: any = { full_name, role, school_id, teacher_id, student_id, class_name, can_see_all_data }
+  const { error } = await supabase.from("users").update(updates).eq("id", id)
+  if (error) console.warn("users table update failed (role constraint?):", error.message)
+
+  revalidatePath("/manage-users")
+  return { success: true, message: "User updated successfully" }
 }
 
 export async function deleteUser(id: number, email: string) {

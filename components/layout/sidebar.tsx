@@ -3,12 +3,13 @@
 import { useState, useRef, useEffect } from "react"
 import {
   LayoutDashboard, Users, GraduationCap, DollarSign, CalendarCheck,
-  FileCheck, BookOpen, ListOrdered, GitBranch,
-  UserCheck, FileText, LogOut, ChevronDown, Plus, Building2, ArrowRightLeft
+  BookOpen, ListOrdered, GitBranch,
+  UserCheck, FileText, LogOut, ChevronDown, Plus, Building2
 } from "lucide-react"
 import { addSchool } from "@/app/manage-schools/actions"
+import { roleDefaults } from "@/lib/permissions"
 
-const adminTabs = [
+const allTabs = [
   { key: "dashboard", label: "Dashboard", icon: LayoutDashboard },
   { key: "trust-info", label: "Trust Info", icon: Building2 },
   { key: "manage-schools", label: "All Schools", icon: FileText },
@@ -23,15 +24,6 @@ const adminTabs = [
   { key: "fees", label: "Fees", icon: DollarSign },
   { key: "attendance", label: "Attendance", icon: CalendarCheck },
   { key: "manage-users", label: "User Management", icon: UserCheck },
-]
-
-const teacherTabs = [
-  { key: "dashboard", label: "Dashboard", icon: LayoutDashboard },
-  { key: "students", label: "Students", icon: Users },
-  { key: "fees", label: "Fees", icon: DollarSign },
-  { key: "attendance", label: "Attendance", icon: CalendarCheck },
-  { key: "exams", label: "Exams", icon: FileCheck },
-  { key: "marks", label: "Marks", icon: BookOpen },
 ]
 
 type School = {
@@ -55,7 +47,8 @@ type SidebarProps = {
 
 export default function Sidebar({ user, schoolName, schoolLogo, schools = [], teacherClass, activeTab, onTabChange, onLogout, onSchoolSwitch, onSchoolAdded }: SidebarProps) {
   const role = user?.user_metadata?.role || user?.role
-  const tabs = role === "admin" ? adminTabs : teacherTabs
+  const allowedKeys: string[] = user?.user_metadata?.permissions || roleDefaults[role] || roleDefaults.teacher
+  const tabs = allTabs.filter(t => allowedKeys.includes(t.key))
   const [showSchools, setShowSchools] = useState(false)
   const [showSchoolManager, setShowSchoolManager] = useState(false)
   const [newSchoolForm, setNewSchoolForm] = useState({ school_name: "", trust_name: "", phone: "", address: "" })
