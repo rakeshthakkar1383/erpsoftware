@@ -13,19 +13,16 @@ const adminTabs = [
   { key: "trust-info", label: "Trust Info", icon: Building2 },
   { key: "manage-schools", label: "All Schools", icon: FileText },
   { key: "teachers", label: "Teacher Entry", icon: GraduationCap },
+  { key: "teacher-subjects", label: "Teacher Subjects", icon: UserCheck },
   { key: "students", label: "Students Entry", icon: Users },
-  { key: "student-migration", label: "Student Migration", icon: ArrowRightLeft },
+  { key: "divisions", label: "Divisions", icon: GitBranch },
+  { key: "subjects", label: "Subjects", icon: BookOpen },
+  { key: "streams", label: "Streams", icon: GitBranch },
   { key: "fee-types", label: "Fee Types", icon: ListOrdered },
   { key: "fee-particulars", label: "Fees Particular", icon: ListOrdered },
   { key: "fees", label: "Fees", icon: DollarSign },
   { key: "attendance", label: "Attendance", icon: CalendarCheck },
-  { key: "exams", label: "Exams", icon: FileCheck },
-  { key: "marks", label: "Marks", icon: BookOpen },
-  { key: "divisions", label: "Divisions", icon: GitBranch },
-  { key: "subjects", label: "Subjects", icon: BookOpen },
-  { key: "streams", label: "Streams", icon: GitBranch },
   { key: "manage-users", label: "User Management", icon: UserCheck },
-  { key: "teacher-subjects", label: "Teacher Subjects", icon: UserCheck },
 ]
 
 const teacherTabs = [

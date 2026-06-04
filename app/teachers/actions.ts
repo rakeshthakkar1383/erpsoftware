@@ -6,7 +6,7 @@ import { revalidatePath } from "next/cache"
 export async function getAllTeachers() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
-  let query = supabase.from("teachers").select("*")
+  let query = supabase.from("teachers").select("*, school_info!school_id(school_name)")
   if (user?.user_metadata?.school_id) query = query.eq("school_id", user.user_metadata.school_id)
   const { data } = await query
   return data || []

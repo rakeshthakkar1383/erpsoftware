@@ -16,7 +16,7 @@ const emptyForm = {
   blood_group: "", marital_status: "", aadhar_url: "", pan_url: ""
 }
 
-export default function TeachersClient({ allSchools, schoolId, allSubjects }: { allSchools: any[], schoolId: number | null, allSubjects: any[] }) {
+export default function TeachersClient({ allSchools, schoolId, allSubjects, allTrusts }: { allSchools: any[], schoolId: number | null, allSubjects: any[], allTrusts: any[] }) {
   const [teachers, setTeachers] = useState<any[]>([])
   const [search, setSearch] = useState("")
   const [modal, setModal] = useState(false)
@@ -245,6 +245,39 @@ export default function TeachersClient({ allSchools, schoolId, allSubjects }: { 
                   <div className="space-y-1">
                     <label className="text-[10px] font-bold text-slate-500 uppercase">Email Address</label>
                     <input className="w-full rounded border p-3 text-sm" type="email" placeholder="EMAIL" value={form.email} onChange={set("email")} />
+                  </div>
+                </div>
+              </div>
+
+              {/* School & Trust Info */}
+              <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+                <h4 className="mb-3 text-[10px] font-black text-slate-500 uppercase tracking-widest">Appointed School / Trust</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {!schoolId ? (
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-bold text-slate-500 uppercase">School *</label>
+                      <select className="w-full rounded border p-3 text-sm" value={form.school_id} onChange={e => setForm({ ...form, school_id: e.target.value })}>
+                        <option value="">SELECT SCHOOL</option>
+                        {allSchools.map((s: any) => <option key={s.id} value={s.id}>{s.school_name}</option>)}
+                      </select>
+                    </div>
+                  ) : (
+                    <div className="space-y-1">
+                      <label className="text-[10px] font-bold text-slate-500 uppercase">School Name</label>
+                      <div className="w-full rounded bg-white border p-3 text-sm font-semibold text-slate-700">
+                        {allSchools.find((s: any) => s.id === Number(schoolId))?.school_name || "-"}
+                      </div>
+                    </div>
+                  )}
+                  <div className="space-y-1">
+                    <label className="text-[10px] font-bold text-slate-500 uppercase">Trust Name</label>
+                    <div className="w-full rounded bg-white border p-3 text-sm font-semibold text-slate-700">
+                      {(() => {
+                        const sid = Number(form.school_id || schoolId)
+                        const trust = allTrusts.find((t: any) => t.school_id === sid)
+                        return trust?.trust_name || "-"
+                      })()}
+                    </div>
                   </div>
                 </div>
               </div>

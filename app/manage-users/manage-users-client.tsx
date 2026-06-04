@@ -7,6 +7,7 @@ const roles = [
   { id: "authority", label: "Authority", desc: "Full Access across all schools" },
   { id: "principal", label: "Principal", desc: "School-wide Management" },
   { id: "supervision", label: "Supervision", desc: "Department/Level Monitoring" },
+  { id: "clerk", label: "Clerk", desc: "School-wide Data Entry & Fees" },
   { id: "teacher", label: "Teacher", desc: "Class-wise Access" },
   { id: "student", label: "Student", desc: "Personal Data Only" },
 ]
@@ -19,6 +20,7 @@ export default function ManageUsersClient({ initialUsers, allSchools, teachers, 
   const [form, setForm] = useState({ ...emptyForm, role: "authority" })
   const [message, setMessage] = useState("")
   const [loading, setLoading] = useState(false)
+  const [selectedUser, setSelectedUser] = useState<any>(null)
 
   const refresh = async () => {
     // In a real app we'd call getAllUsers again, but for now we'll rely on the server action revalidate
@@ -103,7 +105,7 @@ export default function ManageUsersClient({ initialUsers, allSchools, teachers, 
             </div>
 
             {/* Dynamic Fields based on Role */}
-            {(activeRole === "principal" || activeRole === "supervision" || activeRole === "teacher") && (
+            {(activeRole === "principal" || activeRole === "supervision" || activeRole === "clerk" || activeRole === "teacher") && (
               <div className="space-y-1">
                 <label className="text-[10px] font-bold text-slate-500 uppercase">Assign School</label>
                 <select className="w-full rounded border bg-white p-3 text-sm" value={form.school_id} onChange={set("school_id")}>
@@ -177,26 +179,85 @@ export default function ManageUsersClient({ initialUsers, allSchools, teachers, 
                  {filteredUsers.length === 0 ? (
                    <tr><td colSpan={4} className="px-6 py-12 text-center text-slate-400 italic">No {activeRole} users found.</td></tr>
                  ) : (
-                   filteredUsers.map(u => (
-                     <tr key={u.id} className="hover:bg-slate-50">
-                        <td className="px-6 py-4 font-bold text-slate-800">{u.full_name}</td>
-                        <td className="px-6 py-4 text-slate-600">{u.email}</td>
-                        <td className="px-6 py-4">
-                           {u.teachers?.full_name ? <span className="rounded bg-blue-50 px-2 py-1 text-[10px] font-bold text-blue-600 uppercase">TEACHER: {u.teachers.full_name}</span> : 
-                            u.students?.full_name ? <span className="rounded bg-green-50 px-2 py-1 text-[10px] font-bold text-green-600 uppercase">STUDENT: {u.students.full_name}</span> : 
-                            u.school_info?.school_name ? <span className="rounded bg-slate-100 px-2 py-1 text-[10px] font-bold text-slate-500 uppercase">{u.school_info.school_name}</span> : "-"}
-                        </td>
-                        <td className="px-6 py-4 text-right">
-                           <button onClick={() => handleDelete(u.id, u.email)} className="text-[10px] font-black uppercase tracking-widest text-red-600 hover:text-red-800">Delete Access</button>
-                        </td>
-                     </tr>
-                   ))
+                    filteredUsers.map(u => (
+                      <tr key={u.id} className="hover:bg-slate-50 cursor-pointer" onClick={() => setSelectedUser(u)}>
+                         <td className="px-6 py-4 font-bold text-slate-800">{u.full_name}</td>
+                         <td className="px-6 py-4 text-slate-600">{u.email}</td>
+                         <td className="px-6 py-4">
+                            {u.teachers?.full_name ? <span className="rounded bg-blue-50 px-2 py-1 text-[10px] font-bold text-blue-600 uppercase">TEACHER: {u.teachers.full_name}</span> : 
+                             u.students?.full_name ? <span className="rounded bg-green-50 px-2 py-1 text-[10px] font-bold text-green-600 uppercase">STUDENT: {u.students.full_name}</span> : 
+                             u.school_info?.school_name ? <span className="rounded bg-slate-100 px-2 py-1 text-[10px] font-bold text-slate-500 uppercase">{u.school_info.school_name}</span> : "-"}
+                         </td>
+                         <td className="px-6 py-4 text-right" onClick={e => e.stopPropagation()}>
+                            <button onClick={() => handleDelete(u.id, u.email)} className="text-[10px] font-black uppercase tracking-widest text-red-600 hover:text-red-800">Delete Access</button>
+                         </td>
+                      </tr>
+                    ))
                  )}
                </tbody>
              </table>
            </div>
+         </div>
+       </div>
+
+      {/* User Detail Modal */}
+      {selectedUser && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40" onClick={() => setSelectedUser(null)}>
+          <div className="w-full max-w-lg rounded-xl bg-white p-6 shadow-2xl" onClick={e => e.stopPropagation()}>
+            <div className="mb-4 flex items-center justify-between border-b pb-3">
+              <h3 className="text-lg font-black text-slate-800 uppercase tracking-tight">User Details</h3>
+              <button className="text-slate-400 hover:text-slate-600 text-xl" onClick={() => setSelectedUser(null)}>✕</button>
+            </div>
+            <div className="space-y-3 text-sm">
+              <div className="flex justify-between border-b pb-2">
+                <span className="font-bold text-slate-500 uppercase text-[10px] tracking-wider">Full Name</span>
+                <span className="text-slate-800 font-semibold">{selectedUser.full_name}</span>
+              </div>
+              <div className="flex justify-between border-b pb-2">
+                <span className="font-bold text-slate-500 uppercase text-[10px] tracking-wider">Email</span>
+                <span className="text-slate-800">{selectedUser.email}</span>
+              </div>
+              <div className="flex justify-between border-b pb-2">
+                <span className="font-bold text-slate-500 uppercase text-[10px] tracking-wider">Role</span>
+                <span className="rounded bg-blue-50 px-2 py-0.5 text-[10px] font-bold text-blue-600 uppercase">{selectedUser.role}</span>
+              </div>
+              <div className="flex justify-between border-b pb-2">
+                <span className="font-bold text-slate-500 uppercase text-[10px] tracking-wider">School</span>
+                <span className="text-slate-800">{selectedUser.school_info?.school_name || "-"}</span>
+              </div>
+              <div className="flex justify-between border-b pb-2">
+                <span className="font-bold text-slate-500 uppercase text-[10px] tracking-wider">Linked Teacher</span>
+                <span className="text-slate-800">{selectedUser.teachers?.full_name || "-"}</span>
+              </div>
+              <div className="flex justify-between border-b pb-2">
+                <span className="font-bold text-slate-500 uppercase text-[10px] tracking-wider">Linked Student</span>
+                <span className="text-slate-800">{selectedUser.students?.full_name || "-"}</span>
+              </div>
+              <div className="flex justify-between border-b pb-2">
+                <span className="font-bold text-slate-500 uppercase text-[10px] tracking-wider">Class Restriction</span>
+                <span className="text-slate-800">{selectedUser.class_name || "-"}</span>
+              </div>
+              <div className="flex justify-between border-b pb-2">
+                <span className="font-bold text-slate-500 uppercase text-[10px] tracking-wider">Data Visibility</span>
+                <span className={`rounded px-2 py-0.5 text-[10px] font-bold uppercase ${selectedUser.can_see_all_data ? "bg-green-50 text-green-600" : "bg-slate-100 text-slate-500"}`}>
+                  {selectedUser.can_see_all_data ? "Global Access" : "Restricted"}
+                </span>
+              </div>
+            </div>
+            <div className="mt-6 flex justify-end gap-3">
+              <button
+                onClick={() => { handleDelete(selectedUser.id, selectedUser.email); setSelectedUser(null) }}
+                className="rounded bg-red-600 px-5 py-2 text-xs font-black text-white uppercase tracking-wider hover:bg-red-700"
+              >
+                Delete User
+              </button>
+              <button onClick={() => setSelectedUser(null)} className="rounded bg-slate-200 px-5 py-2 text-xs font-black text-slate-600 uppercase tracking-wider hover:bg-slate-300">
+                Close
+              </button>
+            </div>
+          </div>
         </div>
-      </div>
-    </div>
-  )
-}
+      )}
+     </div>
+   )
+ }
