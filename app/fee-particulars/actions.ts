@@ -28,6 +28,7 @@ export async function addFeeParticular(formData: FormData) {
   }
   if (raw.duration_months) raw.duration_months = Number(raw.duration_months)
   else raw.duration_months = 12
+  if (!raw.term) raw.term = "Yearly"
   if (!raw.sort_order) {
     const { data: maxRow } = await supabase.from("fee_particulars").select("sort_order").order("sort_order", { ascending: false }).limit(1).maybeSingle()
     raw.sort_order = (maxRow?.sort_order ?? 0) + 1
@@ -54,6 +55,7 @@ export async function updateFeeParticular(id: number, formData: FormData) {
   }
   if (raw.duration_months) raw.duration_months = Number(raw.duration_months)
   else raw.duration_months = 12
+  if (!raw.term) raw.term = "Yearly"
   const { error } = await supabase.from("fee_particulars").update(raw).eq("id", id)
   revalidatePath("/fee-particulars")
   return { success: !error, message: error?.message || "Fee particular updated" }

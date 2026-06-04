@@ -102,7 +102,10 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 
           const topY = doc.y
           doc.fontSize(8).font("Helvetica")
-          doc.text(`Receipt #: FEE-${String(fee.id).padStart(5, "0")}`, 40, topY)
+          const receiptLabel = fee.receipt_year && fee.receipt_no
+            ? `FEE-${fee.receipt_year}-${String(fee.receipt_no).padStart(4, "0")}`
+            : `FEE-${String(fee.id).padStart(5, "0")}`
+          doc.text(`Receipt #: ${receiptLabel}`, 40, topY)
           doc.text(`Date: ${formatDate(fee.payment_date || new Date().toISOString())}`, 40, topY, { align: "right" })
           doc.moveDown(0.5)
 

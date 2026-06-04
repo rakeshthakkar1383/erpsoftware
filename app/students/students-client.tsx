@@ -62,7 +62,7 @@ export default function StudentsClient({
     return age >= 0 ? `${age} years` : ""
   }
 
-  const set = (field: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
+  const set = (field: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
     setForm({ ...form, [field]: e.target.value.toUpperCase() })
 
   const toFormData = (obj: any) => {

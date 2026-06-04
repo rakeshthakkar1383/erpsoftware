@@ -58,8 +58,17 @@ VALUES ('ADM001', 'Alice Student', 'Female', 'Father A', 'Mother A', '10', '9999
 -- 9. fee_types
 INSERT INTO fee_types (name, school_id) VALUES ('Tuition Fee', 1), ('Bus Fee', 1), ('Library Fee', 1);
 
+-- Add trust fee types
+INSERT INTO fee_types (name, fee_category, trust_id, school_id) VALUES ('Trust Tuition', 'Trust', 1, 1), ('Trust Activity', 'Trust', 1, 1);
+
 -- 10. fee_particulars
 INSERT INTO fee_particulars (class_name, particular_name, amount, duration_months, school_id) VALUES ('10', 'Tuition Monthly', 5000, 12, 1), ('10', 'Bus Monthly', 2000, 12, 1);
+
+-- Trust fee particulars with first term / second term distinction
+INSERT INTO fee_particulars (class_name, particular_name, amount, duration_months, term, fee_category, trust_id, school_id) VALUES ('10', 'Trust Tuition', 3000, 6, 'First Term', 'Trust', 1, 1);
+INSERT INTO fee_particulars (class_name, particular_name, amount, duration_months, term, fee_category, trust_id, school_id) VALUES ('10', 'Trust Tuition', 5000, 6, 'Second Term', 'Trust', 1, 1);
+INSERT INTO fee_particulars (class_name, particular_name, amount, duration_months, term, fee_category, trust_id, school_id) VALUES ('10', 'Trust Activity Fee', 1000, 6, 'First Term', 'Trust', 1, 1);
+INSERT INTO fee_particulars (class_name, particular_name, amount, duration_months, term, fee_category, trust_id, school_id) VALUES ('10', 'Trust Activity Fee', 1500, 6, 'Second Term', 'Trust', 1, 1);
 
 -- 11. fees
 INSERT INTO fees (student_id, fee_type_id, fee_category, amount, status, school_id)

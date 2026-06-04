@@ -82,6 +82,8 @@ CREATE TABLE IF NOT EXISTS fees (
   cheque_date text,
   bank_name text,
   particulars jsonb DEFAULT '[]'::jsonb,
+  receipt_no integer,
+  receipt_year text,
   receipt_file_url text,
   school_id bigint REFERENCES school_info(id) ON DELETE CASCADE,
   created_at timestamp DEFAULT now()
@@ -122,6 +124,7 @@ CREATE TABLE IF NOT EXISTS fee_particulars (
   particular_name text,
   amount numeric(10,2),
   duration_months integer DEFAULT 12 CHECK (duration_months IN (6, 12)),
+  term text DEFAULT 'Yearly' CHECK (term IN ('First Term', 'Second Term', 'Yearly')),
   sort_order integer DEFAULT 0,
   fee_type_id bigint REFERENCES fee_types(id) ON DELETE CASCADE,
   fee_category text DEFAULT 'School' CHECK (fee_category IN ('School', 'Trust')),

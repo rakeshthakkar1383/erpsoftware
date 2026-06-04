@@ -5,7 +5,7 @@ import { getAllFees, addFee, updateFee, deleteFee } from "./actions"
 import { getInstallmentsByFeeId, updateInstallmentStatus } from "./installment-actions"
 
 const classes = Array.from({ length: 12 }, (_, i) => String(i + 1))
-type ParticularItem = { particular_name: string; amount: string; duration_months?: number }
+type ParticularItem = { particular_name: string; amount: string; duration_months?: number; term?: string }
 type FeeForm = { student_id: string; fee_category: string; fee_type_id: string; trust_id: string; particulars: ParticularItem[]; status: string; payment_date: string; payment_mode: string; transaction_id: string; cheque_number: string; cheque_date: string; bank_name: string; school_id: string; receipt_file_url: string; [key: string]: any }
 const emptyForm: FeeForm = { student_id: "", fee_category: "School", fee_type_id: "", trust_id: "", particulars: [] as ParticularItem[], amount: "", status: "Paid", payment_date: "", payment_mode: "", transaction_id: "", cheque_number: "", cheque_date: "", bank_name: "", school_id: "", receipt_file_url: "" }
 
@@ -92,7 +92,7 @@ export default function FeesClient({ initialFees, students, particulars, feeType
   const handleStudentSelect = (studentId: string) => {
     const s = studentMap[studentId]
     const classParticulars = form.fee_type_id ? getParticularsForClass(s?.class_name || "", form.fee_type_id) : []
-    const parts = classParticulars.map((p: any) => ({ particular_name: p.particular_name, amount: String(p.amount), duration_months: p.duration_months || 12 }))
+    const parts = classParticulars.map((p: any) => ({ particular_name: p.particular_name, amount: String(p.amount), duration_months: p.duration_months || 12, term: p.term || "Yearly" }))
     setForm({ ...form, student_id: studentId, particulars: parts })
   }
 
@@ -100,7 +100,7 @@ export default function FeesClient({ initialFees, students, particulars, feeType
     const student = studentMap[form.student_id]
     // If 'record' is selected, load ALL particulars for the class instead of filtering by type
     const classParticulars = student ? getParticularsForClass(student.class_name || "", feeTypeId === "record" ? undefined : feeTypeId) : []
-    const parts = classParticulars.map((p: any) => ({ particular_name: p.particular_name, amount: String(p.amount), duration_months: p.duration_months || 12 }))
+    const parts = classParticulars.map((p: any) => ({ particular_name: p.particular_name, amount: String(p.amount), duration_months: p.duration_months || 12, term: p.term || "Yearly" }))
     setForm({ ...form, fee_type_id: feeTypeId === "record" ? "" : feeTypeId, particulars: parts })
   }
 
@@ -220,6 +220,7 @@ export default function FeesClient({ initialFees, students, particulars, feeType
               <tr>
                 <th className="px-3 py-2">#</th>
                 <th className="px-3 py-2">Student</th>
+                <th className="px-3 py-2">Receipt No</th>
                 <th className="px-3 py-2">Category</th>
                 <th className="px-3 py-2">Fee Type</th>
                 <th className="px-3 py-2">Trust</th>
@@ -242,6 +243,7 @@ export default function FeesClient({ initialFees, students, particulars, feeType
                     ))}
                   </select>
                 </td>
+                <td className="px-3 py-2 text-xs text-slate-400">-</td>
                 <td className="px-3 py-2 text-xs font-semibold text-blue-700 uppercase">Advance</td>
                 <td className="px-3 py-2">-</td>
                 <td className="px-3 py-2">-</td>
@@ -270,6 +272,7 @@ export default function FeesClient({ initialFees, students, particulars, feeType
                   <tr key={f.id}>
                     <td className="px-3 py-2">{i + 1}</td>
                     <td className="px-3 py-2">{s ? `${s.full_name} (${s.class_name})` : f.student_id}</td>
+                    <td className="px-3 py-2 text-xs font-mono">{f.receipt_year && f.receipt_no ? `FEE-${f.receipt_year}-${String(f.receipt_no).padStart(4, "0")}` : "-"}</td>
                     <td className="px-3 py-2"><span className={`rounded px-2 py-0.5 text-xs font-medium ${f.fee_category === "Trust" ? "bg-orange-100 text-orange-700" : "bg-blue-100 text-blue-700"}`}>{f.fee_category || "School"}</span></td>
                     <td className="px-3 py-2">{feeTypeMap[f.fee_type_id] || "-"}</td>
                     <td className="px-3 py-2">{trustMap[f.trust_id] || "-"}</td>
@@ -281,7 +284,7 @@ export default function FeesClient({ initialFees, students, particulars, feeType
                     <td className="flex gap-2 px-3 py-2">
                       <button className="text-blue-600 hover:underline" onClick={async () => {
                         setEditing(f)
-                        setForm({ ...f, fee_category: f.fee_category || "School", particulars: f.particulars?.length > 0 ? f.particulars : [{ particular_name: "Tuition Fee", amount: String(f.amount) }] })
+                        setForm({ ...f, fee_category: f.fee_category || "School", particulars: f.particulars?.length > 0 ? f.particulars.map((p: any) => ({ ...p, term: p.term || "Yearly" })) : [{ particular_name: "Tuition Fee", amount: String(f.amount), term: "Yearly" }] })
                         setMessage("")
                         setModal(true)
                         const inst = await getInstallmentsByFeeId(f.id)
@@ -364,7 +367,7 @@ export default function FeesClient({ initialFees, students, particulars, feeType
                       {form.particulars.map((p: any, i: number) => (
                         <div key={i} className="flex items-center gap-2">
                           <span className="flex-1 text-sm font-medium text-slate-600">{p.particular_name}</span>
-                          <span className="text-xs text-slate-400">({p.duration_months === 6 ? "Term Fee" : "Yearly Fee"})</span>
+                          <span className="text-xs text-slate-400">({p.duration_months === 6 ? "Term Fee" : "Yearly Fee"}{p.term && p.term !== "Yearly" ? ` - ${p.term}` : ""})</span>
                           <input className="w-32 rounded border p-2 text-sm text-right" type="number" step="0.01" placeholder="Amount" value={p.amount} onChange={setParticularAmount(i)} />
                         </div>
                       ))}

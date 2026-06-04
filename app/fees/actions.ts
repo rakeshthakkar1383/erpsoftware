@@ -4,6 +4,26 @@ import { createClient } from "@/lib/supabase/server"
 import { revalidatePath } from "next/cache"
 import { generateInstallments, deleteInstallmentsByFeeId } from "./installment-actions"
 
+async function generateReceiptNo(supabase: any, studentId: number, feeCategory: string): Promise<{ receipt_no: number; receipt_year: string } | null> {
+  const { data: student } = await supabase.from("students").select("academic_year_id").eq("id", studentId).maybeSingle()
+  const academicYearId = student?.academic_year_id
+  let receiptYear = new Date().getFullYear().toString()
+  if (academicYearId) {
+    const { data: year } = await supabase.from("academic_years").select("year_name").eq("id", academicYearId).maybeSingle()
+    if (year?.year_name) receiptYear = year.year_name
+  }
+  const { data: maxRow } = await supabase
+    .from("fees")
+    .select("receipt_no")
+    .eq("receipt_year", receiptYear)
+    .eq("fee_category", feeCategory)
+    .order("receipt_no", { ascending: false })
+    .limit(1)
+    .maybeSingle()
+  const nextNo = (maxRow?.receipt_no || 0) + 1
+  return { receipt_no: nextNo, receipt_year: receiptYear }
+}
+
 export async function getAllFees() {
   const supabase = await createClient()
   const { data } = await supabase.from("fees").select("*")
@@ -52,6 +72,13 @@ export async function addFee(formData: FormData) {
   if (!raw.payment_date) raw.payment_date = null
   if (!raw.cheque_date) raw.cheque_date = null
   delete raw.duration_months
+  if (raw.status === "Paid" && raw.student_id) {
+    const receipt = await generateReceiptNo(supabase, raw.student_id, raw.fee_category || "School")
+    if (receipt) {
+      raw.receipt_no = receipt.receipt_no
+      raw.receipt_year = receipt.receipt_year
+    }
+  }
   const { data: inserted, error } = await supabase.from("fees").insert([raw]).select("id").single()
   if (!error && inserted) {
     // Generate only 1 installment for the full amount
@@ -97,6 +124,18 @@ export async function updateFee(id: number, formData: FormData) {
   if (!raw.cheque_date) raw.cheque_date = null
   delete raw.id
   delete raw.duration_months
+  delete raw.receipt_no
+  delete raw.receipt_year
+  if (raw.status === "Paid" && raw.student_id) {
+    const { data: existing } = await supabase.from("fees").select("receipt_no, receipt_year").eq("id", id).maybeSingle()
+    if (!existing?.receipt_no) {
+      const receipt = await generateReceiptNo(supabase, raw.student_id, raw.fee_category || "School")
+      if (receipt) {
+        raw.receipt_no = receipt.receipt_no
+        raw.receipt_year = receipt.receipt_year
+      }
+    }
+  }
   const { error } = await supabase.from("fees").update(raw).eq("id", id)
   if (!error) {
     await deleteInstallmentsByFeeId(id)

@@ -75,6 +75,8 @@ export interface Fee {
   cheque_date: string | null
   bank_name: string | null
   particulars: any
+  receipt_no: number | null
+  receipt_year: string | null
   receipt_file_url: string | null
   school_id: number | null
   created_at?: string
@@ -86,6 +88,7 @@ export interface FeeParticular {
   particular_name: string | null
   amount: number | null
   duration_months: number | null
+  term: string | null
   fee_type_id: number | null
   fee_category: string | null
   school_id: number | null

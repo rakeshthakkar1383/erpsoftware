@@ -1,7 +1,5 @@
 {
-  "/trust-info/page": "app/trust-info/page.js",
-  "/teachers/page": "app/teachers/page.js",
-  "/fees/page": "app/fees/page.js",
-  "/manage-users/page": "app/manage-users/page.js",
-  "/students/page": "app/students/page.js"
+  "/login/page": "app/login/page.js",
+  "/dashboard/page": "app/dashboard/page.js",
+  "/manage-schools/page": "app/manage-schools/page.js"
 }
