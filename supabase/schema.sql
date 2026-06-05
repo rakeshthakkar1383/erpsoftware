@@ -50,8 +50,14 @@ CREATE TABLE IF NOT EXISTS students (
   roll_no bigint,
   photo_url text,
   birth_cert_url text,
+  aadhar_no text,
   aadhar_url text,
   father_aadhar_url text,
+  father_mobile text,
+  mother_mobile text,
+  category text,
+  ration_card_url text,
+  category_cert_url text,
   school_id bigint REFERENCES school_info(id) ON DELETE CASCADE,
   created_at timestamp DEFAULT now()
 );
@@ -63,6 +69,7 @@ CREATE TABLE IF NOT EXISTS teachers (
   subject text,
   mobile text,
   salary numeric(10,2),
+  category text,
   school_id bigint REFERENCES school_info(id) ON DELETE CASCADE
 );
 
@@ -198,7 +205,34 @@ CREATE TABLE IF NOT EXISTS teacher_subjects (
   school_id bigint REFERENCES school_info(id) ON DELETE CASCADE
 );
 
--- 15. trust_info
+-- 15. leave_types
+CREATE TABLE IF NOT EXISTS leave_types (
+  id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  name text NOT NULL,
+  short_code text,
+  description text,
+  max_days integer DEFAULT 0,
+  school_id bigint REFERENCES school_info(id) ON DELETE CASCADE,
+  created_at timestamp DEFAULT now()
+);
+
+-- 16. leaves
+CREATE TABLE IF NOT EXISTS leaves (
+  id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  applicant_type text NOT NULL CHECK (applicant_type IN ('student', 'teacher')),
+  applicant_id bigint NOT NULL,
+  leave_type_id bigint REFERENCES leave_types(id) ON DELETE SET NULL,
+  from_date text NOT NULL,
+  to_date text NOT NULL,
+  days integer NOT NULL DEFAULT 1,
+  reason text,
+  status text DEFAULT 'Pending' CHECK (status IN ('Pending', 'Approved', 'Rejected', 'Cancelled')),
+  remarks text,
+  school_id bigint REFERENCES school_info(id) ON DELETE CASCADE,
+  created_at timestamp DEFAULT now()
+);
+
+-- 17. trust_info
 CREATE TABLE IF NOT EXISTS trust_info (
   id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
   trust_name text NOT NULL,
@@ -233,6 +267,8 @@ ALTER TABLE subjects ENABLE ROW LEVEL SECURITY;
 ALTER TABLE divisions ENABLE ROW LEVEL SECURITY;
 ALTER TABLE streams ENABLE ROW LEVEL SECURITY;
 ALTER TABLE teacher_subjects ENABLE ROW LEVEL SECURITY;
+ALTER TABLE leave_types ENABLE ROW LEVEL SECURITY;
+ALTER TABLE leaves ENABLE ROW LEVEL SECURITY;
 ALTER TABLE trust_info ENABLE ROW LEVEL SECURITY;
 
 -- Drop existing policies to allow idempotent re-runs
@@ -296,6 +332,14 @@ DROP POLICY IF EXISTS teacher_subjects_select ON teacher_subjects;
 DROP POLICY IF EXISTS teacher_subjects_insert ON teacher_subjects;
 DROP POLICY IF EXISTS teacher_subjects_update ON teacher_subjects;
 DROP POLICY IF EXISTS teacher_subjects_delete ON teacher_subjects;
+DROP POLICY IF EXISTS leave_types_select ON leave_types;
+DROP POLICY IF EXISTS leave_types_insert ON leave_types;
+DROP POLICY IF EXISTS leave_types_update ON leave_types;
+DROP POLICY IF EXISTS leave_types_delete ON leave_types;
+DROP POLICY IF EXISTS leaves_select ON leaves;
+DROP POLICY IF EXISTS leaves_insert ON leaves;
+DROP POLICY IF EXISTS leaves_update ON leaves;
+DROP POLICY IF EXISTS leaves_delete ON leaves;
 DROP POLICY IF EXISTS trust_info_select ON trust_info;
 DROP POLICY IF EXISTS trust_info_insert ON trust_info;
 DROP POLICY IF EXISTS trust_info_update ON trust_info;
@@ -423,6 +467,18 @@ CREATE POLICY teacher_subjects_select ON teacher_subjects FOR SELECT USING (scho
 CREATE POLICY teacher_subjects_insert ON teacher_subjects FOR INSERT WITH CHECK (school_id = get_school_id() OR get_user_role() = 'admin');
 CREATE POLICY teacher_subjects_update ON teacher_subjects FOR UPDATE USING (school_id = get_school_id() OR get_user_role() = 'admin');
 CREATE POLICY teacher_subjects_delete ON teacher_subjects FOR DELETE USING (school_id = get_school_id() OR get_user_role() = 'admin');
+
+-- leave_types
+CREATE POLICY leave_types_select ON leave_types FOR SELECT USING (school_id = get_school_id() OR get_user_role() IN ('admin', 'authority'));
+CREATE POLICY leave_types_insert ON leave_types FOR INSERT WITH CHECK (school_id = get_school_id() OR get_user_role() IN ('admin', 'authority'));
+CREATE POLICY leave_types_update ON leave_types FOR UPDATE USING (school_id = get_school_id() OR get_user_role() IN ('admin', 'authority'));
+CREATE POLICY leave_types_delete ON leave_types FOR DELETE USING (school_id = get_school_id() OR get_user_role() IN ('admin', 'authority'));
+
+-- leaves
+CREATE POLICY leaves_select ON leaves FOR SELECT USING (school_id = get_school_id() OR get_user_role() IN ('admin', 'authority'));
+CREATE POLICY leaves_insert ON leaves FOR INSERT WITH CHECK (school_id = get_school_id() OR get_user_role() IN ('admin', 'authority'));
+CREATE POLICY leaves_update ON leaves FOR UPDATE USING (school_id = get_school_id() OR get_user_role() IN ('admin', 'authority'));
+CREATE POLICY leaves_delete ON leaves FOR DELETE USING (school_id = get_school_id() OR get_user_role() IN ('admin', 'authority'));
 
 -- trust_info
 CREATE POLICY trust_info_select ON trust_info FOR SELECT USING (school_id = get_school_id() OR get_user_role() = 'admin');

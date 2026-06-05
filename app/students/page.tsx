@@ -35,8 +35,6 @@ export default async function StudentsPage() {
     schoolLogo = school?.logo_url || ""
   }
 
-  const { data: allSchools } = await supabase.from("school_info").select("id, school_name").order("school_name")
-
   const teacherClass = user?.user_metadata?.class_name || ""
 
   return (
@@ -45,7 +43,6 @@ export default async function StudentsPage() {
       divisions={divisions}
       streams={streams}
       years={years}
-      allSchools={allSchools || []}
       teacherClass={teacherClass}
       schoolId={schoolId}
       schoolName={schoolName}

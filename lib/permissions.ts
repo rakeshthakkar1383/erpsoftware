@@ -13,6 +13,12 @@ export const allTabs = [
   { key: "fees", label: "Fees" },
   { key: "attendance", label: "Attendance" },
   { key: "manage-users", label: "User Management" },
+  { key: "marksheet", label: "Marksheet" },
+  { key: "leave-types", label: "Leave Type" },
+  { key: "leaves", label: "Leave Management" },
+  { key: "leaves/student", label: "Student Leave" },
+  { key: "leaves/teacher", label: "Teacher Leave" },
+  { key: "academic-years", label: "Academic Years" },
 ]
 
 export const roleDefaults: Record<string, string[]> = {
@@ -21,6 +27,6 @@ export const roleDefaults: Record<string, string[]> = {
   principal: allTabs.map(t => t.key),
   supervision: ["dashboard", "students", "teachers", "subjects", "divisions", "fee-types", "fee-particulars", "fees", "attendance"],
   clerk: ["dashboard", "students", "fees", "attendance"],
-  teacher: ["dashboard", "students", "fees", "attendance"],
-  student: ["dashboard"],
+  teacher: ["dashboard", "students", "fees", "attendance", "leaves/teacher"],
+  student: ["dashboard", "leaves/student"],
 }

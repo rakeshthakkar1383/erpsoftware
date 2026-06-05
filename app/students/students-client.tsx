@@ -10,7 +10,8 @@ const emptyForm: Record<string, string> = {
   full_name: "", gender: "", father_name: "", mother_name: "",
   dob: "", birthplace: "", address: "", village: "", district: "", pincode: "",
   last_school: "", roll_no: "", division: "", class_name: "", stream: "",
-  academic_year_id: "", photo_url: "", birth_cert_url: "", aadhar_url: "", father_aadhar_url: "",
+  academic_year_id: "", photo_url: "", birth_cert_url: "", aadhar_no: "", aadhar_url: "", father_aadhar_url: "",
+  father_mobile: "", mother_mobile: "", category: "", ration_card_url: "", category_cert_url: "",
   gr_no: "", admission_no: ""
 }
 
@@ -19,7 +20,6 @@ type StudentsClientProps = {
   divisions: any[]
   streams: any[]
   years: any[]
-  allSchools: { id: number; school_name: string | null }[]
   teacherClass: string
   schoolId: number | null
   schoolName?: string
@@ -27,7 +27,7 @@ type StudentsClientProps = {
 }
 
 export default function StudentsClient({ 
-  students: initialStudents, divisions, streams, years, allSchools, teacherClass, schoolId, schoolName, schoolLogo 
+  students: initialStudents, divisions, streams, years, teacherClass, schoolId, schoolName, schoolLogo 
 }: StudentsClientProps) {
   const [students, setStudents] = useState(initialStudents)
   const [filterClass, setFilterClass] = useState(teacherClass)
@@ -299,15 +299,7 @@ export default function StudentsClient({
                   <div className="space-y-6">
                      <h4 className="border-b-2 border-blue-600 text-[11px] font-black text-blue-600 uppercase tracking-[0.2em] pb-1">Academic Assignment</h4>
                      <div className="grid grid-cols-2 gap-4">
-                        {!schoolId && (
-                          <div className="col-span-2 space-y-1">
-                            <label className="text-[10px] font-black text-slate-500 uppercase">Parent School *</label>
-                            <select className="w-full rounded border bg-slate-50 p-3 text-sm font-bold" value={form.school_id || ""} onChange={e => setForm({ ...form, school_id: e.target.value })}>
-                              <option value="">SELECT SCHOOL</option>
-                              {allSchools.map((s: any) => <option key={s.id} value={s.id}>{s.school_name}</option>)}
-                            </select>
-                          </div>
-                        )}
+
                         <div className="space-y-1">
                            <label className="text-[10px] font-black text-slate-500 uppercase">Class *</label>
                            <select className="w-full rounded-lg border bg-white p-3 text-sm font-bold shadow-sm" value={form.class_name} onChange={set("class_name")}>
@@ -329,28 +321,56 @@ export default function StudentsClient({
                            <input className="w-full rounded-lg border bg-white p-3 text-sm font-bold shadow-sm" type="number" placeholder="ROLL NO" value={form.roll_no} onChange={e => setForm({ ...form, roll_no: e.target.value })} />
                         </div>
                         <div className="space-y-1">
-                           <label className="text-[10px] font-black text-slate-500 uppercase">Admission No</label>
-                           <input className="w-full rounded-lg border bg-white p-3 text-sm font-bold shadow-sm" placeholder="ADM NO" value={form.admission_no} onChange={set("admission_no")} />
-                        </div>
-                     </div>
+                            <label className="text-[10px] font-black text-slate-500 uppercase">Admission No</label>
+                            <input className="w-full rounded-lg border bg-white p-3 text-sm font-bold shadow-sm" placeholder="ADM NO" value={form.admission_no} onChange={set("admission_no")} />
+                         </div>
+                          <div className="col-span-2 space-y-1">
+                             <label className="text-[10px] font-black text-slate-500 uppercase">Aadhar Number</label>
+                             <input className="w-full rounded-lg border bg-white p-3 text-sm font-bold shadow-sm" placeholder="12-DIGIT AADHAR NO" value={form.aadhar_no} onChange={set("aadhar_no")} />
+                          </div>
+                          <div className="col-span-2 space-y-1">
+                             <label className="text-[10px] font-black text-slate-500 uppercase">Last School</label>
+                             <input className="w-full rounded-lg border bg-white p-3 text-sm font-bold shadow-sm" placeholder="LAST SCHOOL NAME" value={form.last_school} onChange={set("last_school")} />
+                          </div>
+                       </div>
                   </div>
 
-                  <div className="space-y-6">
-                     <h4 className="border-b-2 border-orange-500 text-[11px] font-black text-orange-600 uppercase tracking-[0.2em] pb-1">Family Details</h4>
-                     <div className="grid grid-cols-1 gap-4">
-                        <div className="space-y-1">
-                           <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Father's Name</label>
-                           <input className="w-full rounded-lg border bg-white p-3 text-sm font-bold shadow-sm" placeholder="FATHER'S FULL NAME" value={form.father_name} onChange={set("father_name")} />
-                        </div>
-                        <div className="space-y-1">
-                           <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Mother's Name</label>
-                           <input className="w-full rounded-lg border bg-white p-3 text-sm font-bold shadow-sm" placeholder="MOTHER'S FULL NAME" value={form.mother_name} onChange={set("mother_name")} />
-                        </div>
+                   <div className="space-y-6">
+                      <h4 className="border-b-2 border-orange-500 text-[11px] font-black text-orange-600 uppercase tracking-[0.2em] pb-1">Family Details</h4>
+                      <div className="grid grid-cols-1 gap-4">
+                         <div className="space-y-1">
+                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Father's Name</label>
+                            <input className="w-full rounded-lg border bg-white p-3 text-sm font-bold shadow-sm" placeholder="FATHER'S FULL NAME" value={form.father_name} onChange={set("father_name")} />
+                         </div>
+                         <div className="space-y-1">
+                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Father's Mobile</label>
+                            <input className="w-full rounded-lg border bg-white p-3 text-sm font-bold shadow-sm" placeholder="FATHER'S CONTACT NO" value={form.father_mobile} onChange={set("father_mobile")} />
+                         </div>
+                         <div className="space-y-1">
+                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Mother's Name</label>
+                            <input className="w-full rounded-lg border bg-white p-3 text-sm font-bold shadow-sm" placeholder="MOTHER'S FULL NAME" value={form.mother_name} onChange={set("mother_name")} />
+                         </div>
+                         <div className="space-y-1">
+                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Mother's Mobile</label>
+                            <input className="w-full rounded-lg border bg-white p-3 text-sm font-bold shadow-sm" placeholder="MOTHER'S CONTACT NO" value={form.mother_mobile} onChange={set("mother_mobile")} />
+                         </div>
+                         <div className="space-y-1">
+                            <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Category</label>
+                            <select className="w-full rounded-lg border bg-white p-3 text-sm font-bold shadow-sm" value={form.category} onChange={set("category")}>
+                              <option value="">SELECT CATEGORY</option>
+                              <option value="General">General</option>
+                              <option value="OBC">OBC</option>
+                              <option value="SC">SC</option>
+                              <option value="ST">ST</option>
+                              <option value="EWS">EWS</option>
+                              <option value="Other">Other</option>
+                            </select>
+                         </div>
+                       </div>
                      </div>
-                  </div>
-               </div>
+                </div>
 
-               {/* Section 3: Location and Last School */}
+                {/* Section 3: Location and Last School */}
                <div className="grid grid-cols-1 md:grid-cols-3 gap-10 bg-slate-50/50 p-6 rounded-2xl border">
                   <div className="md:col-span-2 space-y-4">
                      <h4 className="text-[11px] font-black text-slate-400 uppercase tracking-widest border-b pb-1">Residential Information</h4>
@@ -400,11 +420,13 @@ export default function StudentsClient({
                <div className="space-y-6">
                   <h4 className="border-b-2 border-green-600 text-[11px] font-black text-green-700 uppercase tracking-[0.2em] pb-1">Required Document Uploads</h4>
                   <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                     {[
-                       { label: "Birth Certificate", field: "birth_cert_url" },
-                       { label: "Student Aadhar Card", field: "aadhar_url" },
-                       { label: "Father's Aadhar Card", field: "father_aadhar_url" }
-                     ].map(doc => (
+                      {[
+                        { label: "Birth Certificate", field: "birth_cert_url" },
+                        { label: "Student Aadhar Card", field: "aadhar_url" },
+                        { label: "Father's Aadhar Card", field: "father_aadhar_url" },
+                        { label: "Ration Card", field: "ration_card_url" },
+                        { label: "Category Certificate", field: "category_cert_url" }
+                      ].map(doc => (
                        <div key={doc.field} className="relative rounded-xl border p-4 transition-all hover:bg-slate-50">
                           <label className="mb-2 block text-[10px] font-black uppercase tracking-widest text-slate-500">{doc.label}</label>
                           <div className="flex items-center gap-3">

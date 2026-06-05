@@ -1,0 +1,1 @@
+ALTER TABLE leaves ADD COLUMN IF NOT EXISTS trust_id bigint REFERENCES trust_info(id) ON DELETE SET NULL;

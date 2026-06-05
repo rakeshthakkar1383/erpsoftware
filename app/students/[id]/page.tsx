@@ -73,7 +73,10 @@ export default async function StudentDetailPage({ params }: { params: Promise<{ 
               <div><span className="font-medium text-slate-500">Gender:</span> <span className="text-slate-800">{student.gender || "-"}</span></div>
               <div><span className="font-medium text-slate-500">Date of Birth:</span> <span className="text-slate-800">{student.dob || "-"} ({calculateAge(student.dob)})</span></div>
               <div><span className="font-medium text-slate-500">Father's Name:</span> <span className="text-slate-800">{student.father_name || "-"}</span></div>
+              <div><span className="font-medium text-slate-500">Father's Mobile:</span> <span className="text-slate-800">{student.father_mobile || "-"}</span></div>
               <div><span className="font-medium text-slate-500">Mother's Name:</span> <span className="text-slate-800">{student.mother_name || "-"}</span></div>
+              <div><span className="font-medium text-slate-500">Mother's Mobile:</span> <span className="text-slate-800">{student.mother_mobile || "-"}</span></div>
+              <div><span className="font-medium text-slate-500">Category:</span> <span className="text-slate-800">{student.category || "-"}</span></div>
               <div><span className="font-medium text-slate-500">Birth Place:</span> <span className="text-slate-800">{student.birthplace || "-"}</span></div>
               <div><span className="font-medium text-slate-500">Mobile:</span> <span className="text-slate-800">{student.mobile || "-"}</span></div>
               <div className="col-span-2"><span className="font-medium text-slate-500">Address:</span> <span className="text-slate-800">{student.address || "-"}</span></div>
@@ -117,7 +120,23 @@ export default async function StudentDetailPage({ params }: { params: Promise<{ 
                   </a>
                 </div>
               )}
-              {!student.photo_url && !student.birth_cert_url && !student.aadhar_url && !student.father_aadhar_url && (
+              {student.ration_card_url && (
+                <div>
+                  <p className="text-xs font-medium text-slate-500 mb-1">Ration Card</p>
+                  <a href={student.ration_card_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 rounded bg-blue-50 px-3 py-1.5 text-xs text-blue-700 hover:bg-blue-100">
+                    View Document
+                  </a>
+                </div>
+              )}
+              {student.category_cert_url && (
+                <div>
+                  <p className="text-xs font-medium text-slate-500 mb-1">Category Certificate</p>
+                  <a href={student.category_cert_url} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 rounded bg-blue-50 px-3 py-1.5 text-xs text-blue-700 hover:bg-blue-100">
+                    View Document
+                  </a>
+                </div>
+              )}
+              {!student.photo_url && !student.birth_cert_url && !student.aadhar_url && !student.father_aadhar_url && !student.ration_card_url && !student.category_cert_url && (
                 <p className="col-span-2 text-sm text-slate-400">No documents uploaded.</p>
               )}
             </div>

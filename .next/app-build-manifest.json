@@ -26,65 +26,45 @@
       "static/chunks/main-app.js",
       "static/chunks/app/dashboard/page.js"
     ],
-    "/manage-schools/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/manage-schools/page.js"
-    ],
-    "/subjects/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/subjects/page.js"
-    ],
-    "/teacher-subjects/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/teacher-subjects/page.js"
-    ],
-    "/divisions/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/divisions/page.js"
-    ],
-    "/teachers/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/teachers/page.js"
-    ],
     "/students/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/students/page.js"
     ],
-    "/manage-users/page": [
+    "/academic-years/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/manage-users/page.js"
+      "static/chunks/app/academic-years/page.js"
     ],
-    "/fees/page": [
+    "/marksheet/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/fees/page.js"
+      "static/chunks/app/marksheet/page.js"
     ],
-    "/attendance/page": [
+    "/leave-types/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/attendance/page.js"
+      "static/chunks/app/leave-types/page.js"
     ],
-    "/trust-info/page": [
+    "/leaves/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/trust-info/page.js"
+      "static/chunks/app/leaves/page.js"
     ],
-    "/streams/page": [
+    "/leaves/student/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/streams/page.js"
+      "static/chunks/app/leaves/student/page.js"
     ],
-    "/fee-particulars/page": [
+    "/leaves/teacher/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/fee-particulars/page.js"
+      "static/chunks/app/leaves/teacher/page.js"
+    ],
+    "/teachers/page": [
+      "static/chunks/webpack.js",
+      "static/chunks/main-app.js",
+      "static/chunks/app/teachers/page.js"
     ]
   }
 }

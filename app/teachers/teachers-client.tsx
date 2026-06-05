@@ -13,7 +13,7 @@ const emptyForm = {
   classes: "", subjects: "", school_id: "",
   aadhar_no: "", pan_no: "", designation: "", basic_pay: "", grade_pay: "",
   staff_code: "", gender: "", bank_account_no: "", bank_ifsc: "", bank_name: "",
-  blood_group: "", marital_status: "", aadhar_url: "", pan_url: ""
+  blood_group: "", marital_status: "", category: "", aadhar_url: "", pan_url: ""
 }
 
 export default function TeachersClient({ allSchools, schoolId, allSubjects, allTrusts }: { allSchools: any[], schoolId: number | null, allSubjects: any[], allTrusts: any[] }) {
@@ -291,10 +291,22 @@ export default function TeachersClient({ allSchools, schoolId, allSubjects, allT
                           <label className="text-[10px] font-bold text-slate-500 uppercase">Aadhar Number</label>
                           <input className="w-full rounded border p-3 text-sm" placeholder="AADHAR NO" value={form.aadhar_no} onChange={set("aadhar_no")} />
                        </div>
-                       <div className="col-span-2 space-y-1">
-                          <label className="text-[10px] font-bold text-slate-500 uppercase">PAN Number</label>
-                          <input className="w-full rounded border p-3 text-sm" placeholder="PAN NO" value={form.pan_no} onChange={set("pan_no")} />
-                       </div>
+                        <div className="col-span-2 space-y-1">
+                           <label className="text-[10px] font-bold text-slate-500 uppercase">PAN Number</label>
+                           <input className="w-full rounded border p-3 text-sm" placeholder="PAN NO" value={form.pan_no} onChange={set("pan_no")} />
+                        </div>
+                        <div className="col-span-2 space-y-1">
+                           <label className="text-[10px] font-bold text-slate-500 uppercase">Category</label>
+                           <select className="w-full rounded border p-3 text-sm" value={form.category} onChange={set("category")}>
+                             <option value="">SELECT CATEGORY</option>
+                             <option value="General">General</option>
+                             <option value="OBC">OBC</option>
+                             <option value="SC">SC</option>
+                             <option value="ST">ST</option>
+                             <option value="EWS">EWS</option>
+                             <option value="Other">Other</option>
+                           </select>
+                        </div>
                        <div className="space-y-1">
                           <label className="text-[10px] font-bold text-slate-500 uppercase">Birth Date</label>
                           <input className="w-full rounded border p-3 text-sm" type="date" value={form.dob} onChange={set("dob")} />
