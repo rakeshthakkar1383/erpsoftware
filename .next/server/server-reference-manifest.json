@@ -4,377 +4,127 @@
       "workers": {
         "app/login/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
         "app/dashboard/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/students/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/academic-years/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Facademic-years%2Factions.ts%22%2C%5B%22updateAcademicYear%22%2C%22getAllAcademicYears%22%2C%22addAcademicYear%22%2C%22deleteAcademicYear%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/marksheet/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/leave-types/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fleave-types%2Factions.ts%22%2C%5B%22updateLeaveType%22%2C%22getAllLeaveTypes%22%2C%22addLeaveType%22%2C%22deleteLeaveType%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/leaves/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fleaves%2Factions.ts%22%2C%5B%22getAllTrusts%22%2C%22getAllSchools%22%2C%22deleteLeave%22%2C%22getAllLeaves%22%2C%22getAllTeachers%22%2C%22updateLeaveStatus%22%2C%22addLeave%22%2C%22getAllLeaveTypes%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/leaves/student/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fleaves%2Factions.ts%22%2C%5B%22getAllTrusts%22%2C%22getAllSchools%22%2C%22deleteLeave%22%2C%22getAllLeaves%22%2C%22getAllTeachers%22%2C%22updateLeaveStatus%22%2C%22addLeave%22%2C%22getAllLeaveTypes%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/leaves/teacher/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fleaves%2Factions.ts%22%2C%5B%22getAllTrusts%22%2C%22getAllSchools%22%2C%22deleteLeave%22%2C%22getAllLeaves%22%2C%22getAllTeachers%22%2C%22updateLeaveStatus%22%2C%22addLeave%22%2C%22getAllLeaveTypes%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/teachers/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fteachers%2Factions.ts%22%2C%5B%22getAllTeachers%22%2C%22updateTeacher%22%2C%22addTeacher%22%2C%22deleteTeacher%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
+        "app/fees/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Factions.ts%22%2C%5B%22getAllFees%22%2C%22addFee%22%2C%22updateFee%22%2C%22deleteFee%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Finstallment-actions.ts%22%2C%5B%22generateInstallments%22%2C%22updateInstallmentStatus%22%2C%22getInstallmentsByFeeId%22%2C%22deleteInstallmentsByFeeId%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
       },
       "layer": {
         "app/login/page": "action-browser",
         "app/dashboard/page": "action-browser",
-        "app/students/page": "action-browser",
-        "app/academic-years/page": "action-browser",
-        "app/marksheet/page": "action-browser",
-        "app/leave-types/page": "action-browser",
-        "app/leaves/page": "action-browser",
-        "app/leaves/student/page": "action-browser",
-        "app/leaves/teacher/page": "action-browser",
-        "app/teachers/page": "action-browser"
+        "app/fees/page": "action-browser"
       }
     },
     "1032b681b35ab85b113b48f7479bd10b250bea7a": {
       "workers": {
         "app/login/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
         "app/dashboard/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/students/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/academic-years/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Facademic-years%2Factions.ts%22%2C%5B%22updateAcademicYear%22%2C%22getAllAcademicYears%22%2C%22addAcademicYear%22%2C%22deleteAcademicYear%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/marksheet/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/leave-types/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fleave-types%2Factions.ts%22%2C%5B%22updateLeaveType%22%2C%22getAllLeaveTypes%22%2C%22addLeaveType%22%2C%22deleteLeaveType%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/leaves/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fleaves%2Factions.ts%22%2C%5B%22getAllTrusts%22%2C%22getAllSchools%22%2C%22deleteLeave%22%2C%22getAllLeaves%22%2C%22getAllTeachers%22%2C%22updateLeaveStatus%22%2C%22addLeave%22%2C%22getAllLeaveTypes%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/leaves/student/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fleaves%2Factions.ts%22%2C%5B%22getAllTrusts%22%2C%22getAllSchools%22%2C%22deleteLeave%22%2C%22getAllLeaves%22%2C%22getAllTeachers%22%2C%22updateLeaveStatus%22%2C%22addLeave%22%2C%22getAllLeaveTypes%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/leaves/teacher/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fleaves%2Factions.ts%22%2C%5B%22getAllTrusts%22%2C%22getAllSchools%22%2C%22deleteLeave%22%2C%22getAllLeaves%22%2C%22getAllTeachers%22%2C%22updateLeaveStatus%22%2C%22addLeave%22%2C%22getAllLeaveTypes%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/teachers/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fteachers%2Factions.ts%22%2C%5B%22getAllTeachers%22%2C%22updateTeacher%22%2C%22addTeacher%22%2C%22deleteTeacher%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
+        "app/fees/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Factions.ts%22%2C%5B%22getAllFees%22%2C%22addFee%22%2C%22updateFee%22%2C%22deleteFee%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Finstallment-actions.ts%22%2C%5B%22generateInstallments%22%2C%22updateInstallmentStatus%22%2C%22getInstallmentsByFeeId%22%2C%22deleteInstallmentsByFeeId%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
       },
       "layer": {
         "app/login/page": "action-browser",
         "app/dashboard/page": "action-browser",
-        "app/students/page": "action-browser",
-        "app/academic-years/page": "action-browser",
-        "app/marksheet/page": "action-browser",
-        "app/leave-types/page": "action-browser",
-        "app/leaves/page": "action-browser",
-        "app/leaves/student/page": "action-browser",
-        "app/leaves/teacher/page": "action-browser",
-        "app/teachers/page": "action-browser"
+        "app/fees/page": "action-browser"
       }
     },
     "3f1126cd6dea36798eed8e98e29a233f988b3be9": {
       "workers": {
         "app/login/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
         "app/dashboard/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/students/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/academic-years/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Facademic-years%2Factions.ts%22%2C%5B%22updateAcademicYear%22%2C%22getAllAcademicYears%22%2C%22addAcademicYear%22%2C%22deleteAcademicYear%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/marksheet/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/leave-types/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fleave-types%2Factions.ts%22%2C%5B%22updateLeaveType%22%2C%22getAllLeaveTypes%22%2C%22addLeaveType%22%2C%22deleteLeaveType%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/leaves/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fleaves%2Factions.ts%22%2C%5B%22getAllTrusts%22%2C%22getAllSchools%22%2C%22deleteLeave%22%2C%22getAllLeaves%22%2C%22getAllTeachers%22%2C%22updateLeaveStatus%22%2C%22addLeave%22%2C%22getAllLeaveTypes%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/leaves/student/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fleaves%2Factions.ts%22%2C%5B%22getAllTrusts%22%2C%22getAllSchools%22%2C%22deleteLeave%22%2C%22getAllLeaves%22%2C%22getAllTeachers%22%2C%22updateLeaveStatus%22%2C%22addLeave%22%2C%22getAllLeaveTypes%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/leaves/teacher/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fleaves%2Factions.ts%22%2C%5B%22getAllTrusts%22%2C%22getAllSchools%22%2C%22deleteLeave%22%2C%22getAllLeaves%22%2C%22getAllTeachers%22%2C%22updateLeaveStatus%22%2C%22addLeave%22%2C%22getAllLeaveTypes%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/teachers/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fteachers%2Factions.ts%22%2C%5B%22getAllTeachers%22%2C%22updateTeacher%22%2C%22addTeacher%22%2C%22deleteTeacher%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
+        "app/fees/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Factions.ts%22%2C%5B%22getAllFees%22%2C%22addFee%22%2C%22updateFee%22%2C%22deleteFee%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Finstallment-actions.ts%22%2C%5B%22generateInstallments%22%2C%22updateInstallmentStatus%22%2C%22getInstallmentsByFeeId%22%2C%22deleteInstallmentsByFeeId%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
       },
       "layer": {
         "app/login/page": "action-browser",
         "app/dashboard/page": "action-browser",
-        "app/students/page": "action-browser",
-        "app/academic-years/page": "action-browser",
-        "app/marksheet/page": "action-browser",
-        "app/leave-types/page": "action-browser",
-        "app/leaves/page": "action-browser",
-        "app/leaves/student/page": "action-browser",
-        "app/leaves/teacher/page": "action-browser",
-        "app/teachers/page": "action-browser"
+        "app/fees/page": "action-browser"
       }
     },
     "d0a135f19415a7682d73938cddad8e09b0fa8e7a": {
       "workers": {
         "app/login/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
         "app/dashboard/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/students/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/academic-years/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Facademic-years%2Factions.ts%22%2C%5B%22updateAcademicYear%22%2C%22getAllAcademicYears%22%2C%22addAcademicYear%22%2C%22deleteAcademicYear%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/marksheet/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/leave-types/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fleave-types%2Factions.ts%22%2C%5B%22updateLeaveType%22%2C%22getAllLeaveTypes%22%2C%22addLeaveType%22%2C%22deleteLeaveType%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/leaves/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fleaves%2Factions.ts%22%2C%5B%22getAllTrusts%22%2C%22getAllSchools%22%2C%22deleteLeave%22%2C%22getAllLeaves%22%2C%22getAllTeachers%22%2C%22updateLeaveStatus%22%2C%22addLeave%22%2C%22getAllLeaveTypes%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/leaves/student/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fleaves%2Factions.ts%22%2C%5B%22getAllTrusts%22%2C%22getAllSchools%22%2C%22deleteLeave%22%2C%22getAllLeaves%22%2C%22getAllTeachers%22%2C%22updateLeaveStatus%22%2C%22addLeave%22%2C%22getAllLeaveTypes%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/leaves/teacher/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fleaves%2Factions.ts%22%2C%5B%22getAllTrusts%22%2C%22getAllSchools%22%2C%22deleteLeave%22%2C%22getAllLeaves%22%2C%22getAllTeachers%22%2C%22updateLeaveStatus%22%2C%22addLeave%22%2C%22getAllLeaveTypes%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/teachers/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fteachers%2Factions.ts%22%2C%5B%22getAllTeachers%22%2C%22updateTeacher%22%2C%22addTeacher%22%2C%22deleteTeacher%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
+        "app/fees/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Factions.ts%22%2C%5B%22getAllFees%22%2C%22addFee%22%2C%22updateFee%22%2C%22deleteFee%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Finstallment-actions.ts%22%2C%5B%22generateInstallments%22%2C%22updateInstallmentStatus%22%2C%22getInstallmentsByFeeId%22%2C%22deleteInstallmentsByFeeId%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
       },
       "layer": {
         "app/login/page": "action-browser",
         "app/dashboard/page": "action-browser",
-        "app/students/page": "action-browser",
-        "app/academic-years/page": "action-browser",
-        "app/marksheet/page": "action-browser",
-        "app/leave-types/page": "action-browser",
-        "app/leaves/page": "action-browser",
-        "app/leaves/student/page": "action-browser",
-        "app/leaves/teacher/page": "action-browser",
-        "app/teachers/page": "action-browser"
+        "app/fees/page": "action-browser"
       }
     },
     "ec4bc750b79bdea553e9bbe87014c21b2db652f8": {
       "workers": {
         "app/login/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
         "app/dashboard/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/students/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/academic-years/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Facademic-years%2Factions.ts%22%2C%5B%22updateAcademicYear%22%2C%22getAllAcademicYears%22%2C%22addAcademicYear%22%2C%22deleteAcademicYear%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/marksheet/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/leave-types/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fleave-types%2Factions.ts%22%2C%5B%22updateLeaveType%22%2C%22getAllLeaveTypes%22%2C%22addLeaveType%22%2C%22deleteLeaveType%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/leaves/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fleaves%2Factions.ts%22%2C%5B%22getAllTrusts%22%2C%22getAllSchools%22%2C%22deleteLeave%22%2C%22getAllLeaves%22%2C%22getAllTeachers%22%2C%22updateLeaveStatus%22%2C%22addLeave%22%2C%22getAllLeaveTypes%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/leaves/student/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fleaves%2Factions.ts%22%2C%5B%22getAllTrusts%22%2C%22getAllSchools%22%2C%22deleteLeave%22%2C%22getAllLeaves%22%2C%22getAllTeachers%22%2C%22updateLeaveStatus%22%2C%22addLeave%22%2C%22getAllLeaveTypes%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/leaves/teacher/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fleaves%2Factions.ts%22%2C%5B%22getAllTrusts%22%2C%22getAllSchools%22%2C%22deleteLeave%22%2C%22getAllLeaves%22%2C%22getAllTeachers%22%2C%22updateLeaveStatus%22%2C%22addLeave%22%2C%22getAllLeaveTypes%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/teachers/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fteachers%2Factions.ts%22%2C%5B%22getAllTeachers%22%2C%22updateTeacher%22%2C%22addTeacher%22%2C%22deleteTeacher%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
+        "app/fees/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Factions.ts%22%2C%5B%22getAllFees%22%2C%22addFee%22%2C%22updateFee%22%2C%22deleteFee%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Finstallment-actions.ts%22%2C%5B%22generateInstallments%22%2C%22updateInstallmentStatus%22%2C%22getInstallmentsByFeeId%22%2C%22deleteInstallmentsByFeeId%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
       },
       "layer": {
         "app/login/page": "action-browser",
         "app/dashboard/page": "action-browser",
-        "app/students/page": "action-browser",
-        "app/academic-years/page": "action-browser",
-        "app/marksheet/page": "action-browser",
-        "app/leave-types/page": "action-browser",
-        "app/leaves/page": "action-browser",
-        "app/leaves/student/page": "action-browser",
-        "app/leaves/teacher/page": "action-browser",
-        "app/teachers/page": "action-browser"
+        "app/fees/page": "action-browser"
       }
     },
-    "03510f5a7022562039fe3e273d55a32f0a5e580a": {
+    "50c75a08c02b0b7f0291dde15362c83df40533ef": {
       "workers": {
-        "app/students/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
+        "app/fees/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Factions.ts%22%2C%5B%22getAllFees%22%2C%22addFee%22%2C%22updateFee%22%2C%22deleteFee%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Finstallment-actions.ts%22%2C%5B%22generateInstallments%22%2C%22updateInstallmentStatus%22%2C%22getInstallmentsByFeeId%22%2C%22deleteInstallmentsByFeeId%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
       },
       "layer": {
-        "app/students/page": "action-browser"
+        "app/fees/page": "action-browser"
       }
     },
-    "2051ff41a84ccac538e3a2aa1f5ec2177b3e729c": {
+    "58cac1021ee75d0776d789f88f2bc9def688e44d": {
       "workers": {
-        "app/students/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
+        "app/fees/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Factions.ts%22%2C%5B%22getAllFees%22%2C%22addFee%22%2C%22updateFee%22%2C%22deleteFee%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Finstallment-actions.ts%22%2C%5B%22generateInstallments%22%2C%22updateInstallmentStatus%22%2C%22getInstallmentsByFeeId%22%2C%22deleteInstallmentsByFeeId%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
       },
       "layer": {
-        "app/students/page": "action-browser"
+        "app/fees/page": "action-browser"
       }
     },
-    "5c1a46249e76713260608d6d815a578abe99a40f": {
+    "855956f9f0b7994ebedab10901dc486cf0dfd808": {
       "workers": {
-        "app/students/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
+        "app/fees/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Factions.ts%22%2C%5B%22getAllFees%22%2C%22addFee%22%2C%22updateFee%22%2C%22deleteFee%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Finstallment-actions.ts%22%2C%5B%22generateInstallments%22%2C%22updateInstallmentStatus%22%2C%22getInstallmentsByFeeId%22%2C%22deleteInstallmentsByFeeId%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
       },
       "layer": {
-        "app/students/page": "action-browser"
+        "app/fees/page": "action-browser"
       }
     },
-    "f1c2b43a216ef714fa180af5f95979e348691a0b": {
+    "cd7c8c250363b9a3a695863f5af0ad88b55a5fee": {
       "workers": {
-        "app/students/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
+        "app/fees/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Factions.ts%22%2C%5B%22getAllFees%22%2C%22addFee%22%2C%22updateFee%22%2C%22deleteFee%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Finstallment-actions.ts%22%2C%5B%22generateInstallments%22%2C%22updateInstallmentStatus%22%2C%22getInstallmentsByFeeId%22%2C%22deleteInstallmentsByFeeId%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
       },
       "layer": {
-        "app/students/page": "action-browser"
+        "app/fees/page": "action-browser"
       }
     },
-    "59b7102170673239744571e5666efc051557606a": {
+    "aa32f4c35a3ea785dca19556cd6cf73464b96faf": {
       "workers": {
-        "app/academic-years/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Facademic-years%2Factions.ts%22%2C%5B%22updateAcademicYear%22%2C%22getAllAcademicYears%22%2C%22addAcademicYear%22%2C%22deleteAcademicYear%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
+        "app/fees/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Factions.ts%22%2C%5B%22getAllFees%22%2C%22addFee%22%2C%22updateFee%22%2C%22deleteFee%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Finstallment-actions.ts%22%2C%5B%22generateInstallments%22%2C%22updateInstallmentStatus%22%2C%22getInstallmentsByFeeId%22%2C%22deleteInstallmentsByFeeId%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
       },
       "layer": {
-        "app/academic-years/page": "action-browser"
+        "app/fees/page": "action-browser"
       }
     },
-    "99c40c25087b6c3db527c255c5825f21802c70e6": {
+    "bc4b69d484722f241556ef1ab3b460a7b6f17653": {
       "workers": {
-        "app/academic-years/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Facademic-years%2Factions.ts%22%2C%5B%22updateAcademicYear%22%2C%22getAllAcademicYears%22%2C%22addAcademicYear%22%2C%22deleteAcademicYear%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
+        "app/fees/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Factions.ts%22%2C%5B%22getAllFees%22%2C%22addFee%22%2C%22updateFee%22%2C%22deleteFee%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Finstallment-actions.ts%22%2C%5B%22generateInstallments%22%2C%22updateInstallmentStatus%22%2C%22getInstallmentsByFeeId%22%2C%22deleteInstallmentsByFeeId%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
       },
       "layer": {
-        "app/academic-years/page": "action-browser"
+        "app/fees/page": "action-browser"
       }
     },
-    "f048fff8b8525102e75b4b1fcff2a4237d72a115": {
+    "e267405d09f05fb7154c87dbcb22c228e40b4efe": {
       "workers": {
-        "app/academic-years/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Facademic-years%2Factions.ts%22%2C%5B%22updateAcademicYear%22%2C%22getAllAcademicYears%22%2C%22addAcademicYear%22%2C%22deleteAcademicYear%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
+        "app/fees/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Factions.ts%22%2C%5B%22getAllFees%22%2C%22addFee%22%2C%22updateFee%22%2C%22deleteFee%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Finstallment-actions.ts%22%2C%5B%22generateInstallments%22%2C%22updateInstallmentStatus%22%2C%22getInstallmentsByFeeId%22%2C%22deleteInstallmentsByFeeId%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
       },
       "layer": {
-        "app/academic-years/page": "action-browser"
+        "app/fees/page": "action-browser"
       }
     },
-    "f478dc7b8197bb50d97e454f9c7e702f18fefc15": {
+    "e8e7b85bcadaa816d4f62c3d8d98757f74d0c435": {
       "workers": {
-        "app/academic-years/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Facademic-years%2Factions.ts%22%2C%5B%22updateAcademicYear%22%2C%22getAllAcademicYears%22%2C%22addAcademicYear%22%2C%22deleteAcademicYear%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
+        "app/fees/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Factions.ts%22%2C%5B%22getAllFees%22%2C%22addFee%22%2C%22updateFee%22%2C%22deleteFee%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Finstallment-actions.ts%22%2C%5B%22generateInstallments%22%2C%22updateInstallmentStatus%22%2C%22getInstallmentsByFeeId%22%2C%22deleteInstallmentsByFeeId%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
       },
       "layer": {
-        "app/academic-years/page": "action-browser"
-      }
-    },
-    "3ddbfc998de32d2a49c7f423a2b638a938b69801": {
-      "workers": {
-        "app/marksheet/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmarksheet%2Factions.ts%22%2C%5B%22getMarksheetData%22%5D%5D%5D&__client_imported__=!"
-      },
-      "layer": {
-        "app/marksheet/page": "rsc"
-      }
-    },
-    "01a629bd0fe345e6d15901b286ea9f5f992274a5": {
-      "workers": {
-        "app/leave-types/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fleave-types%2Factions.ts%22%2C%5B%22updateLeaveType%22%2C%22getAllLeaveTypes%22%2C%22addLeaveType%22%2C%22deleteLeaveType%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
-      },
-      "layer": {
-        "app/leave-types/page": "action-browser"
-      }
-    },
-    "7190ac56c6840940c748ad13038eb15c98dec651": {
-      "workers": {
-        "app/leave-types/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fleave-types%2Factions.ts%22%2C%5B%22updateLeaveType%22%2C%22getAllLeaveTypes%22%2C%22addLeaveType%22%2C%22deleteLeaveType%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
-      },
-      "layer": {
-        "app/leave-types/page": "action-browser"
-      }
-    },
-    "71d0f20a46d9f77cb3e58b24616bfd621eea77e8": {
-      "workers": {
-        "app/leave-types/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fleave-types%2Factions.ts%22%2C%5B%22updateLeaveType%22%2C%22getAllLeaveTypes%22%2C%22addLeaveType%22%2C%22deleteLeaveType%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
-      },
-      "layer": {
-        "app/leave-types/page": "action-browser"
-      }
-    },
-    "d0bacae7a92b212d9115f43c021fc90450da55c0": {
-      "workers": {
-        "app/leave-types/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fleave-types%2Factions.ts%22%2C%5B%22updateLeaveType%22%2C%22getAllLeaveTypes%22%2C%22addLeaveType%22%2C%22deleteLeaveType%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
-      },
-      "layer": {
-        "app/leave-types/page": "action-browser"
-      }
-    },
-    "5d0620dbec028061caa6125b3291d94294db6950": {
-      "workers": {
-        "app/leaves/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fleaves%2Factions.ts%22%2C%5B%22getAllTrusts%22%2C%22getAllSchools%22%2C%22deleteLeave%22%2C%22getAllLeaves%22%2C%22getAllTeachers%22%2C%22updateLeaveStatus%22%2C%22addLeave%22%2C%22getAllLeaveTypes%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/leaves/student/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fleaves%2Factions.ts%22%2C%5B%22getAllTrusts%22%2C%22getAllSchools%22%2C%22deleteLeave%22%2C%22getAllLeaves%22%2C%22getAllTeachers%22%2C%22updateLeaveStatus%22%2C%22addLeave%22%2C%22getAllLeaveTypes%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/leaves/teacher/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fleaves%2Factions.ts%22%2C%5B%22getAllTrusts%22%2C%22getAllSchools%22%2C%22deleteLeave%22%2C%22getAllLeaves%22%2C%22getAllTeachers%22%2C%22updateLeaveStatus%22%2C%22addLeave%22%2C%22getAllLeaveTypes%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
-      },
-      "layer": {
-        "app/leaves/page": "action-browser",
-        "app/leaves/student/page": "action-browser",
-        "app/leaves/teacher/page": "action-browser"
-      }
-    },
-    "6d7b059a87ab2e024771ed6c461a8e3352c7fc96": {
-      "workers": {
-        "app/leaves/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fleaves%2Factions.ts%22%2C%5B%22getAllTrusts%22%2C%22getAllSchools%22%2C%22deleteLeave%22%2C%22getAllLeaves%22%2C%22getAllTeachers%22%2C%22updateLeaveStatus%22%2C%22addLeave%22%2C%22getAllLeaveTypes%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/leaves/student/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fleaves%2Factions.ts%22%2C%5B%22getAllTrusts%22%2C%22getAllSchools%22%2C%22deleteLeave%22%2C%22getAllLeaves%22%2C%22getAllTeachers%22%2C%22updateLeaveStatus%22%2C%22addLeave%22%2C%22getAllLeaveTypes%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/leaves/teacher/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fleaves%2Factions.ts%22%2C%5B%22getAllTrusts%22%2C%22getAllSchools%22%2C%22deleteLeave%22%2C%22getAllLeaves%22%2C%22getAllTeachers%22%2C%22updateLeaveStatus%22%2C%22addLeave%22%2C%22getAllLeaveTypes%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
-      },
-      "layer": {
-        "app/leaves/page": "action-browser",
-        "app/leaves/student/page": "action-browser",
-        "app/leaves/teacher/page": "action-browser"
-      }
-    },
-    "76dc005a8f6e0419b43c72eec2a15116bbab05b0": {
-      "workers": {
-        "app/leaves/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fleaves%2Factions.ts%22%2C%5B%22getAllTrusts%22%2C%22getAllSchools%22%2C%22deleteLeave%22%2C%22getAllLeaves%22%2C%22getAllTeachers%22%2C%22updateLeaveStatus%22%2C%22addLeave%22%2C%22getAllLeaveTypes%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/leaves/student/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fleaves%2Factions.ts%22%2C%5B%22getAllTrusts%22%2C%22getAllSchools%22%2C%22deleteLeave%22%2C%22getAllLeaves%22%2C%22getAllTeachers%22%2C%22updateLeaveStatus%22%2C%22addLeave%22%2C%22getAllLeaveTypes%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/leaves/teacher/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fleaves%2Factions.ts%22%2C%5B%22getAllTrusts%22%2C%22getAllSchools%22%2C%22deleteLeave%22%2C%22getAllLeaves%22%2C%22getAllTeachers%22%2C%22updateLeaveStatus%22%2C%22addLeave%22%2C%22getAllLeaveTypes%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
-      },
-      "layer": {
-        "app/leaves/page": "action-browser",
-        "app/leaves/student/page": "action-browser",
-        "app/leaves/teacher/page": "action-browser"
-      }
-    },
-    "7b949c7dcee8d2d1c506db8eaa7dc3465ed55ffe": {
-      "workers": {
-        "app/leaves/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fleaves%2Factions.ts%22%2C%5B%22getAllTrusts%22%2C%22getAllSchools%22%2C%22deleteLeave%22%2C%22getAllLeaves%22%2C%22getAllTeachers%22%2C%22updateLeaveStatus%22%2C%22addLeave%22%2C%22getAllLeaveTypes%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/leaves/student/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fleaves%2Factions.ts%22%2C%5B%22getAllTrusts%22%2C%22getAllSchools%22%2C%22deleteLeave%22%2C%22getAllLeaves%22%2C%22getAllTeachers%22%2C%22updateLeaveStatus%22%2C%22addLeave%22%2C%22getAllLeaveTypes%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/leaves/teacher/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fleaves%2Factions.ts%22%2C%5B%22getAllTrusts%22%2C%22getAllSchools%22%2C%22deleteLeave%22%2C%22getAllLeaves%22%2C%22getAllTeachers%22%2C%22updateLeaveStatus%22%2C%22addLeave%22%2C%22getAllLeaveTypes%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
-      },
-      "layer": {
-        "app/leaves/page": "action-browser",
-        "app/leaves/student/page": "action-browser",
-        "app/leaves/teacher/page": "action-browser"
-      }
-    },
-    "80512c199ef7c131e23ed574724600774f6706d6": {
-      "workers": {
-        "app/leaves/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fleaves%2Factions.ts%22%2C%5B%22getAllTrusts%22%2C%22getAllSchools%22%2C%22deleteLeave%22%2C%22getAllLeaves%22%2C%22getAllTeachers%22%2C%22updateLeaveStatus%22%2C%22addLeave%22%2C%22getAllLeaveTypes%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/leaves/student/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fleaves%2Factions.ts%22%2C%5B%22getAllTrusts%22%2C%22getAllSchools%22%2C%22deleteLeave%22%2C%22getAllLeaves%22%2C%22getAllTeachers%22%2C%22updateLeaveStatus%22%2C%22addLeave%22%2C%22getAllLeaveTypes%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/leaves/teacher/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fleaves%2Factions.ts%22%2C%5B%22getAllTrusts%22%2C%22getAllSchools%22%2C%22deleteLeave%22%2C%22getAllLeaves%22%2C%22getAllTeachers%22%2C%22updateLeaveStatus%22%2C%22addLeave%22%2C%22getAllLeaveTypes%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
-      },
-      "layer": {
-        "app/leaves/page": "action-browser",
-        "app/leaves/student/page": "action-browser",
-        "app/leaves/teacher/page": "action-browser"
-      }
-    },
-    "a78862198d45c5078f5a6eccab8eaa76be2e6089": {
-      "workers": {
-        "app/leaves/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fleaves%2Factions.ts%22%2C%5B%22getAllTrusts%22%2C%22getAllSchools%22%2C%22deleteLeave%22%2C%22getAllLeaves%22%2C%22getAllTeachers%22%2C%22updateLeaveStatus%22%2C%22addLeave%22%2C%22getAllLeaveTypes%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/leaves/student/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fleaves%2Factions.ts%22%2C%5B%22getAllTrusts%22%2C%22getAllSchools%22%2C%22deleteLeave%22%2C%22getAllLeaves%22%2C%22getAllTeachers%22%2C%22updateLeaveStatus%22%2C%22addLeave%22%2C%22getAllLeaveTypes%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/leaves/teacher/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fleaves%2Factions.ts%22%2C%5B%22getAllTrusts%22%2C%22getAllSchools%22%2C%22deleteLeave%22%2C%22getAllLeaves%22%2C%22getAllTeachers%22%2C%22updateLeaveStatus%22%2C%22addLeave%22%2C%22getAllLeaveTypes%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
-      },
-      "layer": {
-        "app/leaves/page": "action-browser",
-        "app/leaves/student/page": "action-browser",
-        "app/leaves/teacher/page": "action-browser"
-      }
-    },
-    "8092a343c6e1bbe327325cad652bb9299c00bcdd": {
-      "workers": {
-        "app/leaves/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fleaves%2Factions.ts%22%2C%5B%22getAllTrusts%22%2C%22getAllSchools%22%2C%22deleteLeave%22%2C%22getAllLeaves%22%2C%22getAllTeachers%22%2C%22updateLeaveStatus%22%2C%22addLeave%22%2C%22getAllLeaveTypes%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/leaves/student/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fleaves%2Factions.ts%22%2C%5B%22getAllTrusts%22%2C%22getAllSchools%22%2C%22deleteLeave%22%2C%22getAllLeaves%22%2C%22getAllTeachers%22%2C%22updateLeaveStatus%22%2C%22addLeave%22%2C%22getAllLeaveTypes%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/leaves/teacher/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fleaves%2Factions.ts%22%2C%5B%22getAllTrusts%22%2C%22getAllSchools%22%2C%22deleteLeave%22%2C%22getAllLeaves%22%2C%22getAllTeachers%22%2C%22updateLeaveStatus%22%2C%22addLeave%22%2C%22getAllLeaveTypes%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
-      },
-      "layer": {
-        "app/leaves/page": "action-browser",
-        "app/leaves/student/page": "action-browser",
-        "app/leaves/teacher/page": "action-browser"
-      }
-    },
-    "3f4a8b6c32f49e58df3aa8bb9fb0f06b1813afae": {
-      "workers": {
-        "app/leaves/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fleaves%2Factions.ts%22%2C%5B%22getAllTrusts%22%2C%22getAllSchools%22%2C%22deleteLeave%22%2C%22getAllLeaves%22%2C%22getAllTeachers%22%2C%22updateLeaveStatus%22%2C%22addLeave%22%2C%22getAllLeaveTypes%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/leaves/student/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fleaves%2Factions.ts%22%2C%5B%22getAllTrusts%22%2C%22getAllSchools%22%2C%22deleteLeave%22%2C%22getAllLeaves%22%2C%22getAllTeachers%22%2C%22updateLeaveStatus%22%2C%22addLeave%22%2C%22getAllLeaveTypes%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/leaves/teacher/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fleaves%2Factions.ts%22%2C%5B%22getAllTrusts%22%2C%22getAllSchools%22%2C%22deleteLeave%22%2C%22getAllLeaves%22%2C%22getAllTeachers%22%2C%22updateLeaveStatus%22%2C%22addLeave%22%2C%22getAllLeaveTypes%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
-      },
-      "layer": {
-        "app/leaves/page": "action-browser",
-        "app/leaves/student/page": "action-browser",
-        "app/leaves/teacher/page": "action-browser"
-      }
-    },
-    "44dec34952b35246da7cb14ba5607b9d7ab0da74": {
-      "workers": {
-        "app/leaves/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fleaves%2Factions.ts%22%2C%5B%22getAllTrusts%22%2C%22getAllSchools%22%2C%22deleteLeave%22%2C%22getAllLeaves%22%2C%22getAllTeachers%22%2C%22updateLeaveStatus%22%2C%22addLeave%22%2C%22getAllLeaveTypes%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/leaves/student/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fleaves%2Factions.ts%22%2C%5B%22getAllTrusts%22%2C%22getAllSchools%22%2C%22deleteLeave%22%2C%22getAllLeaves%22%2C%22getAllTeachers%22%2C%22updateLeaveStatus%22%2C%22addLeave%22%2C%22getAllLeaveTypes%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/leaves/teacher/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fleaves%2Factions.ts%22%2C%5B%22getAllTrusts%22%2C%22getAllSchools%22%2C%22deleteLeave%22%2C%22getAllLeaves%22%2C%22getAllTeachers%22%2C%22updateLeaveStatus%22%2C%22addLeave%22%2C%22getAllLeaveTypes%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
-      },
-      "layer": {
-        "app/leaves/page": "action-browser",
-        "app/leaves/student/page": "action-browser",
-        "app/leaves/teacher/page": "action-browser"
-      }
-    },
-    "11228b64682771cbd0c2b0738c32496385123640": {
-      "workers": {
-        "app/teachers/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fteachers%2Factions.ts%22%2C%5B%22getAllTeachers%22%2C%22updateTeacher%22%2C%22addTeacher%22%2C%22deleteTeacher%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
-      },
-      "layer": {
-        "app/teachers/page": "action-browser"
-      }
-    },
-    "9f2a702bee688a75794b1c6cbcb1efb348e6a83d": {
-      "workers": {
-        "app/teachers/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fteachers%2Factions.ts%22%2C%5B%22getAllTeachers%22%2C%22updateTeacher%22%2C%22addTeacher%22%2C%22deleteTeacher%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
-      },
-      "layer": {
-        "app/teachers/page": "action-browser"
-      }
-    },
-    "c58c2b1b8fb6774b99df4feaa8c8055941eaea24": {
-      "workers": {
-        "app/teachers/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fteachers%2Factions.ts%22%2C%5B%22getAllTeachers%22%2C%22updateTeacher%22%2C%22addTeacher%22%2C%22deleteTeacher%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
-      },
-      "layer": {
-        "app/teachers/page": "action-browser"
-      }
-    },
-    "cf551d546745d9cbbd1580773382ca70552569f4": {
-      "workers": {
-        "app/teachers/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fteachers%2Factions.ts%22%2C%5B%22getAllTeachers%22%2C%22updateTeacher%22%2C%22addTeacher%22%2C%22deleteTeacher%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
-      },
-      "layer": {
-        "app/teachers/page": "action-browser"
+        "app/fees/page": "action-browser"
       }
     }
   },
   "edge": {},
-  "encryptionKey": "XJiCUOlYVm76OeMaBpz1UvTJGFDgrvvy2mcdNSp6GVQ="
+  "encryptionKey": "cXYZjr36MQu1SYuLTkprsjbq8vC4wpQTBmn6OuPIEHI="
 }

@@ -26,45 +26,10 @@
       "static/chunks/main-app.js",
       "static/chunks/app/dashboard/page.js"
     ],
-    "/students/page": [
+    "/fees/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/students/page.js"
-    ],
-    "/academic-years/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/academic-years/page.js"
-    ],
-    "/marksheet/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/marksheet/page.js"
-    ],
-    "/leave-types/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/leave-types/page.js"
-    ],
-    "/leaves/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/leaves/page.js"
-    ],
-    "/leaves/student/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/leaves/student/page.js"
-    ],
-    "/leaves/teacher/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/leaves/teacher/page.js"
-    ],
-    "/teachers/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/teachers/page.js"
+      "static/chunks/app/fees/page.js"
     ]
   }
 }

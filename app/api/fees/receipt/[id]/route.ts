@@ -71,11 +71,15 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
           const schoolEmail = school?.email || ""
           const trustName = fee.trust_info?.trust_name || school?.trust_name || ""
 
+          const isTrust = fee.fee_category === "Trust"
+          const mainHeading = isTrust && trustName ? trustName.toUpperCase() : schoolName
+          const subHeading = isTrust && trustName ? schoolName : trustName
+
           if (logoImage) {
             doc.image(logoImage, 40, yOffset, { fit: [80, 80] })
-            doc.fontSize(16).font("Helvetica-Bold").text(schoolName, 130, yOffset + 5, { width: 425, align: "center" })
-            if (trustName) {
-              doc.fontSize(10).font("Helvetica-Bold").text(trustName, 130, yOffset + 25, { width: 425, align: "center" })
+            doc.fontSize(16).font("Helvetica-Bold").text(mainHeading, 130, yOffset + 5, { width: 425, align: "center" })
+            if (subHeading) {
+              doc.fontSize(10).font("Helvetica-Bold").text(subHeading, 130, yOffset + 25, { width: 425, align: "center" })
             }
             doc.fontSize(9).font("Helvetica").text(schoolAddr, 130, yOffset + 42, { width: 425, align: "center" })
             if (schoolPhone || schoolEmail) {
@@ -83,9 +87,9 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
             }
             doc.y = yOffset + 85
           } else {
-            doc.fontSize(16).font("Helvetica-Bold").text(schoolName, 40, yOffset, { align: "center" })
-            if (trustName) {
-              doc.fontSize(10).font("Helvetica-Bold").text(trustName, 40, yOffset + 20, { align: "center" })
+            doc.fontSize(16).font("Helvetica-Bold").text(mainHeading, 40, yOffset, { align: "center" })
+            if (subHeading) {
+              doc.fontSize(10).font("Helvetica-Bold").text(subHeading, 40, yOffset + 20, { align: "center" })
             }
             doc.fontSize(9).font("Helvetica").text(schoolAddr, 40, yOffset + 38, { align: "center" })
             if (schoolPhone || schoolEmail) {
