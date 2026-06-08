@@ -1,8 +1,8 @@
 {
-  "/login/page": "app/login/page.js",
   "/dashboard/page": "app/dashboard/page.js",
   "/divisions/page": "app/divisions/page.js",
   "/fees/page": "app/fees/page.js",
+  "/manage-schools/page": "app/manage-schools/page.js",
   "/api/fees/receipt/[id]/route": "app/api/fees/receipt/[id]/route.js",
-  "/api/fees/export/route": "app/api/fees/export/route.js"
+  "/trust-info/page": "app/trust-info/page.js"
 }
