@@ -8,7 +8,7 @@ import { Pencil } from "lucide-react"
 
 const emptyForm = {
   school_name: "", trust_name: "", address: "", phone: "", email: "", website: "",
-  principal_name: "", affiliation: "", logo_url: "",
+  principal_name: "", affiliation: "", logo_url: "", ssc_index_no: "", hsc_index_no: "",
 }
 
 export default function ManageSchoolsClient({ initialSchools }: { initialSchools: any[] }) {
@@ -21,9 +21,9 @@ export default function ManageSchoolsClient({ initialSchools }: { initialSchools
   const [uploading, setUploading] = useState(false)
   const supabase = createClient()
 
-  const set = (field: string) => (e: React.ChangeEvent<HTMLInputElement>) => {
+  const set = (field: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const value = e.target.value.toUpperCase()
-    setForm({ ...form, [field]: value })
+    setForm(prev => ({ ...prev, [field]: value }))
   }
 
   const openAdd = () => {
@@ -45,6 +45,8 @@ export default function ManageSchoolsClient({ initialSchools }: { initialSchools
       principal_name: s.principal_name || "",
       affiliation: s.affiliation || "",
       logo_url: s.logo_url || "",
+      ssc_index_no: s.ssc_index_no || "",
+      hsc_index_no: s.hsc_index_no || "",
     })
     setMessage("")
     setModal(true)
@@ -73,15 +75,19 @@ export default function ManageSchoolsClient({ initialSchools }: { initialSchools
 
   const handleSave = async () => {
     if (!form.school_name) { setMessage("School name is required"); return }
+    setMessage("Saving...")
     const result = editId
       ? await updateSchoolById(editId, toFD(form))
       : await addSchool(toFD(form))
-    setMessage(result.message)
+    
     if (result.success) {
       setModal(false)
       setForm({ ...emptyForm })
       setSchools(await getAllSchools())
       router.refresh()
+      setMessage("")
+    } else {
+      setMessage(result.message)
     }
   }
 
@@ -103,8 +109,6 @@ export default function ManageSchoolsClient({ initialSchools }: { initialSchools
           Add New School
         </button>
       </div>
-
-      {message && <p className="mb-4 text-sm font-medium text-blue-700">{message}</p>}
 
       <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
         {schools.map((s) => (
@@ -130,6 +134,8 @@ export default function ManageSchoolsClient({ initialSchools }: { initialSchools
             <div className="space-y-1 text-xs text-slate-600">
               <p><strong>Trust:</strong> {s.trust_name || "N/A"}</p>
               <p><strong>Principal:</strong> {s.principal_name || "N/A"}</p>
+              <p><strong>SSC Index:</strong> {s.ssc_index_no || "N/A"}</p>
+              <p><strong>HSC Index:</strong> {s.hsc_index_no || "N/A"}</p>
               <p><strong>Phone:</strong> {s.phone || "N/A"}</p>
               <p><strong>Affiliation:</strong> {s.affiliation || "N/A"}</p>
             </div>
@@ -148,7 +154,17 @@ export default function ManageSchoolsClient({ initialSchools }: { initialSchools
       {modal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
           <div className="w-full max-w-2xl rounded-lg bg-white p-6 shadow-xl max-h-[90vh] overflow-y-auto">
-            <h3 className="mb-4 text-xl font-bold">{editId ? "EDIT SCHOOL" : "ADD NEW SCHOOL"}</h3>
+            <div className="mb-4 flex items-center justify-between">
+              <h3 className="text-xl font-bold">{editId ? "EDIT SCHOOL" : "ADD NEW SCHOOL"}</h3>
+              <button className="text-slate-400 hover:text-slate-600" onClick={() => setModal(false)}>✕</button>
+            </div>
+            
+            {message && (
+              <div className={`mb-4 rounded p-3 text-sm font-bold ${message === "Saving..." ? "bg-blue-50 text-blue-700 border border-blue-100" : "bg-red-50 text-red-700 border border-red-100"}`}>
+                {message}
+              </div>
+            )}
+
             <div className="grid gap-4 md:grid-cols-2">
               <div className="md:col-span-2">
                 <label className="text-[10px] font-bold text-slate-500 uppercase">School Name *</label>
@@ -177,6 +193,14 @@ export default function ManageSchoolsClient({ initialSchools }: { initialSchools
               <div>
                 <label className="text-[10px] font-bold text-slate-500 uppercase">Affiliation</label>
                 <input className="w-full rounded border p-3 text-sm" placeholder="AFFILIATION" value={form.affiliation} onChange={set("affiliation")} />
+              </div>
+              <div>
+                <label className="text-[10px] font-bold text-slate-500 uppercase">SSC Index Number</label>
+                <input className="w-full rounded border p-3 text-sm" placeholder="SSC INDEX NO" value={form.ssc_index_no} onChange={set("ssc_index_no")} />
+              </div>
+              <div>
+                <label className="text-[10px] font-bold text-slate-500 uppercase">HSC Index Number</label>
+                <input className="w-full rounded border p-3 text-sm" placeholder="HSC INDEX NO" value={form.hsc_index_no} onChange={set("hsc_index_no")} />
               </div>
               <div className="md:col-span-2">
                 <label className="text-[10px] font-bold text-slate-500 uppercase">Logo</label>

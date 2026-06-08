@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react"
 
-const classes = Array.from({ length: 12 }, (_, i) => String(i + 1))
+const classes = ["Balvatika", ...Array.from({ length: 12 }, (_, i) => String(i + 1))]
 
 type DashboardClientProps = {
   user: any

@@ -3,7 +3,7 @@
 import { useState, useCallback, useRef } from "react"
 import { getAllMarks, addMark, updateMark, deleteMark } from "./actions"
 
-const classes = Array.from({ length: 12 }, (_, i) => String(i + 1))
+const classes = ["Balvatika", ...Array.from({ length: 12 }, (_, i) => String(i + 1))]
 const semesters = ["SEM 1", "SEM 2"]
 const emptyForm: Record<string, string> = { student_id: "", exam_id: "", subject: "", marks: "" }
 

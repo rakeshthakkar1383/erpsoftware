@@ -1,6 +1,8 @@
 {
-  "/dashboard/page": "app/dashboard/page.js",
   "/login/page": "app/login/page.js",
+  "/dashboard/page": "app/dashboard/page.js",
+  "/divisions/page": "app/divisions/page.js",
   "/fees/page": "app/fees/page.js",
-  "/api/fees/receipt/[id]/route": "app/api/fees/receipt/[id]/route.js"
+  "/api/fees/receipt/[id]/route": "app/api/fees/receipt/[id]/route.js",
+  "/api/fees/export/route": "app/api/fees/export/route.js"
 }

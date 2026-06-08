@@ -14,6 +14,10 @@ export async function addFeeType(formData: FormData) {
   const { data: { user } } = await supabase.auth.getUser()
   const raw: any = {}
   formData.forEach((v, k) => { raw[k] = v })
+  
+  const heads = raw.heads ? JSON.parse(raw.heads) : []
+  delete raw.heads
+
   if (!raw.fee_category) raw.fee_category = "School"
   if (!raw.school_id && user?.user_metadata?.school_id) raw.school_id = user.user_metadata.school_id
   if (raw.trust_id) raw.trust_id = Number(raw.trust_id)
@@ -21,17 +25,12 @@ export async function addFeeType(formData: FormData) {
 
   if (raw.fee_category === "School") {
     const schoolId = raw.school_id ? Number(raw.school_id) : null
-    if (!schoolId) {
-      return { success: false, message: "School is required to create a school fee type." }
-    }
+    if (!schoolId) return { success: false, message: "School is required." }
     raw.school_id = schoolId
   } else {
-    if (!raw.trust_id) {
-      return { success: false, message: "Trust is required to create a trust fee type." }
-    }
+    if (!raw.trust_id) return { success: false, message: "Trust is required." }
     const { data: trust } = await supabase.from("trust_info").select("school_id").eq("id", raw.trust_id).single()
     if (trust?.school_id) raw.school_id = Number(trust.school_id)
-    else delete raw.school_id
   }
 
   raw.is_active = true
@@ -39,7 +38,21 @@ export async function addFeeType(formData: FormData) {
     const { data: maxRow } = await supabase.from("fee_types").select("sort_order").order("sort_order", { ascending: false }).limit(1).maybeSingle()
     raw.sort_order = (maxRow?.sort_order ?? 0) + 1
   }
-  const { error } = await supabase.from("fee_types").insert([raw])
+
+  const { data: inserted, error } = await supabase.from("fee_types").insert([raw]).select("id").single()
+  
+  if (!error && inserted && heads.length > 0) {
+    const formattedHeads = heads.map((h: any, i: number) => ({
+      ...h,
+      fee_type_id: inserted.id,
+      school_id: raw.school_id,
+      trust_id: raw.trust_id,
+      fee_category: raw.fee_category,
+      sort_order: i + 1
+    }))
+    await supabase.from("fee_particulars").insert(formattedHeads)
+  }
+
   revalidatePath("/fee-types")
   return { success: !error, message: error?.message || "Fee type added" }
 }
@@ -48,6 +61,10 @@ export async function updateFeeType(id: number, formData: FormData) {
   const supabase = await createClient()
   const raw: any = {}
   formData.forEach((v, k) => { raw[k] = v })
+
+  const heads = raw.heads ? JSON.parse(raw.heads) : []
+  delete raw.heads
+
   if (raw.school_id) raw.school_id = Number(raw.school_id)
   else delete raw.school_id
   if (raw.trust_id) raw.trust_id = Number(raw.trust_id)
@@ -57,7 +74,25 @@ export async function updateFeeType(id: number, formData: FormData) {
     const { data: trust } = await supabase.from("trust_info").select("school_id").eq("id", raw.trust_id).single()
     if (trust?.school_id) raw.school_id = Number(trust.school_id)
   }
+
   const { error } = await supabase.from("fee_types").update(raw).eq("id", id)
+
+  if (!error) {
+    // Sync heads: delete all old ones and insert new ones
+    await supabase.from("fee_particulars").delete().eq("fee_type_id", id)
+    if (heads.length > 0) {
+      const formattedHeads = heads.map((h: any, i: number) => ({
+        ...h,
+        fee_type_id: id,
+        school_id: raw.school_id,
+        trust_id: raw.trust_id,
+        fee_category: raw.fee_category,
+        sort_order: i + 1
+      }))
+      await supabase.from("fee_particulars").insert(formattedHeads)
+    }
+  }
+
   revalidatePath("/fee-types")
   return { success: !error, message: error?.message || "Fee type updated" }
 }

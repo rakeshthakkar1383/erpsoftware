@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { getAllStreams, addStream, updateStream, deleteStream } from "./actions"
 
-const classes = Array.from({ length: 12 }, (_, i) => String(i + 1))
+const classes = ["Balvatika", ...Array.from({ length: 12 }, (_, i) => String(i + 1))]
 const emptyForm: Record<string, string> = { class_name: "", stream_name: "" }
 
 export default function StreamsClient({ initialStreams, allSchools, schoolId }: { initialStreams: any[], allSchools: any[], schoolId: number | null }) {

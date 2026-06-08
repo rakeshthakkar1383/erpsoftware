@@ -4,8 +4,9 @@ import { useState, useCallback, useRef } from "react"
 import { useRouter } from "next/navigation"
 import { getAllStudents, addStudent, updateStudent, deleteStudent } from "./actions"
 import { createClient } from "@/lib/supabase/client"
+import { formatDate } from "@/lib/utils"
 
-const classes = Array.from({ length: 12 }, (_, i) => String(i + 1))
+const classes = ["Balvatika", ...Array.from({ length: 12 }, (_, i) => String(i + 1))]
 const emptyForm: Record<string, string> = {
   full_name: "", gender: "", father_name: "", mother_name: "",
   dob: "", birthplace: "", address: "", village: "", district: "", pincode: "",
@@ -221,7 +222,7 @@ export default function StudentsClient({
                     {s.class_name}{s.division ? ` / ${s.division}` : ""}
                   </td>
                   <td className="px-6 py-4"><span className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${s.gender === "MALE" ? "bg-blue-50 text-blue-600" : "bg-pink-50 text-pink-600"}`}>{s.gender}</span></td>
-                  <td className="px-6 py-4 text-xs font-medium text-slate-500">{s.dob || "-"}</td>
+                  <td className="px-6 py-4 text-xs font-medium text-slate-500">{formatDate(s.dob)}</td>
                   <td className="px-6 py-4 text-right">
                     <button className="text-[10px] font-black uppercase tracking-widest text-blue-600 hover:text-blue-800" onClick={() => { setEditing(s); setForm({ ...s, academic_year_id: s.academic_year_id || "" }); setMessage(""); setModal(true) }}>Edit Profile</button>
                     <button className="ml-4 text-[10px] font-black uppercase tracking-widest text-red-600 hover:text-red-800" onClick={() => handleDelete(s.id)}>Remove</button>

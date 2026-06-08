@@ -3,7 +3,13 @@ import FeesClient from "./fees-client"
 
 export const dynamic = "force-dynamic"
 
-export default async function FeesPage() {
+export default async function FeesPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>
+}) {
+  const params = await searchParams
+  const preSelectedStudentId = params.student_id ? String(params.student_id) : ""
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   const schoolId = user?.user_metadata?.school_id
@@ -59,6 +65,7 @@ export default async function FeesPage() {
       schoolId={schoolId}
       teacherClass={teacherClass}
       trusts={trusts}
+      preSelectedStudentId={preSelectedStudentId}
     />
   )
 }

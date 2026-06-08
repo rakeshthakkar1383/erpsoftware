@@ -3,7 +3,7 @@
 import { useState, useRef } from "react"
 import { getAllFeeParticulars, addFeeParticular, updateFeeParticular, deleteFeeParticular, moveFeeParticular } from "./actions"
 
-const allClasses = Array.from({ length: 12 }, (_, i) => String(i + 1))
+const allClasses = ["Balvatika", ...Array.from({ length: 12 }, (_, i) => String(i + 1))]
 const emptyForm: Record<string, string> = { class_name: "", particular_name: "", amount: "", duration_months: "12", term: "Yearly", fee_type_id: "", fee_category: "School", school_id: "", trust_id: "" }
 
 export default function FeeParticularsClient({ initialParticulars, feeTypes, allSchools, trusts, schoolId }: { initialParticulars: any[], feeTypes: any[], allSchools: any[], trusts: any[], schoolId: number | null }) {

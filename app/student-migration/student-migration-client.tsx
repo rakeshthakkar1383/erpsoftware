@@ -3,7 +3,7 @@
 import { useState, useCallback } from "react"
 import { getFilteredCount, migrateStudents } from "./actions"
 
-const classes = Array.from({ length: 12 }, (_, i) => String(i + 1))
+const classes = ["Balvatika", ...Array.from({ length: 12 }, (_, i) => String(i + 1))]
 
 type Props = {
   divisions: any[]

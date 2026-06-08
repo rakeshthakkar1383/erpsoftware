@@ -3,7 +3,7 @@
 import { useState } from "react"
 import { getAllTeacherSubjects, addTeacherSubject, updateTeacherSubject, deleteTeacherSubject } from "./actions"
 
-const classes = Array.from({ length: 12 }, (_, i) => String(i + 1))
+const classes = ["Balvatika", ...Array.from({ length: 12 }, (_, i) => String(i + 1))]
 const emptyForm: Record<string, string> = { teacher_id: "", class_name: "", subject: "" }
 
 export default function TeacherSubjectsClient({ initialAssignments, teachers, allSchools, schoolId }: { initialAssignments: any[], teachers: any[], allSchools: any[], schoolId: number | null }) {

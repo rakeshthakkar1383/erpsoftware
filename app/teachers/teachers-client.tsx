@@ -3,8 +3,9 @@
 import { useState, useEffect, useRef, useCallback } from "react"
 import { getAllTeachers, addTeacher, updateTeacher, deleteTeacher } from "./actions"
 import { createClient } from "@/lib/supabase/client"
+import { formatDate } from "@/lib/utils"
 
-const classes = Array.from({ length: 12 }, (_, i) => String(i + 1))
+const classes = ["Balvatika", ...Array.from({ length: 12 }, (_, i) => String(i + 1))]
 const emptyForm = { 
   full_name: "", mobile: "", salary: "", email: "",
   address: "", city: "", district: "", pincode: "", state: "",
@@ -321,7 +322,7 @@ export default function TeachersClient({ allSchools, schoolId, allSubjects, allT
                        </div>
                        <div className="space-y-1">
                           <label className="text-[10px] font-bold text-slate-500 uppercase">Retirement</label>
-                          <div className="w-full rounded bg-orange-50 border border-orange-200 p-3 text-xs font-bold text-orange-700">{retirement || "-"}</div>
+                          <div className="w-full rounded bg-orange-50 border border-orange-200 p-3 text-xs font-bold text-orange-700">{formatDate(retirement)}</div>
                        </div>
                     </div>
                  </div>

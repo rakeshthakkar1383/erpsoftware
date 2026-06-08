@@ -4,13 +4,14 @@ import { useState, useRef, useEffect } from "react"
 import {
   LayoutDashboard, Users, GraduationCap, DollarSign, CalendarCheck,
   BookOpen, ListOrdered, GitBranch,
-  UserCheck, FileText, LogOut, ChevronDown, Plus, Building2, Calendar, Award, Clock, FileInput
+  UserCheck, FileText, LogOut, ChevronDown, Plus, Building2, Calendar, Award, Clock, FileInput, DoorOpen
 } from "lucide-react"
 import { addSchool } from "@/app/manage-schools/actions"
 import { roleDefaults } from "@/lib/permissions"
 
 const allTabs = [
   { key: "dashboard", label: "Dashboard", icon: LayoutDashboard },
+  { key: "admission", label: "Admission Entry", icon: DoorOpen },
   { key: "trust-info", label: "Trust Info", icon: Building2 },
   { key: "manage-schools", label: "All Schools", icon: FileText },
   { key: "teachers", label: "Teacher Entry", icon: GraduationCap },
@@ -19,8 +20,7 @@ const allTabs = [
   { key: "divisions", label: "Divisions", icon: GitBranch },
   { key: "subjects", label: "Subjects", icon: BookOpen },
   { key: "streams", label: "Streams", icon: GitBranch },
-  { key: "fee-types", label: "Fee Types", icon: ListOrdered },
-  { key: "fee-particulars", label: "Fees Particular", icon: ListOrdered },
+  { key: "fee-types", label: "Fee Types & Heads", icon: ListOrdered },
   { key: "fees", label: "Fees", icon: DollarSign },
   { key: "attendance", label: "Attendance", icon: CalendarCheck },
   { key: "marksheet", label: "Marksheet", icon: Award },

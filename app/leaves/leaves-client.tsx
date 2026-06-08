@@ -2,6 +2,7 @@
 
 import { useState } from "react"
 import { getAllLeaves, addLeave, updateLeaveStatus, deleteLeave, getAllStudents, getAllTeachers } from "./actions"
+import { formatDate } from "@/lib/utils"
 
 const emptyForm: Record<string, string> = {
   applicant_type: "student", applicant_id: "", leave_type_id: "",
@@ -143,8 +144,8 @@ export default function LeavesClient({ initialLeaves, leaveTypes, schools, trust
                     <td className="px-3 py-2">{schools.find((s: any) => s.id === l.school_id)?.school_name || "-"}</td>
                     <td className="px-3 py-2">{trusts.find((t: any) => t.id === l.trust_id)?.trust_name || "-"}</td>
                     <td className="px-3 py-2">{lt?.name || "-"}</td>
-                    <td className="px-3 py-2">{l.from_date}</td>
-                    <td className="px-3 py-2">{l.to_date}</td>
+                    <td className="px-3 py-2">{formatDate(l.from_date)}</td>
+                    <td className="px-3 py-2">{formatDate(l.to_date)}</td>
                     <td className="px-3 py-2">{l.days}</td>
                     <td className="max-w-[200px] truncate px-3 py-2">{l.reason || "-"}</td>
                     <td className="px-3 py-2">

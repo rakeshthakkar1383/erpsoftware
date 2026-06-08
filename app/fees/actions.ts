@@ -72,6 +72,7 @@ export async function addFee(formData: FormData) {
   if (!raw.payment_date) raw.payment_date = null
   if (!raw.cheque_date) raw.cheque_date = null
   delete raw.duration_months
+  delete raw.selected_fee_type_ids
   if (raw.status === "Paid" && raw.student_id) {
     const receipt = await generateReceiptNo(supabase, raw.student_id, raw.fee_category || "School")
     if (receipt) {
@@ -124,12 +125,13 @@ export async function updateFee(id: number, formData: FormData) {
   if (!raw.cheque_date) raw.cheque_date = null
   delete raw.id
   delete raw.duration_months
+  delete raw.selected_fee_type_ids
   delete raw.receipt_no
   delete raw.receipt_year
   if (raw.status === "Paid" && raw.student_id) {
     const { data: existing } = await supabase.from("fees").select("receipt_no, receipt_year").eq("id", id).maybeSingle()
     if (!existing?.receipt_no) {
-      const receipt = await generateReceiptNo(supabase, raw.student_id, raw.fee_category || "School")
+      const receipt = await generateReceiptNo(supabase, raw.student_id, raw.fee_category || "School", raw.school_id)
       if (receipt) {
         raw.receipt_no = receipt.receipt_no
         raw.receipt_year = receipt.receipt_year

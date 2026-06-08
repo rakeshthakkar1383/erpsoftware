@@ -1,0 +1,1 @@
+ALTER TABLE fees ADD COLUMN IF NOT EXISTS term text DEFAULT 'Yearly';

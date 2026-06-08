@@ -44,9 +44,10 @@ export async function addStudent(formData: FormData) {
   if (raw.school_id) raw.school_id = Number(raw.school_id)
   else delete raw.school_id
 
-  const { error } = await supabase.from("students").insert([raw])
+  const { data: inserted, error } = await supabase.from("students").insert([raw]).select("id")
   revalidatePath("/students")
-  return { success: !error, message: error?.message || "Student added" }
+  const studentId = inserted && inserted.length > 0 ? inserted[0].id : null
+  return { success: !error, message: error?.message || "Student added", studentId }
 }
 
 export async function updateStudent(id: number, formData: FormData) {

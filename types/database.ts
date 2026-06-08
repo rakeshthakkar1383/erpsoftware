@@ -9,6 +9,8 @@ export interface SchoolInfo {
   principal_name: string | null
   affiliation: string | null
   logo_url: string | null
+  ssc_index_no: string | null
+  hsc_index_no: string | null
   updated_at: string | null
 }
 
@@ -75,6 +77,7 @@ export interface Fee {
   cheque_date: string | null
   bank_name: string | null
   particulars: any
+  term: string | null
   receipt_no: number | null
   receipt_year: string | null
   receipt_file_url: string | null
@@ -113,6 +116,7 @@ export interface FeeType {
   id: number
   name: string | null
   description: string | null
+  class_names: string | null
   school_id: number | null
   is_active: boolean | null
   created_at?: string

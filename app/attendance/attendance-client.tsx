@@ -2,8 +2,9 @@
 
 import { useState, useCallback, useRef } from "react"
 import { getAllAttendance, addAttendance, updateAttendance, deleteAttendance } from "./actions"
+import { formatDate } from "@/lib/utils"
 
-const classes = Array.from({ length: 12 }, (_, i) => String(i + 1))
+const classes = ["Balvatika", ...Array.from({ length: 12 }, (_, i) => String(i + 1))]
 const emptyForm: Record<string, string> = { student_id: "", attendance_date: "", status: "" }
 
 export default function AttendanceClient({ initialRecords, students, divisions, allSchools, schoolId, teacherClass }: { initialRecords: any[], students: any[], divisions: any[], allSchools: any[], schoolId: number | null, teacherClass: string }) {
@@ -122,7 +123,7 @@ export default function AttendanceClient({ initialRecords, students, divisions, 
                   <tr key={r.id}>
                     <td className="px-3 py-2">{i + 1}</td>
                     <td className="px-3 py-2">{s ? `${s.full_name} (${s.class_name})` : r.student_id}</td>
-                    <td className="px-3 py-2">{r.attendance_date}</td>
+                    <td className="px-3 py-2">{formatDate(r.attendance_date)}</td>
                     <td className="px-3 py-2">{r.status}</td>
                     <td className="flex gap-2 px-3 py-2">
                       <button className="text-blue-600 hover:underline" onClick={() => { setEditing(r); setForm({ ...r }); setMessage(""); setModal(true) }}>Edit</button>

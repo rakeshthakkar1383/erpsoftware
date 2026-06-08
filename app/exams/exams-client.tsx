@@ -2,8 +2,9 @@
 
 import { useState, useEffect, useRef } from "react"
 import { getAllExams, addExam, updateExam, deleteExam } from "./actions"
+import { formatDate } from "@/lib/utils"
 
-const classes = Array.from({ length: 12 }, (_, i) => String(i + 1))
+const classes = ["Balvatika", ...Array.from({ length: 12 }, (_, i) => String(i + 1))]
 const semesters = ["SEM 1", "SEM 2"]
 const emptyForm: Record<string, string> = { exam_name: "", class_name: "", semester: "SEM 1" }
 
@@ -118,7 +119,7 @@ export default function ExamsClient({ allSchools, schoolId }: { allSchools: any[
                   <td className="px-3 py-2">{e.exam_name}</td>
                   <td className="px-3 py-2">{e.class_name}</td>
                   <td className="px-3 py-2">{e.semester || "-"}</td>
-                  <td className="px-3 py-2">{e.created_at || "-"}</td>
+                  <td className="px-3 py-2">{formatDate(e.created_at)}</td>
                   <td className="flex gap-2 px-3 py-2">
                     <button className="text-blue-600 hover:underline" onClick={() => { setEditing(e); setForm({ exam_name: e.exam_name || "", class_name: e.class_name || "", semester: e.semester || "SEM 1" }); setMessage(""); setModal(true) }}>Edit</button>
                     <button className="text-red-600 hover:underline" onClick={() => handleDelete(e.id)}>Delete</button>

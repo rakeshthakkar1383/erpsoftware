@@ -1,6 +1,7 @@
 import { createClient } from "@/lib/supabase/server"
 import { notFound } from "next/navigation"
 import Link from "next/link"
+import { formatDate } from "@/lib/utils"
 
 export const dynamic = "force-dynamic"
 
@@ -71,7 +72,7 @@ export default async function StudentDetailPage({ params }: { params: Promise<{ 
             <h3 className="mb-4 text-lg font-semibold text-slate-700 border-b pb-2">Personal Details</h3>
             <div className="grid grid-cols-2 gap-4 text-sm">
               <div><span className="font-medium text-slate-500">Gender:</span> <span className="text-slate-800">{student.gender || "-"}</span></div>
-              <div><span className="font-medium text-slate-500">Date of Birth:</span> <span className="text-slate-800">{student.dob || "-"} ({calculateAge(student.dob)})</span></div>
+              <div><span className="font-medium text-slate-500">Date of Birth:</span> <span className="text-slate-800">{formatDate(student.dob)} ({calculateAge(student.dob)})</span></div>
               <div><span className="font-medium text-slate-500">Father's Name:</span> <span className="text-slate-800">{student.father_name || "-"}</span></div>
               <div><span className="font-medium text-slate-500">Father's Mobile:</span> <span className="text-slate-800">{student.father_mobile || "-"}</span></div>
               <div><span className="font-medium text-slate-500">Mother's Name:</span> <span className="text-slate-800">{student.mother_name || "-"}</span></div>
@@ -165,7 +166,7 @@ export default async function StudentDetailPage({ params }: { params: Promise<{ 
                         <td className="px-4 py-2">{Number(f.amount).toFixed(2)}</td>
                         <td className="px-4 py-2">{f.status}</td>
                         <td className="px-4 py-2">{f.payment_mode || "-"}</td>
-                        <td className="px-4 py-2">{f.payment_date || "-"}</td>
+                        <td className="px-4 py-2">{formatDate(f.payment_date)}</td>
                       </tr>
                     ))}
                   </tbody>

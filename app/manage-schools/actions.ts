@@ -10,39 +10,56 @@ export async function getAllSchools() {
 }
 
 export async function addSchool(formData: FormData) {
-  const supabase = await createClient()
-  const raw: any = {}
-  formData.forEach((v, k) => { raw[k] = v })
+  try {
+    const supabase = await createClient()
+    const raw: any = {}
+    formData.forEach((v, k) => { if (v && v !== "null") raw[k] = v })
 
-  const { data, error } = await supabase.from("school_info").insert([raw]).select("id").single()
-  if (!error && data?.id) {
-    const { data: { user } } = await supabase.auth.getUser()
-    if (user) {
-      await supabase.auth.updateUser({
-        data: { ...user.user_metadata, school_id: data.id }
-      })
+    const { data, error } = await supabase.from("school_info").insert([raw]).select("id").single()
+    if (error) throw error
+
+    if (data?.id) {
+      const { data: { user } } = await supabase.auth.getUser()
+      if (user) {
+        await supabase.auth.updateUser({
+          data: { ...user.user_metadata, school_id: data.id }
+        })
+      }
     }
+    revalidatePath("/", "layout")
+    return { success: true, message: "School created successfully", schoolId: data?.id }
+  } catch (err: any) {
+    return { success: false, message: err?.message || "Failed to create school" }
   }
-  revalidatePath("/", "layout")
-  return { success: !error, message: error?.message || "School created", schoolId: data?.id }
 }
 
 export async function deleteSchool(id: number) {
-  const supabase = await createClient()
-  const { error } = await supabase.from("school_info").delete().eq("id", id)
-  revalidatePath("/manage-schools")
-  return { success: !error, message: error?.message || "School deleted" }
+  try {
+    const supabase = await createClient()
+    const { error } = await supabase.from("school_info").delete().eq("id", id)
+    if (error) throw error
+    revalidatePath("/manage-schools")
+    return { success: true, message: "School deleted successfully" }
+  } catch (err: any) {
+    return { success: false, message: err?.message || "Failed to delete school" }
+  }
 }
 
 export async function updateSchoolById(id: number, formData: FormData) {
-  const supabase = await createClient()
-  const raw: any = {}
-  formData.forEach((v, k) => { raw[k] = v })
-  delete raw.id
-  const { error } = await supabase.from("school_info").update(raw).eq("id", id)
-  if (error) console.error("updateSchoolById error", error)
-  revalidatePath("/manage-schools")
-  return { success: !error, message: error?.message || "School updated" }
+  try {
+    const supabase = await createClient()
+    const raw: any = {}
+    formData.forEach((v, k) => { if (v && v !== "null") raw[k] = v })
+    delete raw.id
+    
+    const { error } = await supabase.from("school_info").update(raw).eq("id", id)
+    if (error) throw error
+    
+    revalidatePath("/manage-schools")
+    return { success: true, message: "School updated successfully" }
+  } catch (err: any) {
+    return { success: false, message: err?.message || "Failed to update school" }
+  }
 }
 
 export async function switchSchool(schoolId: number) {

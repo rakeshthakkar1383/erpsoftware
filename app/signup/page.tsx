@@ -6,7 +6,7 @@ import { createClient } from "@/lib/supabase/client"
 
 export const dynamic = "force-dynamic"
 
-const classes = Array.from({ length: 12 }, (_, i) => String(i + 1))
+const classes = ["Balvatika", ...Array.from({ length: 12 }, (_, i) => String(i + 1))]
 
 export default function SignupPage() {
   const router = useRouter()
