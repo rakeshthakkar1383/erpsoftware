@@ -4,7 +4,7 @@ import { createClient } from "@/lib/supabase/server"
 import { revalidatePath } from "next/cache"
 import { generateInstallments, deleteInstallmentsByFeeId } from "./installment-actions"
 
-async function generateReceiptNo(supabase: any, studentId: number, feeCategory: string): Promise<{ receipt_no: number; receipt_year: string } | null> {
+async function generateReceiptNo(supabase: any, studentId: number, feeCategory: string, schoolId?: number): Promise<{ receipt_no: number; receipt_year: string } | null> {
   const { data: student } = await supabase.from("students").select("academic_year_id").eq("id", studentId).maybeSingle()
   const academicYearId = student?.academic_year_id
   let receiptYear = new Date().getFullYear().toString()
@@ -12,14 +12,13 @@ async function generateReceiptNo(supabase: any, studentId: number, feeCategory: 
     const { data: year } = await supabase.from("academic_years").select("year_name").eq("id", academicYearId).maybeSingle()
     if (year?.year_name) receiptYear = year.year_name
   }
-  const { data: maxRow } = await supabase
+  let query = supabase
     .from("fees")
     .select("receipt_no")
     .eq("receipt_year", receiptYear)
     .eq("fee_category", feeCategory)
-    .order("receipt_no", { ascending: false })
-    .limit(1)
-    .maybeSingle()
+  if (schoolId) query = query.eq("school_id", schoolId)
+  const { data: maxRow } = await query.order("receipt_no", { ascending: false }).limit(1).maybeSingle()
   const nextNo = (maxRow?.receipt_no || 0) + 1
   return { receipt_no: nextNo, receipt_year: receiptYear }
 }
