@@ -12,18 +12,20 @@ type DashboardClientProps = {
   fees: any[]
   teachers: any[]
   trusts: any[]
+  leaves: any[]
   teacherClass: string
   defaultSchoolId: number | null
 }
 
 export default function DashboardClient({
-  user, schools, students, divisions, fees, teachers, trusts, teacherClass, defaultSchoolId,
+  user, schools, students, divisions, fees, teachers, trusts, leaves, teacherClass, defaultSchoolId,
 }: DashboardClientProps) {
   const [selectedSchoolId, setSelectedSchoolId] = useState<number | null>(defaultSchoolId)
   const [selectedClass, setSelectedClass] = useState<string | null>(teacherClass || null)
   const [selectedDiv, setSelectedDiv] = useState<string | null>(null)
   const [selectedFeeClass, setSelectedFeeClass] = useState<string | null>(teacherClass || null)
   const [selectedTrust, setSelectedTrust] = useState<number | null>(null)
+  const [selectedLeaveStatus, setSelectedLeaveStatus] = useState<string | null>(null)
 
   const school = schools.find(s => s.id === selectedSchoolId)
 
@@ -47,6 +49,14 @@ export default function DashboardClient({
     () => trusts.filter(t => t.school_id === selectedSchoolId),
     [trusts, selectedSchoolId]
   )
+  const filteredTeacherLeaves = useMemo(
+    () => leaves.filter(l => l.school_id === selectedSchoolId && l.applicant_type === "teacher"),
+    [leaves, selectedSchoolId]
+  )
+
+  const approvedLeaves = filteredTeacherLeaves.filter(l => l.status === "Approved")
+  const rejectedLeaves = filteredTeacherLeaves.filter(l => l.status === "Rejected")
+  const pendingLeaves = filteredTeacherLeaves.filter(l => l.status === "Pending")
 
   const paidStudentIds = new Set(
     filteredFees.filter(f => f.status?.toLowerCase() === "paid").map(f => f.student_id)
@@ -152,10 +162,89 @@ export default function DashboardClient({
         </div>
       )}
 
+      {selectedSchoolId && (
+        <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-3">
+          <button
+            className={`rounded-lg border p-4 shadow-sm transition hover:shadow-md ${
+              selectedLeaveStatus === "Approved" ? "border-green-500 bg-green-100" : "border-green-200 bg-green-50"
+            }`}
+            onClick={() => setSelectedLeaveStatus(selectedLeaveStatus === "Approved" ? null : "Approved")}
+          >
+            <div className="text-xs uppercase tracking-wide text-green-600">Teacher Approved Leaves</div>
+            <div className="text-3xl font-bold text-green-800">{approvedLeaves.length}</div>
+          </button>
+          <button
+            className={`rounded-lg border p-4 shadow-sm transition hover:shadow-md ${
+              selectedLeaveStatus === "Rejected" ? "border-red-500 bg-red-100" : "border-red-200 bg-red-50"
+            }`}
+            onClick={() => setSelectedLeaveStatus(selectedLeaveStatus === "Rejected" ? null : "Rejected")}
+          >
+            <div className="text-xs uppercase tracking-wide text-red-600">Teacher Rejected Leaves</div>
+            <div className="text-3xl font-bold text-red-800">{rejectedLeaves.length}</div>
+          </button>
+          <button
+            className={`rounded-lg border p-4 shadow-sm transition hover:shadow-md ${
+              selectedLeaveStatus === "Pending" ? "border-amber-500 bg-amber-100" : "border-amber-200 bg-amber-50"
+            }`}
+            onClick={() => setSelectedLeaveStatus(selectedLeaveStatus === "Pending" ? null : "Pending")}
+          >
+            <div className="text-xs uppercase tracking-wide text-amber-600">Teacher Pending Leaves</div>
+            <div className="text-3xl font-bold text-amber-800">{pendingLeaves.length}</div>
+          </button>
+        </div>
+      )}
+
+      {selectedSchoolId && selectedLeaveStatus && (
+        <div className="mb-8 rounded-lg border bg-white p-4 shadow-sm">
+          <h3 className="mb-4 text-lg font-semibold text-slate-700">Teacher {selectedLeaveStatus} Leaves</h3>
+          <div className="overflow-x-auto">
+            <table className="min-w-full divide-y divide-slate-200 text-left text-sm">
+              <thead className="bg-slate-50 text-xs uppercase text-slate-500">
+                <tr>
+                  <th className="px-4 py-2">Teacher Name</th>
+                  <th className="px-4 py-2">From Date</th>
+                  <th className="px-4 py-2">To Date</th>
+                  <th className="px-4 py-2">Days</th>
+                  <th className="px-4 py-2">Reason</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-100">
+                {(selectedLeaveStatus === "Approved" ? approvedLeaves :
+                  selectedLeaveStatus === "Rejected" ? rejectedLeaves :
+                  pendingLeaves).map((l: any) => {
+                    const teacher = teachers.find(t => t.id === l.applicant_id)
+                    return (
+                      <tr key={l.id}>
+                        <td className="px-4 py-2 font-medium">{teacher?.full_name || "Unknown"}</td>
+                        <td className="px-4 py-2">{l.from_date}</td>
+                        <td className="px-4 py-2">{l.to_date}</td>
+                        <td className="px-4 py-2">{l.days}</td>
+                        <td className="px-4 py-2">{l.reason}</td>
+                      </tr>
+                    )
+                  })}
+                {(selectedLeaveStatus === "Approved" ? approvedLeaves :
+                  selectedLeaveStatus === "Rejected" ? rejectedLeaves :
+                  pendingLeaves).length === 0 && (
+                  <tr>
+                    <td colSpan={5} className="px-4 py-8 text-center text-slate-500">No {selectedLeaveStatus.toLowerCase()} leaves found</td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      )}
+
       {!selectedSchoolId && (
         <div className="mb-6 grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
           {schools.map(s => {
             const sc = students.filter(st => st.school_id === s.id)
+            const sl = leaves.filter(l => l.school_id === s.id && l.applicant_type === "teacher")
+            const approved = sl.filter(l => l.status === "Approved").length
+            const rejected = sl.filter(l => l.status === "Rejected").length
+            const pending = sl.filter(l => l.status === "Pending").length
+
             return (
               <button
                 key={s.id}
@@ -164,6 +253,11 @@ export default function DashboardClient({
               >
                 <div className="text-lg font-bold text-blue-700">{s.school_name}</div>
                 <div className="mt-1 text-sm text-slate-500">{sc.length} Students</div>
+                <div className="mt-2 flex items-center justify-center gap-2 text-[10px] font-bold uppercase tracking-tight">
+                  <span className="text-green-600">A: {approved}</span>
+                  <span className="text-red-600">R: {rejected}</span>
+                  <span className="text-amber-600">P: {pending}</span>
+                </div>
               </button>
             )
           })}

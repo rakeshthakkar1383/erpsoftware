@@ -1,1 +1,1 @@
-self.__REACT_LOADABLE_MANIFEST='{"app/fee-types/fee-types-client.tsx -> ../fee-particulars/actions":{"id":3556,"files":["static/chunks/3556.4f60b0bc4f1b57a1.js"]}}';
+self.__REACT_LOADABLE_MANIFEST="{\"app/fee-types/fee-types-client.tsx -> ../fee-particulars/actions\":{\"id\":\"app/fee-types/fee-types-client.tsx -> ../fee-particulars/actions\",\"files\":[\"static/chunks/_app-pages-browser_app_fee-particulars_actions_ts.js\"]}}"

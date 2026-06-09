@@ -13,6 +13,7 @@ export default async function DashboardPage() {
   const { data: fees } = await supabase.from("fees").select("*")
   const { data: teachers } = await supabase.from("teachers").select("*")
   const { data: trusts } = await supabase.from("trust_info").select("*").order("trust_name")
+  const { data: leaves } = await supabase.from("leaves").select("*")
 
   const teacherClass = user?.user_metadata?.class_name || ""
   const schoolId = user?.user_metadata?.school_id
@@ -26,6 +27,7 @@ export default async function DashboardPage() {
       fees={fees || []}
       teachers={teachers || []}
       trusts={trusts || []}
+      leaves={leaves || []}
       teacherClass={teacherClass}
       defaultSchoolId={schoolId ? Number(schoolId) : null}
     />

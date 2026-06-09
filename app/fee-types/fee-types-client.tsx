@@ -34,7 +34,7 @@ export default function FeeTypesClient({ initialFeeTypes, initialParticulars, al
   const set = (field: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>
     setForm({ ...form, [field]: field === "name" ? e.target.value.toUpperCase() : e.target.value })
 
-  const addHead = () => setHeads([...heads, { class_name: selectedClasses[0] || "", particular_name: "", amount: "", duration_months: 12, term: "Yearly" }])
+  const addHead = () => setHeads([...heads, { particular_name: "", amount: "", duration_months: 12, term: "Yearly" }])
   const updateHead = (i: number, updates: any) => {
     setHeads(prev => {
       const next = [...prev]
@@ -47,12 +47,21 @@ export default function FeeTypesClient({ initialFeeTypes, initialParticulars, al
   const toFD = (obj: any) => { 
     const fd = new FormData()
     Object.entries(obj).forEach(([k, v]) => fd.append(k, String(v ?? "")))
-    fd.append("heads", JSON.stringify(heads))
+    
+    const expandedHeads: any[] = []
+    heads.forEach(h => {
+      selectedClasses.forEach(cls => {
+        expandedHeads.push({ ...h, class_name: cls })
+      })
+    })
+    
+    fd.append("heads", JSON.stringify(expandedHeads))
     return fd 
   }
 
   const handleSave = async () => {
     if (!form.name) { setMessage("Fee type name is required"); return }
+    if (selectedClasses.length === 0) { setMessage("Please select at least one class"); return }
     if (form.fee_category === "School" && !schoolId && !form.school_id) { setMessage("School is required for school fee type."); return }
     if (form.fee_category === "Trust" && !form.trust_id) { setMessage("Trust is required for trust fee type."); return }
     const res = editing ? await updateFeeType(editing.id, toFD(form)) : await addFeeType(toFD(form))
@@ -119,7 +128,18 @@ export default function FeeTypesClient({ initialFeeTypes, initialParticulars, al
                       <button className="ml-1 text-blue-600 hover:underline" onClick={() => { 
                         setEditing(ft); 
                         setForm({ name: ft.name || "", description: ft.description || "", class_names: ft.class_names || "", fee_category: ft.fee_category || "School", school_id: ft.school_id ? String(ft.school_id) : "", trust_id: ft.trust_id ? String(ft.trust_id) : "" }); 
-                        setHeads(ftHeads.map((h: any) => ({ class_name: h.class_name, particular_name: h.particular_name, amount: String(h.amount), duration_months: h.duration_months || 12, term: h.term || "Yearly" })));
+                        
+                        // Deduplicate heads for UI by taking unique name-amount-term combinations
+                        const uniqueHeads: any[] = []
+                        const seen = new Set()
+                        ftHeads.forEach((h: any) => {
+                          const key = `${h.particular_name}-${h.amount}-${h.term}`
+                          if (!seen.has(key)) {
+                            seen.add(key)
+                            uniqueHeads.push({ particular_name: h.particular_name, amount: String(h.amount), duration_months: h.duration_months || 12, term: h.term || "Yearly" })
+                          }
+                        })
+                        setHeads(uniqueHeads);
                         setMessage(""); 
                         setModal(true) 
                       }}>Edit</button>
@@ -184,12 +204,8 @@ export default function FeeTypesClient({ initialFeeTypes, initialParticulars, al
                   <div className="space-y-2">
                     {heads.map((h, i) => (
                       <div key={i} className="grid grid-cols-12 gap-2 bg-white p-2 rounded border shadow-sm">
-                        <select className="col-span-3 rounded border p-2 text-xs font-bold" value={h.class_name} onChange={e => updateHead(i, { class_name: e.target.value })}>
-                          <option value="">CLASS</option>
-                          {selectedClasses.map(c => <option key={c} value={c}>{c}</option>)}
-                        </select>
-                        <input className="col-span-3 rounded border p-2 text-xs" placeholder="HEAD NAME" value={h.particular_name} onChange={e => updateHead(i, { particular_name: e.target.value.toUpperCase() })} />
-                        <input className="col-span-2 rounded border p-2 text-xs font-bold text-blue-600" type="number" placeholder="AMT" value={h.amount} onChange={e => updateHead(i, { amount: e.target.value })} />
+                        <input className="col-span-5 rounded border p-2 text-xs" placeholder="HEAD NAME" value={h.particular_name} onChange={e => updateHead(i, { particular_name: e.target.value.toUpperCase() })} />
+                        <input className="col-span-3 rounded border p-2 text-xs font-bold text-blue-600" type="number" placeholder="AMT" value={h.amount} onChange={e => updateHead(i, { amount: e.target.value })} />
                         <select className="col-span-3 rounded border p-2 text-xs" value={h.term} onChange={e => {
                           const val = e.target.value
                           updateHead(i, { term: val, duration_months: val === "Yearly" ? 12 : 6 })
