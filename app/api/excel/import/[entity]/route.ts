@@ -16,12 +16,16 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
 
-  const schoolId = user.user_metadata?.school_id
+  const schoolIdFromMetadata = user.user_metadata?.school_id
 
   try {
     const formData = await request.formData()
     const file = formData.get("file") as File | null
+    const explicitSchoolId = formData.get("school_id")
+    
     if (!file) return NextResponse.json({ error: "No file provided" }, { status: 400 })
+
+    const schoolId = explicitSchoolId ? Number(explicitSchoolId) : schoolIdFromMetadata
 
     const buf = Buffer.from(await file.arrayBuffer())
     const wb = XLSX.read(buf, { type: "buffer" })
@@ -36,6 +40,12 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     for (let i = 0; i < rows.length; i++) {
       const row = rows[i]
       if (schoolId) row.school_id = schoolId
+      
+      // Fallback for fees/marks if schoolId still missing
+      if (!row.school_id && (entity === "fees" || entity === "marks") && row.student_id) {
+         const { data: student } = await supabase.from("students").select("school_id").eq("id", row.student_id).single()
+         if (student?.school_id) row.school_id = student.school_id
+      }
 
       const { error } = await supabase.from(entity as any).insert([row])
       if (error) {

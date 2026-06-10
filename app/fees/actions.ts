@@ -76,10 +76,17 @@ export async function addFee(formData: FormData) {
   if (!raw.fee_category) raw.fee_category = "School"
   if (raw.school_id) raw.school_id = Number(raw.school_id)
   else if (user?.user_metadata?.school_id) raw.school_id = Number(user.user_metadata.school_id)
-  else if (raw.student_id) {
+  
+  if (!raw.school_id && raw.student_id) {
     const { data: student } = await supabase.from("students").select("school_id").eq("id", raw.student_id).single()
     if (student?.school_id) raw.school_id = student.school_id
-  } else delete raw.school_id
+  }
+
+  if (!raw.school_id) {
+     // If still no school_id, we might have a problem for RLS. 
+     // For admins, we allow it, but clerks won't see it.
+     delete raw.school_id
+  }
   if (!raw.payment_date) raw.payment_date = null
   if (!raw.cheque_date) raw.cheque_date = null
   delete raw.duration_months
@@ -142,8 +149,17 @@ export async function updateFee(id: number, formData: FormData) {
   if (raw.fee_type_id) raw.fee_type_id = Number(raw.fee_type_id)
   else raw.fee_type_id = null
   if (!raw.fee_category) raw.fee_category = "School"
+  
   if (raw.school_id) raw.school_id = Number(raw.school_id)
-  else delete raw.school_id
+  else if (user?.user_metadata?.school_id) raw.school_id = Number(user.user_metadata.school_id)
+  
+  if (!raw.school_id && raw.student_id) {
+    const { data: student } = await supabase.from("students").select("school_id").eq("id", raw.student_id).single()
+    if (student?.school_id) raw.school_id = student.school_id
+  }
+
+  if (!raw.school_id) delete raw.school_id
+
   if (!raw.payment_date) raw.payment_date = null
   if (!raw.cheque_date) raw.cheque_date = null
   delete raw.id

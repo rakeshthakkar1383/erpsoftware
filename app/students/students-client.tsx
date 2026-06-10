@@ -128,6 +128,8 @@ export default function StudentsClient({
     if (!file) return
     const fd = new FormData()
     fd.append("file", file)
+    if (schoolId) fd.append("school_id", String(schoolId))
+    
     try {
       const res = await fetch("/api/excel/import/students", { method: "POST", body: fd })
       const data = await res.json()

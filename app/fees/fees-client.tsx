@@ -299,6 +299,7 @@ export default function FeesClient({ initialFees, students, particulars, feeType
       fd.append("dob", form.dob)
       fd.append("category", form.category)
       if (schoolId) fd.append("school_id", String(schoolId))
+      else if (form.school_id) fd.append("school_id", String(form.school_id))
       const activeYear = years.find((y: any) => y.is_active)
       if (activeYear) fd.append("academic_year_id", String(activeYear.id))
       const res = await addStudent(fd)
@@ -374,8 +375,19 @@ export default function FeesClient({ initialFees, students, particulars, feeType
   const handleImport = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
+    
+    // For admins, ensure a school is selected if we don't have a fixed schoolId
+    if (!schoolId && !form.school_id) {
+       alert("Please select a school from the 'Add New' modal dropdown before importing to ensure records are visible to clerks.")
+       if (fileInputRef.current) fileInputRef.current.value = ""
+       return
+    }
+
     const fd = new FormData()
     fd.append("file", file)
+    if (schoolId) fd.append("school_id", String(schoolId))
+    else if (form.school_id) fd.append("school_id", String(form.school_id))
+
     try {
       const res = await fetch("/api/excel/import/fees", { method: "POST", body: fd })
       const data = await res.json()
