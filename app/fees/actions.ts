@@ -159,15 +159,25 @@ export async function updateFee(id: number, formData: FormData) {
   delete raw.id
   delete raw.duration_months
   delete raw.selected_fee_type_ids
-  delete raw.receipt_no
-  delete raw.receipt_year
+  
   if (raw.status === "Paid" && raw.student_id) {
-    const { data: existing } = await supabase.from("fees").select("receipt_no, receipt_year").eq("id", id).maybeSingle()
-    if (!existing?.receipt_no) {
-      const receipt = await generateReceiptNo(supabase, raw.student_id, raw.fee_category || "School", raw.school_id)
-      if (receipt) {
-        raw.receipt_no = receipt.receipt_no
-        raw.receipt_year = receipt.receipt_year
+    if (raw.receipt_no) {
+      raw.receipt_no = Number(raw.receipt_no)
+      // Manual override during update: ensure sequence is maintained
+      await supabase.from("receipt_sequences").upsert({
+        school_id: raw.school_id || 0,
+        receipt_year: raw.receipt_year,
+        fee_category: raw.fee_category || "School",
+        last_receipt_no: raw.receipt_no
+      }, { onConflict: 'school_id, receipt_year, fee_category' })
+    } else {
+      const { data: existing } = await supabase.from("fees").select("receipt_no, receipt_year").eq("id", id).maybeSingle()
+      if (!existing?.receipt_no) {
+        const receipt = await generateReceiptNo(supabase, raw.student_id, raw.fee_category || "School", raw.school_id)
+        if (receipt) {
+          raw.receipt_no = receipt.receipt_no
+          raw.receipt_year = receipt.receipt_year
+        }
       }
     }
   }

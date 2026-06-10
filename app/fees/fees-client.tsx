@@ -8,8 +8,8 @@ import { formatDate } from "@/lib/utils"
 
 const classes = ["Balvatika", ...Array.from({ length: 12 }, (_, i) => String(i + 1))]
 type ParticularItem = { particular_name: string; amount: string; duration_months?: number; term?: string }
-type FeeForm = { student_id: string; fee_category: string; selectedFeeTypeIds: string[]; trust_id: string; particulars: ParticularItem[]; status: string; payment_date: string; payment_mode: string; transaction_id: string; cheque_number: string; cheque_date: string; bank_name: string; school_id: string; receipt_file_url: string; full_name: string; class_name: string; mobile: string; gender: string; dob: string; category: string; term: string; [key: string]: any }
-const emptyForm: FeeForm = { student_id: "", fee_category: "School", selectedFeeTypeIds: [], trust_id: "", particulars: [] as ParticularItem[], amount: "", status: "Paid", payment_date: "", payment_mode: "", transaction_id: "", cheque_number: "", cheque_date: "", bank_name: "", school_id: "", receipt_file_url: "", full_name: "", class_name: "", mobile: "", gender: "", dob: "", category: "", term: "Yearly" }
+type FeeForm = { student_id: string; fee_category: string; selectedFeeTypeIds: string[]; trust_id: string; particulars: ParticularItem[]; status: string; payment_date: string; payment_mode: string; transaction_id: string; cheque_number: string; cheque_date: string; bank_name: string; school_id: string; receipt_file_url: string; full_name: string; class_name: string; mobile: string; gender: string; dob: string; category: string; term: string; receipt_no: string; receipt_year: string; [key: string]: any }
+const emptyForm: FeeForm = { student_id: "", fee_category: "School", selectedFeeTypeIds: [], trust_id: "", particulars: [] as ParticularItem[], amount: "", status: "Paid", payment_date: "", payment_mode: "", transaction_id: "", cheque_number: "", cheque_date: "", bank_name: "", school_id: "", receipt_file_url: "", full_name: "", class_name: "", mobile: "", gender: "", dob: "", category: "", term: "Yearly", receipt_no: "", receipt_year: "" }
 
 type FeesClientProps = {
   initialFees: any[]
@@ -106,7 +106,7 @@ export default function FeesClient({ initialFees, students, particulars, feeType
 
   const set = (field: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const val = e.target.value
-    const noUpper = ["class_name", "dob", "payment_date", "cheque_date"]
+    const noUpper = ["class_name", "dob", "payment_date", "cheque_date", "receipt_no", "receipt_year"]
     setForm(prev => ({ ...prev, [field]: noUpper.includes(field) ? val : val.toUpperCase() }))
   }
 
@@ -194,7 +194,18 @@ export default function FeesClient({ initialFees, students, particulars, feeType
     const activeTypeIds = isAllRecord ? [] : selectedIds
     let classParticulars = getParticularsForClass(s.class_name || "", activeTypeIds.length > 0 ? activeTypeIds : undefined, form.term)
     let parts = classParticulars.map((p: any) => ({ particular_name: p.particular_name, amount: String(p.amount), duration_months: p.duration_months || 12, term: p.term || "Yearly" }))
-    setForm(prev => ({ ...prev, student_id: studentId, selectedFeeTypeIds: selectedIds, particulars: parts }))
+    setForm(prev => ({ 
+      ...prev, 
+      student_id: studentId, 
+      selectedFeeTypeIds: selectedIds, 
+      particulars: parts,
+      full_name: s.full_name || "",
+      class_name: s.class_name || "",
+      mobile: s.mobile || "",
+      gender: s.gender || "",
+      dob: s.dob || "",
+      category: s.category || ""
+    }))
   }
 
   const reloadParticularsForClassAndType = (className: string, feeTypeId: string, term?: string) => {
@@ -227,12 +238,7 @@ export default function FeesClient({ initialFees, students, particulars, feeType
 
   const handleStudentSelect = (studentId: string) => {
     if (String(studentId) === String(form.student_id)) return
-    if (guidedClass && guidedFeeTypeId && !editing) {
-       setForm(prev => ({ ...prev, student_id: studentId }))
-    } else {
-       reloadParticulars(studentId, form.selectedFeeTypeIds)
-       setForm(prev => ({ ...prev, student_id: studentId }))
-    }
+    reloadParticulars(studentId, form.selectedFeeTypeIds)
   }
 
   const handleFeeTypeToggle = (id: string) => {
@@ -501,6 +507,7 @@ export default function FeesClient({ initialFees, students, particulars, feeType
                         const s = studentMap[f.student_id]
                         setForm({ 
                           ...f, 
+                          receipt_no: String(f.receipt_no || ""),
                           full_name: s?.full_name || "",
                           class_name: s?.class_name || "",
                           mobile: s?.mobile || "",
@@ -535,7 +542,7 @@ export default function FeesClient({ initialFees, students, particulars, feeType
       {modal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
           <div className="max-h-[90vh] w-full max-w-2xl overflow-y-auto rounded-lg bg-white p-6 shadow-xl">
-            <h3 className="mb-4 text-xl font-semibold">{editing ? "Edit Fee Record" : (admissionType === "new" ? "Admit & Collect Fee" : "Add Fee Record")}</h3>
+            <h3 className="mb-4 text-xl font-semibold">{editing ? `Edit Fee Record - ${form.full_name}` : (admissionType === "new" ? "Admit & Collect Fee" : "Add Fee Record")}</h3>
             {!editing && (
               <div className="mb-4 flex rounded-lg border bg-slate-50 p-1">
                 <button
@@ -590,13 +597,11 @@ export default function FeesClient({ initialFees, students, particulars, feeType
                   
                   <input className="w-full rounded border p-3 text-sm font-bold" placeholder="MOBILE NO" value={form.mobile} onChange={set("mobile")} />
                   
-                  {/* Receipt Number editing */}
-                  {editing && (
-                    <div className="grid grid-cols-2 gap-3">
-                        <input className="w-full rounded border p-3 text-sm font-bold" placeholder="Receipt No" value={form.receipt_no || ""} onChange={set("receipt_no")} />
-                        <input className="w-full rounded border p-3 text-sm font-bold" placeholder="Receipt Year" value={form.receipt_year || ""} onChange={set("receipt_year")} />
-                    </div>
-                  )}
+                  {/* Receipt Number editing - Always visible for manual override */}
+                  <div className="grid grid-cols-2 gap-3">
+                      <input className="w-full rounded border p-3 text-sm font-bold" placeholder="Receipt No (Auto-generated if empty)" value={form.receipt_no || ""} onChange={set("receipt_no")} />
+                      <input className="w-full rounded border p-3 text-sm font-bold" placeholder="Receipt Year" value={form.receipt_year || ""} onChange={set("receipt_year")} />
+                  </div>
 
                   <div className="grid grid-cols-2 gap-3">
                     <select className="rounded border bg-white p-3 text-sm font-bold" value={form.gender} onChange={set("gender")}>
