@@ -15,31 +15,19 @@ async function generateReceiptNo(supabase: any, studentId: number, feeCategory: 
 
   const sid = schoolId || 0
   
-  // Atomic update to sequence
-  const { data: sequence, error } = await supabase
-    .from("receipt_sequences")
-    .upsert({ school_id: sid, receipt_year: receiptYear, fee_category: feeCategory, last_receipt_no: 1 }, { onConflict: 'school_id, receipt_year, fee_category' })
-    .select()
+  // Call atomic increment function
+  const { data: nextNo, error: rpcError } = await supabase.rpc("increment_receipt_no", {
+    p_school_id: sid,
+    p_year: receiptYear,
+    p_category: feeCategory
+  })
 
-  // This is a simplified approach, real atomic increment requires a function. 
-  // Given constraints, I'll fetch-and-increment with a transaction-like approach.
-  
-  const { data: currentSeq } = await supabase
-    .from("receipt_sequences")
-    .select("last_receipt_no")
-    .eq("school_id", sid)
-    .eq("receipt_year", receiptYear)
-    .eq("fee_category", feeCategory)
-    .maybeSingle()
-
-  const nextNo = (currentSeq?.last_receipt_no || 0) + 1
-  
-  await supabase
-    .from("receipt_sequences")
-    .update({ last_receipt_no: nextNo })
-    .eq("school_id", sid)
-    .eq("receipt_year", receiptYear)
-    .eq("fee_category", feeCategory)
+  if (rpcError) {
+    console.error("RPC increment error:", rpcError)
+    // Fallback if RPC fails for some reason
+    const { data: maxRow } = await supabase.from("fees").select("receipt_no").eq("receipt_year", receiptYear).eq("fee_category", feeCategory).eq("school_id", sid).order("receipt_no", { ascending: false }).limit(1).maybeSingle()
+    return { receipt_no: (maxRow?.receipt_no || 0) + 1, receipt_year: receiptYear }
+  }
 
   return { receipt_no: nextNo, receipt_year: receiptYear }
 }
@@ -113,6 +101,8 @@ export async function addFee(formData: FormData) {
        }
     }
   }
+  if (!raw.payment_date) raw.payment_date = null
+  if (!raw.cheque_date) raw.cheque_date = null
   const { data: inserted, error } = await supabase.from("fees").insert([raw]).select("id").single()
   if (!error && inserted) {
     // Generate only 1 installment for the full amount

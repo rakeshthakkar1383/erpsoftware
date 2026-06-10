@@ -43,6 +43,7 @@ export async function addStudent(formData: FormData) {
   if (!raw.school_id && user?.user_metadata?.school_id) raw.school_id = Number(user.user_metadata.school_id)
   if (raw.school_id) raw.school_id = Number(raw.school_id)
   else delete raw.school_id
+  if (!raw.dob) raw.dob = null
 
   const { data: inserted, error } = await supabase.from("students").insert([raw]).select("id")
   revalidatePath("/students")
@@ -60,6 +61,7 @@ export async function updateStudent(id: number, formData: FormData) {
   else delete raw.academic_year_id
   if (raw.school_id) raw.school_id = Number(raw.school_id)
   else delete raw.school_id
+  if (!raw.dob) raw.dob = null
   delete raw.id
   const { error } = await supabase.from("students").update(raw).eq("id", id)
   revalidatePath("/students")
