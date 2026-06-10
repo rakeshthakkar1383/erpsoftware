@@ -76,7 +76,7 @@ export default function FeeTypesClient({ initialFeeTypes, initialParticulars, al
   }
 
   const q = search.toLowerCase()
-  const filtered = feeTypes.filter((ft: any) => !q || [ft.name, ft.description, ft.fee_category, ft.trust_name].some((v: any) => v?.toLowerCase().includes(q)))
+  const filtered = feeTypes.filter((ft: any) => !q || [ft.name, ft.description, ft.fee_category, ft.trust_name].some((v: any) => String(v || "").toLowerCase().includes(q)))
 
   const trustMap: any = {}
   trusts.forEach((t: any) => { trustMap[t.id] = t.trust_name })

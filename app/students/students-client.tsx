@@ -63,8 +63,11 @@ export default function StudentsClient({
     return age >= 0 ? `${age} years` : ""
   }
 
-  const set = (field: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) =>
-    setForm({ ...form, [field]: e.target.value.toUpperCase() })
+  const set = (field: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    const val = e.target.value
+    const noUpper = ["class_name", "dob"]
+    setForm({ ...form, [field]: noUpper.includes(field) ? val : val.toUpperCase() })
+  }
 
   const toFormData = (obj: any) => {
     const fd = new FormData()
@@ -143,7 +146,7 @@ export default function StudentsClient({
     if (filterDiv && s.division !== filterDiv) return false
     if (filterStream && s.stream !== filterStream) return false
     if (filterAy && String(s.academic_year_id) !== filterAy) return false
-    if (q && ![s.full_name, s.gender, s.father_name, s.mother_name, s.class_name, s.division, s.stream, s.address, s.village, s.district, String(s.roll_no || ""), String(s.gr_no || "")].some((v: any) => v?.toLowerCase().includes(q))) return false
+    if (q && ![s.full_name, s.gender, s.father_name, s.mother_name, s.class_name, s.division, s.stream, s.address, s.village, s.district, String(s.roll_no || ""), String(s.gr_no || "")].some((v: any) => String(v || "").toLowerCase().includes(q))) return false
     return true
   })
 

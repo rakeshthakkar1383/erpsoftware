@@ -39,7 +39,7 @@ export default function AttendanceClient({ initialRecords, students, divisions, 
     if (!filteredStudentIds.has(r.student_id)) return false
     if (!q) return true
     const s = studentMap[r.student_id]
-    return [r.attendance_date, r.status, s?.full_name, s?.class_name].some((v: any) => v?.toLowerCase().includes(q))
+    return [r.attendance_date, r.status, s?.full_name, s?.class_name].some((v: any) => String(v || "").toLowerCase().includes(q))
   })
 
   const handleSave = async () => {

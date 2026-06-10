@@ -15,7 +15,7 @@ export default function StreamsClient({ initialStreams, allSchools, schoolId }: 
   const [message, setMessage] = useState("")
 
   const set = (field: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
-    setForm({ ...form, [field]: e.target.value.toUpperCase() })
+    setForm({ ...form, [field]: field === "class_name" ? e.target.value : e.target.value.toUpperCase() })
 
   const toFD = (obj: any) => { const fd = new FormData(); Object.entries(obj).forEach(([k, v]) => fd.append(k, String(v ?? ""))); return fd }
 

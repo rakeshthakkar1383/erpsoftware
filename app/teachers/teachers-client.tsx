@@ -100,7 +100,7 @@ export default function TeachersClient({ allSchools, schoolId, allSubjects, allT
   }
 
   const q = search.toLowerCase()
-  const filtered = teachers.filter((t: any) => !q || [t.full_name, t.subjects, t.mobile, t.staff_code, t.designation].some((v: any) => v?.toLowerCase().includes(q)))
+  const filtered = teachers.filter((t: any) => !q || [t.full_name, t.subjects, t.mobile, t.staff_code, t.designation].some((v: any) => String(v || "").toLowerCase().includes(q)))
 
   const distinctSubjects = Array.from(new Set(allSubjects.map(s => s.subject_name.toUpperCase())))
 

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { createClient } from "@/lib/supabase/server"
+import { createAdminClient } from "@/lib/supabase/admin"
 import PDFDocument from "pdfkit"
 
 export const dynamic = "force-dynamic"
@@ -10,13 +11,47 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
 
-  const { data: fee } = await supabase.from("fees").select("*, students!student_id(*), trust_info!trust_id(*), fee_types!fee_type_id(*)").eq("id", id).single()
-  if (!fee) return NextResponse.json({ error: "Not found" }, { status: 404 })
+  // Use Admin Client to bypass RLS for report generation
+  const adminSupabase = createAdminClient()
+  
+  // 1. Fetch the fee record
+  const { data: fee, error: feeError } = await adminSupabase
+    .from("fees")
+    .select("*, students!student_id(*), fee_types!fee_type_id(*)")
+    .eq("id", id)
+    .single()
 
-  const schoolId = fee.school_id || user.user_metadata?.school_id
-  const { data: school } = schoolId
-    ? await supabase.from("school_info").select("*").eq("id", schoolId).single()
-    : { data: null }
+  if (feeError || !fee) {
+    console.error("Receipt Fee Fetch Error:", feeError)
+    return NextResponse.json({ error: "Fee record not found" }, { status: 404 })
+  }
+
+  // 2. Fetch School Info explicitly
+  let school = null
+  const schoolIdToFetch = fee.school_id || user.user_metadata?.school_id
+  if (schoolIdToFetch) {
+    const { data: s } = await adminSupabase.from("school_info").select("*").eq("id", schoolIdToFetch).maybeSingle()
+    school = s
+  }
+
+  // 3. Fetch Trust Info explicitly if needed
+  let trust = null
+  const trustIdToFetch = fee.trust_id
+  if (trustIdToFetch) {
+    const { data: t } = await adminSupabase.from("trust_info").select("*").eq("id", trustIdToFetch).maybeSingle()
+    trust = t
+  }
+
+  console.log("Receipt Generation Debug:", {
+    feeId: fee.id,
+    feeCategory: fee.fee_category,
+    schoolId: schoolIdToFetch,
+    hasSchool: !!school,
+    schoolName: school?.school_name,
+    hasTrust: !!trust,
+    trustName: trust?.trust_name,
+    logoUrl: (fee.fee_category === "Trust" ? trust?.logo_url : school?.logo_url) || school?.logo_url
+  })
 
   try {
     let particulars: any[] = []
@@ -27,13 +62,18 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     const copy = request.nextUrl.searchParams.get("copy") || "both"
     
     let logoImage: Buffer | null = null
-    const logoUrl = (fee.fee_category === "Trust" ? fee.trust_info?.logo_url : school?.logo_url) || school?.logo_url
+    const logoUrl = (fee.fee_category === "Trust" ? trust?.logo_url : school?.logo_url) || school?.logo_url
+    
     if (logoUrl) {
       try {
         const resp = await fetch(logoUrl)
-        if (resp.ok) logoImage = Buffer.from(await resp.arrayBuffer())
+        if (resp.ok) {
+          logoImage = Buffer.from(await resp.arrayBuffer())
+        } else {
+          console.error("Logo fetch failed with status:", resp.status, logoUrl)
+        }
       } catch (err) {
-        console.error("Logo fetch error:", err)
+        console.error("Logo fetch exception:", err, logoUrl)
       }
     }
 
@@ -60,20 +100,23 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
         }
 
         const formatDate = (dateStr: string) => {
+          if (!dateStr) return ""
           const d = new Date(dateStr)
+          if (isNaN(d.getTime())) return dateStr
           return `${String(d.getDate()).padStart(2, "0")}-${String(d.getMonth() + 1).padStart(2, "0")}-${d.getFullYear()}`
         }
 
         const renderReceipt = (title: string, yOffset: number) => {
-          const schoolName = (school?.school_name || "School Name").toUpperCase()
-          const schoolAddr = school?.address || "Address"
-          const schoolPhone = school?.phone || ""
-          const schoolEmail = school?.email || ""
-          const trustName = fee.trust_info?.trust_name || school?.trust_name || ""
+          const sName = (school?.school_name || "School Name").toUpperCase()
+          const sAddr = school?.address || "Address"
+          const sPhone = school?.phone || ""
+          const sEmail = school?.email || ""
+          const tName = trust?.trust_name || school?.trust_name || ""
 
-          const isTrust = fee.fee_category === "Trust"
-          const mainHeading = isTrust && trustName ? trustName.toUpperCase() : schoolName
-          const subHeading = isTrust && trustName ? schoolName : trustName
+          const isTrust = String(fee.fee_category || "").toUpperCase() === "TRUST"
+          const isAdvance = String(fee.fee_category || "").toUpperCase() === "ADVANCE"
+          const mainHeading = (isTrust && tName ? tName : sName).toUpperCase()
+          const subHeading = isTrust && tName ? sName : (tName ? tName.toUpperCase() : "")
 
           if (logoImage) {
             doc.image(logoImage, 40, yOffset, { fit: [80, 80] })
@@ -81,9 +124,9 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
             if (subHeading) {
               doc.fontSize(10).font("Helvetica-Bold").text(subHeading, 130, yOffset + 25, { width: 425, align: "center" })
             }
-            doc.fontSize(9).font("Helvetica").text(schoolAddr, 130, yOffset + 42, { width: 425, align: "center" })
-            if (schoolPhone || schoolEmail) {
-              doc.fontSize(8).text(`${schoolPhone}${schoolPhone && schoolEmail ? " | " : ""}${schoolEmail}`, 130, yOffset + 58, { width: 425, align: "center" })
+            doc.fontSize(9).font("Helvetica").text(sAddr, 130, yOffset + 42, { width: 425, align: "center" })
+            if (sPhone || sEmail) {
+              doc.fontSize(8).text(`${sPhone}${sPhone && sEmail ? " | " : ""}${sEmail}`, 130, yOffset + 58, { width: 425, align: "center" })
             }
             doc.y = yOffset + 85
           } else {
@@ -91,9 +134,9 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
             if (subHeading) {
               doc.fontSize(10).font("Helvetica-Bold").text(subHeading, 40, yOffset + 20, { align: "center" })
             }
-            doc.fontSize(9).font("Helvetica").text(schoolAddr, 40, yOffset + 38, { align: "center" })
-            if (schoolPhone || schoolEmail) {
-              doc.fontSize(8).text(`${schoolPhone}${schoolPhone && schoolEmail ? " | " : ""}${schoolEmail}`, 40, yOffset + 52, { align: "center" })
+            doc.fontSize(9).font("Helvetica").text(sAddr, 40, yOffset + 38, { align: "center" })
+            if (sPhone || sEmail) {
+              doc.fontSize(8).text(`${sPhone}${sPhone && sEmail ? " | " : ""}${sEmail}`, 40, yOffset + 52, { align: "center" })
             }
             doc.y = yOffset + 70
           }

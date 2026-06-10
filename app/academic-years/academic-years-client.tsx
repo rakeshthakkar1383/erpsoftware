@@ -38,7 +38,7 @@ export default function AcademicYearsClient({ initialData, allSchools, schoolId 
   }
 
   const q = search.toLowerCase()
-  const filtered = items.filter((s: any) => !q || [s.year_name, s.start_date, s.end_date].some((v: any) => v?.toLowerCase().includes(q)))
+  const filtered = items.filter((s: any) => !q || [s.year_name, s.start_date, s.end_date].some((v: any) => String(v || "").toLowerCase().includes(q)))
 
   return (
     <div>

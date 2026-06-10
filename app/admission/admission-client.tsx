@@ -43,7 +43,7 @@ export default function AdmissionClient({
   }
 
   const setField = (field: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
-    setForm({ ...form, [field]: e.target.value.toUpperCase() })
+    setForm({ ...form, [field]: field === "class_name" ? e.target.value : e.target.value.toUpperCase() })
 
   const studentMap: Record<number, any> = {}
   students.forEach((s: any) => { studentMap[s.id] = s })

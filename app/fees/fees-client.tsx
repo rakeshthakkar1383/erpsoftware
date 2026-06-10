@@ -3,7 +3,7 @@
 import { useState, useCallback, useRef, useEffect, useMemo } from "react"
 import { getAllFees, addFee, updateFee, deleteFee } from "./actions"
 import { getInstallmentsByFeeId, updateInstallmentStatus } from "./installment-actions"
-import { addStudent } from "@/app/students/actions"
+import { addStudent, updateStudent } from "@/app/students/actions"
 import { formatDate } from "@/lib/utils"
 
 const classes = ["Balvatika", ...Array.from({ length: 12 }, (_, i) => String(i + 1))]
@@ -32,6 +32,7 @@ export default function FeesClient({ initialFees, students, particulars, feeType
   const [filterAy, setFilterAy] = useState("")
   const [filterFeeType, setFilterFeeType] = useState("")
   const [search, setSearch] = useState("")
+  const [sortConfig, setSortConfig] = useState<{key: string, direction: 'asc' | 'desc'}>({key: 'receipt_no', direction: 'asc'})
   const [modal, setModal] = useState(false)
   const [editing, setEditing] = useState<any>(null)
   const [form, setForm] = useState({ ...emptyForm })
@@ -79,8 +80,8 @@ export default function FeesClient({ initialFees, students, particulars, feeType
 
   const filteredStudentsForGuided = useMemo(() => {
     if (!guidedClass) return []
-    return students.filter((s: any) => s.class_name === guidedClass)
-  }, [students, guidedClass])
+    return students.filter((s: any) => s.class_name === guidedClass || String(s.id) === String(form.student_id))
+  }, [students, guidedClass, form.student_id])
 
   useEffect(() => {
     if (preSelectedStudentId) {
@@ -103,8 +104,11 @@ export default function FeesClient({ initialFees, students, particulars, feeType
   const setRaw = (field: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
     setForm(prev => ({ ...prev, [field]: e.target.value }))
 
-  const set = (field: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
-    setForm(prev => ({ ...prev, [field]: e.target.value.toUpperCase() }))
+  const set = (field: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const val = e.target.value
+    const noUpper = ["class_name", "dob", "payment_date", "cheque_date"]
+    setForm(prev => ({ ...prev, [field]: noUpper.includes(field) ? val : val.toUpperCase() }))
+  }
 
   const filteredStudents = students.filter((s: any) => {
     if (filterClass && s.class_name !== filterClass) return false
@@ -120,8 +124,41 @@ export default function FeesClient({ initialFees, students, particulars, feeType
     if (filterFeeType && String(f.fee_type_id) !== filterFeeType) return false
     if (!q) return true
     const s = studentMap[f.student_id]
-    return [f.amount, f.status, f.payment_mode, f.transaction_id, f.cheque_number, f.bank_name, f.payment_date, s?.full_name, s?.class_name].some((v: any) => v?.toLowerCase().includes(q))
+    return [f.amount, f.status, f.payment_mode, f.transaction_id, f.cheque_number, f.bank_name, f.payment_date, s?.full_name, s?.class_name].some((v: any) => String(v || "").toLowerCase().includes(q))
   })
+
+  const sortedFees = useMemo(() => {
+    let sortable = [...filtered]
+    if (sortConfig.key) {
+      sortable.sort((a, b) => {
+        let aVal: any = "", bVal: any = ""
+        
+        // Map columns to values
+        if (sortConfig.key === 'student') {
+            aVal = studentMap[a.student_id]?.full_name || ""
+            bVal = studentMap[b.student_id]?.full_name || ""
+        } else if (sortConfig.key === 'fee_type') {
+            aVal = feeTypeMap[a.fee_type_id] || ""
+            bVal = feeTypeMap[b.fee_type_id] || ""
+        } else if (sortConfig.key === 'trust') {
+            aVal = trustMap[a.trust_id] || ""
+            bVal = trustMap[b.trust_id] || ""
+        } else if (sortConfig.key === 'school') {
+            aVal = schoolMap[a.school_id] || ""
+            bVal = schoolMap[b.school_id] || ""
+        } else {
+            aVal = a[sortConfig.key] || ""
+            bVal = b[sortConfig.key] || ""
+        }
+
+        // Compare
+        if (aVal < bVal) return sortConfig.direction === 'asc' ? -1 : 1
+        if (aVal > bVal) return sortConfig.direction === 'asc' ? 1 : -1
+        return 0
+      })
+    }
+    return sortable
+  }, [filtered, sortConfig, studentMap, feeTypeMap, trustMap, schoolMap])
 
   const handleModeChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const mode = e.target.value
@@ -189,10 +226,12 @@ export default function FeesClient({ initialFees, students, particulars, feeType
   }
 
   const handleStudentSelect = (studentId: string) => {
-    if (guidedClass && guidedFeeTypeId) {
+    if (String(studentId) === String(form.student_id)) return
+    if (guidedClass && guidedFeeTypeId && !editing) {
        setForm(prev => ({ ...prev, student_id: studentId }))
     } else {
        reloadParticulars(studentId, form.selectedFeeTypeIds)
+       setForm(prev => ({ ...prev, student_id: studentId }))
     }
   }
 
@@ -242,6 +281,7 @@ export default function FeesClient({ initialFees, students, particulars, feeType
     setMessage("")
 
     let studentId = form.student_id
+    console.log("DEBUG: handleSave studentId:", studentId, "form:", form);
 
     if (admissionType === "new") {
       if (!form.full_name || !form.class_name) { setMessage("Name and Class are required"); return }
@@ -260,7 +300,11 @@ export default function FeesClient({ initialFees, students, particulars, feeType
       studentId = String(res.studentId)
     }
 
-    if (!studentId) { setMessage("Select a student"); return }
+    if (studentId === null || studentId === undefined || studentId === "") { 
+      console.error("DEBUG: Save failed, missing studentId:", studentId);
+      setMessage(`Select a student (ID: ${studentId})`); 
+      return 
+    }
     if (form.fee_category !== "Advance" && form.selectedFeeTypeIds.length === 0 && form.particulars.length === 0) { setMessage("Select at least one fee type"); return }
     if (form.fee_category === "Trust" && !form.trust_id) { setMessage("Select a trust"); return }
     if (form.fee_category === "Advance" && !form.amount) { setMessage("Enter advance amount"); return }
@@ -287,6 +331,16 @@ export default function FeesClient({ initialFees, students, particulars, feeType
       else fd.append(k, String(v ?? ""))
     })
     const res = editing ? await updateFee(editing.id, fd) : await addFee(fd)
+    if (editing && res.success) {
+      const sFd = new FormData()
+      sFd.append("full_name", form.full_name)
+      sFd.append("class_name", form.class_name)
+      sFd.append("mobile", form.mobile)
+      sFd.append("gender", form.gender)
+      sFd.append("dob", form.dob)
+      sFd.append("category", form.category)
+      await updateStudent(Number(form.student_id), sFd)
+    }
     if (!res.success) { setMessage(res.message || "Save failed"); return }
     setModal(false)
     refresh()
@@ -366,22 +420,23 @@ export default function FeesClient({ initialFees, students, particulars, feeType
         </select>
         <span className="self-center text-sm text-slate-500">{filtered.length} records</span>
       </div>
-      {filtered.length === 0 ? <p>No fee records found.</p> : (
+      {sortedFees.length === 0 ? <p>No fee records found.</p> : (
         <div className="overflow-x-auto rounded border">
           <table className="min-w-full divide-y divide-slate-200 text-left text-sm">
             <thead className="bg-slate-50 uppercase text-slate-600">
               <tr>
                 <th className="px-3 py-2">#</th>
-                <th className="px-3 py-2">Student</th>
-                <th className="px-3 py-2">Receipt No</th>
-                <th className="px-3 py-2">Category</th>
-                <th className="px-3 py-2">Fee Type</th>
-                <th className="px-3 py-2">Trust</th>
-                <th className="px-3 py-2">School</th>
-                <th className="px-3 py-2">Amount</th>
-                <th className="px-3 py-2">Status</th>
-                <th className="px-3 py-2">Mode</th>
-                <th className="px-3 py-2">Payment Date</th>
+                <th className="px-3 py-2 cursor-pointer hover:bg-slate-200" onClick={() => setSortConfig({key: 'student', direction: sortConfig.key === 'student' && sortConfig.direction === 'asc' ? 'desc' : 'asc'})}>Student</th>
+                <th className="px-3 py-2 cursor-pointer hover:bg-slate-200" onClick={() => setSortConfig({key: 'class_name', direction: sortConfig.key === 'class_name' && sortConfig.direction === 'asc' ? 'desc' : 'asc'})}>Class</th>
+                <th className="px-3 py-2 cursor-pointer hover:bg-slate-200" onClick={() => setSortConfig({key: 'receipt_no', direction: sortConfig.key === 'receipt_no' && sortConfig.direction === 'asc' ? 'desc' : 'asc'})}>Receipt No</th>
+                <th className="px-3 py-2 cursor-pointer hover:bg-slate-200" onClick={() => setSortConfig({key: 'fee_category', direction: sortConfig.key === 'fee_category' && sortConfig.direction === 'asc' ? 'desc' : 'asc'})}>Category</th>
+                <th className="px-3 py-2 cursor-pointer hover:bg-slate-200" onClick={() => setSortConfig({key: 'fee_type', direction: sortConfig.key === 'fee_type' && sortConfig.direction === 'asc' ? 'desc' : 'asc'})}>Fee Type</th>
+                <th className="px-3 py-2 cursor-pointer hover:bg-slate-200" onClick={() => setSortConfig({key: 'trust', direction: sortConfig.key === 'trust' && sortConfig.direction === 'asc' ? 'desc' : 'asc'})}>Trust</th>
+                <th className="px-3 py-2 cursor-pointer hover:bg-slate-200" onClick={() => setSortConfig({key: 'school', direction: sortConfig.key === 'school' && sortConfig.direction === 'asc' ? 'desc' : 'asc'})}>School</th>
+                <th className="px-3 py-2 cursor-pointer hover:bg-slate-200" onClick={() => setSortConfig({key: 'amount', direction: sortConfig.key === 'amount' && sortConfig.direction === 'asc' ? 'desc' : 'asc'})}>Amount</th>
+                <th className="px-3 py-2 cursor-pointer hover:bg-slate-200" onClick={() => setSortConfig({key: 'status', direction: sortConfig.key === 'status' && sortConfig.direction === 'asc' ? 'desc' : 'asc'})}>Status</th>
+                <th className="px-3 py-2 cursor-pointer hover:bg-slate-200" onClick={() => setSortConfig({key: 'payment_mode', direction: sortConfig.key === 'payment_mode' && sortConfig.direction === 'asc' ? 'desc' : 'asc'})}>Mode</th>
+                <th className="px-3 py-2 cursor-pointer hover:bg-slate-200" onClick={() => setSortConfig({key: 'payment_date', direction: sortConfig.key === 'payment_date' && sortConfig.direction === 'asc' ? 'desc' : 'asc'})}>Payment Date</th>
                 <th className="px-3 py-2">Actions</th>
               </tr>
             </thead>
@@ -419,12 +474,13 @@ export default function FeesClient({ initialFees, students, particulars, feeType
                   <button className="rounded bg-blue-600 px-2 py-1 text-xs text-white hover:bg-blue-700" onClick={handleSave}>PAY</button>
                 </td>
               </tr>
-              {filtered.map((f: any, i: number) => {
+              {sortedFees.map((f: any, i: number) => {
                 const s = studentMap[f.student_id]
                 return (
                   <tr key={f.id}>
                     <td className="px-3 py-2">{i + 1}</td>
-                    <td className="px-3 py-2">{s ? `${s.full_name} (${s.class_name})` : f.student_id}</td>
+                    <td className="px-3 py-2">{s?.full_name || f.student_id}</td>
+                    <td className="px-3 py-2">{s?.class_name || "-"}</td>
                     <td className="px-3 py-2 text-xs font-mono">{f.receipt_year && f.receipt_no ? `FEE-${f.receipt_year}-${String(f.receipt_no).padStart(4, "0")}` : "-"}</td>
                     <td className="px-3 py-2"><span className={`rounded px-2 py-0.5 text-xs font-medium ${f.fee_category === "Trust" ? "bg-orange-100 text-orange-700" : "bg-blue-100 text-blue-700"}`}>{f.fee_category || "School"}</span></td>
                     <td className="px-3 py-2">{feeTypeMap[f.fee_type_id] || "-"}</td>
@@ -442,7 +498,19 @@ export default function FeesClient({ initialFees, students, particulars, feeType
                         setAdmissionType("old")
                         setGuidedClass(studentMap[f.student_id]?.class_name || "")
                         setGuidedFeeTypeId(f.fee_type_id ? String(f.fee_type_id) : "")
-                        setForm({ ...f, fee_category: f.fee_category || "School", selectedFeeTypeIds: selectedIds, particulars: f.particulars?.length > 0 ? f.particulars.map((p: any) => ({ ...p, term: p.term || "Yearly" })) : [{ particular_name: "Tuition Fee", amount: String(f.amount), term: "Yearly" }] })
+                        const s = studentMap[f.student_id]
+                        setForm({ 
+                          ...f, 
+                          full_name: s?.full_name || "",
+                          class_name: s?.class_name || "",
+                          mobile: s?.mobile || "",
+                          gender: s?.gender || "",
+                          dob: s?.dob || "",
+                          category: s?.category || "",
+                          fee_category: f.fee_category || "School", 
+                          selectedFeeTypeIds: selectedIds, 
+                          particulars: f.particulars?.length > 0 ? f.particulars.map((p: any) => ({ ...p, term: p.term || "Yearly" })) : [{ particular_name: "Tuition Fee", amount: String(f.amount), term: "Yearly" }] 
+                        })
                         setMessage("")
                         setModal(true)
                         const inst = await getInstallmentsByFeeId(f.id)
@@ -487,29 +555,39 @@ export default function FeesClient({ initialFees, students, particulars, feeType
                   {allSchools.map((s: any) => <option key={s.id} value={s.id}>{s.school_name}</option>)}
                 </select>
               )}
-              {admissionType === "new" && !editing ? (
+              {(admissionType === "new" || editing) ? (
                 <div className="space-y-3 rounded border bg-blue-50/50 p-3">
-                  <h4 className="text-xs font-black text-blue-700 uppercase tracking-widest">Student Details</h4>
+                  <h4 className="text-xs font-black text-blue-700 uppercase tracking-widest">{editing ? "Edit Student Details" : "Student Details"}</h4>
                   <input className="w-full rounded border p-3 text-sm font-bold" placeholder="FULL NAME *" value={form.full_name} onChange={set("full_name")} />
-                  <select className="w-full rounded border bg-white p-3 text-sm font-bold" value={form.class_name} onChange={e => handleGuidedClassChange(e.target.value.toUpperCase())}>
+                  <select className="w-full rounded border bg-white p-3 text-sm font-bold" value={form.class_name} onChange={e => { setForm(prev => ({...prev, class_name: e.target.value})); handleGuidedClassChange(e.target.value) }}>
                     <option value="">SELECT CLASS *</option>
                     {classes.map(c => <option key={c} value={c}>CLASS {c}</option>)}
                   </select>
-
-                  {guidedClass && (
-                    <div className="grid grid-cols-2 gap-3">
-                      <select className="w-full rounded border p-3 text-sm font-bold bg-slate-50" value={form.term} onChange={e => handleGuidedTermChange(e.target.value)}>
-                        <option value="Yearly">YEARLY</option>
-                        <option value="First Term">1st TERM</option>
-                        <option value="Second Term">2nd TERM</option>
-                      </select>
-
-                      <select className="w-full rounded border p-3 text-sm font-bold bg-slate-50" value={guidedFeeTypeId} onChange={e => handleGuidedFeeTypeChange(e.target.value)}>
-                        <option value="">STEP 2: SELECT FEE TYPE *</option>
-                        {availableFeeTypeOptions.map((t: any) => <option key={t.id} value={String(t.id)}>{t.name}</option>)}
-                      </select>
-                    </div>
+                  
+                  {/* Student dropdown for existing records */}
+                  {editing && (
+                    <select className="w-full rounded border p-3 text-sm font-bold bg-blue-50 border-blue-200" value={form.student_id || ""} onChange={e => handleStudentSelect(e.target.value)}>
+                      <option value="">SELECT STUDENT *</option>
+                      {filteredStudentsForGuided.map((s: any) => (
+                        <option key={s.id} value={s.id}>{s.full_name} ({s.class_name}{s.division ? ` - ${s.division}` : ""})</option>
+                      ))}
+                    </select>
                   )}
+
+                  {/* Fee category/particulars selection */}
+                  <div className="grid grid-cols-2 gap-3">
+                    <select className="w-full rounded border p-3 text-sm font-bold bg-slate-50" value={form.term} onChange={e => handleGuidedTermChange(e.target.value)}>
+                      <option value="Yearly">YEARLY</option>
+                      <option value="First Term">1st TERM</option>
+                      <option value="Second Term">2nd TERM</option>
+                    </select>
+
+                    <select className="w-full rounded border p-3 text-sm font-bold bg-slate-50" value={guidedFeeTypeId} onChange={e => handleGuidedFeeTypeChange(e.target.value)}>
+                      <option value="">SELECT FEE TYPE *</option>
+                      {availableFeeTypeOptions.map((t: any) => <option key={t.id} value={String(t.id)}>{t.name}</option>)}
+                    </select>
+                  </div>
+                  
                   <input className="w-full rounded border p-3 text-sm font-bold" placeholder="MOBILE NO" value={form.mobile} onChange={set("mobile")} />
                   <div className="grid grid-cols-2 gap-3">
                     <select className="rounded border bg-white p-3 text-sm font-bold" value={form.gender} onChange={set("gender")}>
@@ -552,7 +630,7 @@ export default function FeesClient({ initialFees, students, particulars, feeType
                         {availableFeeTypeOptions.map((t: any) => <option key={t.id} value={String(t.id)}>{t.name}</option>)}
                       </select>
 
-                      <select className="w-full rounded border p-3 text-sm font-bold bg-blue-50 border-blue-200" value={form.student_id || ""} onChange={e => handleStudentSelect(e.target.value)} disabled={!!editing}>
+                      <select className="w-full rounded border p-3 text-sm font-bold bg-blue-50 border-blue-200" value={form.student_id || ""} onChange={e => handleStudentSelect(e.target.value)}>
                         <option value="">STEP 3: SELECT STUDENT *</option>
                         {filteredStudentsForGuided.map((s: any) => (
                           <option key={s.id} value={s.id}>{s.full_name} ({s.class_name}{s.division ? ` - ${s.division}` : ""})</option>

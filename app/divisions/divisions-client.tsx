@@ -18,7 +18,7 @@ export default function DivisionsClient({ initialDivisions, teachers, allSchools
   const refresh = async () => setDivisions(await getAllDivisions())
 
   const set = (field: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
-    setForm(prev => ({ ...prev, [field]: e.target.value.toUpperCase() }))
+    setForm(prev => ({ ...prev, [field]: field === "class_name" ? e.target.value : e.target.value.toUpperCase() }))
 
   const toFD = (obj: any) => { const fd = new FormData(); Object.entries(obj).forEach(([k, v]) => fd.append(k, String(v ?? ""))); return fd }
 

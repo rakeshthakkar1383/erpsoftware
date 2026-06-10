@@ -29,8 +29,11 @@ export default function FeeParticularsClient({ initialParticulars, feeTypes, all
     setForm({ ...form, class_name: next.join(",") })
   }
 
-  const set = (field: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
-    setForm({ ...form, [field]: field === "amount" ? e.target.value : e.target.value.toUpperCase() })
+  const set = (field: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
+    const val = e.target.value
+    const noUpper = ["class_name", "amount"]
+    setForm({ ...form, [field]: noUpper.includes(field) ? val : val.toUpperCase() })
+  }
 
   const handleDurationChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const val = e.target.value
@@ -87,7 +90,7 @@ export default function FeeParticularsClient({ initialParticulars, feeTypes, all
   const filtered = particulars.filter((p: any) => {
     if (filterFeeType && String(p.fee_type_id) !== filterFeeType) return false
     if (!q) return true
-    return [p.class_name, p.particular_name, feeTypeMap[p.fee_type_id], String(p.amount), p.fee_category].some((v: any) => v?.toLowerCase().includes(q))
+    return [p.class_name, p.particular_name, feeTypeMap[p.fee_type_id], String(p.amount), p.fee_category].some((v: any) => String(v || "").toLowerCase().includes(q))
   })
 
   const trustMap: any = {}

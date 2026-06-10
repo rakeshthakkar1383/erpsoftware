@@ -67,13 +67,16 @@ export async function addFee(formData: FormData) {
   if (!raw.fee_category) raw.fee_category = "School"
   if (raw.school_id) raw.school_id = Number(raw.school_id)
   else if (user?.user_metadata?.school_id) raw.school_id = Number(user.user_metadata.school_id)
-  else delete raw.school_id
+  else if (raw.student_id) {
+    const { data: student } = await supabase.from("students").select("school_id").eq("id", raw.student_id).single()
+    if (student?.school_id) raw.school_id = student.school_id
+  } else delete raw.school_id
   if (!raw.payment_date) raw.payment_date = null
   if (!raw.cheque_date) raw.cheque_date = null
   delete raw.duration_months
   delete raw.selected_fee_type_ids
   if (raw.status === "Paid" && raw.student_id) {
-    const receipt = await generateReceiptNo(supabase, raw.student_id, raw.fee_category || "School")
+    const receipt = await generateReceiptNo(supabase, raw.student_id, raw.fee_category || "School", raw.school_id)
     if (receipt) {
       raw.receipt_no = receipt.receipt_no
       raw.receipt_year = receipt.receipt_year
