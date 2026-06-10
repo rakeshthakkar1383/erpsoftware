@@ -589,6 +589,15 @@ export default function FeesClient({ initialFees, students, particulars, feeType
                   </div>
                   
                   <input className="w-full rounded border p-3 text-sm font-bold" placeholder="MOBILE NO" value={form.mobile} onChange={set("mobile")} />
+                  
+                  {/* Receipt Number editing */}
+                  {editing && (
+                    <div className="grid grid-cols-2 gap-3">
+                        <input className="w-full rounded border p-3 text-sm font-bold" placeholder="Receipt No" value={form.receipt_no || ""} onChange={set("receipt_no")} />
+                        <input className="w-full rounded border p-3 text-sm font-bold" placeholder="Receipt Year" value={form.receipt_year || ""} onChange={set("receipt_year")} />
+                    </div>
+                  )}
+
                   <div className="grid grid-cols-2 gap-3">
                     <select className="rounded border bg-white p-3 text-sm font-bold" value={form.gender} onChange={set("gender")}>
                       <option value="">GENDER</option>
