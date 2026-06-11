@@ -63,7 +63,7 @@ export default function FeesClient({ initialFees, students, particulars, feeType
 
   const availableFeeTypeOptions = useMemo(() => {
     let base = feeTypes.filter((t: any) => {
-      if (form.fee_category === "Trust") return String(t.trust_id) === form.trust_id
+      if (form.fee_category === "Trust") return String(t.trust_id || "") === String(form.trust_id || "")
       return !t.trust_id
     })
     
@@ -181,9 +181,11 @@ export default function FeesClient({ initialFees, students, particulars, feeType
     if (feeTypeIds && feeTypeIds.length > 0) {
       if (p.fee_type_id && !feeTypeIds.includes(String(p.fee_type_id))) return false
     }
-    if (term) {
-       if (p.term !== term) return false
-    }
+    
+    const pTerm = p.term || "Yearly"
+    const targetTerm = term || "Yearly"
+    if (pTerm !== targetTerm) return false
+    
     return true
   })
 
@@ -231,7 +233,9 @@ export default function FeesClient({ initialFees, students, particulars, feeType
     return particulars
       .filter((p: any) => {
         const pClasses = (p.class_name || "").split(",").map((c: string) => c.trim())
-        return pClasses.includes(className) && String(p.fee_type_id) === feeTypeId
+        const pTerm = p.term || "Yearly"
+        const targetTerm = form.term || "Yearly"
+        return pClasses.includes(className) && String(p.fee_type_id) === feeTypeId && pTerm === targetTerm
       })
       .reduce((sum: number, p: any) => sum + (Number(p.amount) || 0), 0)
   }
@@ -312,7 +316,16 @@ export default function FeesClient({ initialFees, students, particulars, feeType
       setMessage(`Select a student (ID: ${studentId})`); 
       return 
     }
-    if (form.fee_category !== "Advance" && form.selectedFeeTypeIds.length === 0 && form.particulars.length === 0) { setMessage("Select at least one fee type"); return }
+    if (form.fee_category !== "Advance") {
+       const hasParticulars = form.particulars.length > 0
+       const hasSelectedTypes = form.selectedFeeTypeIds.length > 0
+       const hasManualAmount = !!form.amount && Number(form.amount) > 0
+       
+       if (!hasParticulars && !hasSelectedTypes && !hasManualAmount) {
+         setMessage("Select at least one fee type or enter an amount")
+         return
+       }
+    }
     if (form.fee_category === "Trust" && !form.trust_id) { setMessage("Select a trust"); return }
     if (form.fee_category === "Advance" && !form.amount) { setMessage("Enter advance amount"); return }
 
@@ -651,7 +664,7 @@ export default function FeesClient({ initialFees, students, particulars, feeType
                         <option value="Second Term">2nd TERM</option>
                       </select>
 
-                      <select className="w-full rounded border p-3 text-sm font-bold bg-slate-50" value={guidedFeeTypeId} onChange={e => handleGuidedFeeTypeChange(e.target.value)} disabled={!!editing}>
+                      <select className="w-full rounded border p-3 text-sm font-bold bg-slate-50" value={guidedFeeTypeId} onChange={e => handleGuidedFeeTypeChange(e.target.value)}>
                         <option value="">STEP 2: SELECT FEE TYPE *</option>
                         {availableFeeTypeOptions.map((t: any) => <option key={t.id} value={String(t.id)}>{t.name}</option>)}
                       </select>
@@ -676,7 +689,7 @@ export default function FeesClient({ initialFees, students, particulars, feeType
 
               {(form.student_id || (admissionType === "new" && form.class_name)) && (
                 <>
-                  <select className="w-full rounded border p-3 text-sm" value={form.fee_category || "School"} onChange={e => setForm({ ...form, fee_category: e.target.value, selectedFeeTypeIds: [], trust_id: "", particulars: [], amount: "" })}>
+                  <select className="w-full rounded border p-3 text-sm" value={form.fee_category || "School"} onChange={e => { setForm({ ...form, fee_category: e.target.value, selectedFeeTypeIds: [], trust_id: "", particulars: [], amount: "" }); setGuidedFeeTypeId("") }}>
                     <option value="School">School Fee</option>
                     <option value="Trust">Trust Fee</option>
                     <option value="Advance">Advance Fee (Enter Amount)</option>
@@ -713,7 +726,7 @@ export default function FeesClient({ initialFees, students, particulars, feeType
                   )}
 
                   {form.fee_category === "Trust" && (
-                    <select className="w-full rounded border p-3 text-sm" value={form.trust_id || ""} onChange={e => setForm({ ...form, trust_id: e.target.value, selectedFeeTypeIds: [], particulars: [] })}>
+                    <select className="w-full rounded border p-3 text-sm" value={form.trust_id || ""} onChange={e => { setForm({ ...form, trust_id: e.target.value, selectedFeeTypeIds: [], particulars: [] }); setGuidedFeeTypeId("") }}>
                       <option value="">Select Trust *</option>
                       {trusts.map((t: any) => <option key={t.id} value={t.id}>{t.trust_name}</option>)}
                     </select>

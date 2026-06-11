@@ -4,60 +4,80 @@
       "workers": {
         "app/login/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
         "app/dashboard/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/fees/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Factions.ts%22%2C%5B%22getAllFees%22%2C%22addFee%22%2C%22updateFee%22%2C%22deleteFee%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Finstallment-actions.ts%22%2C%5B%22generateInstallments%22%2C%22updateInstallmentStatus%22%2C%22getInstallmentsByFeeId%22%2C%22deleteInstallmentsByFeeId%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
+        "app/fees/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Factions.ts%22%2C%5B%22getAllFees%22%2C%22addFee%22%2C%22updateFee%22%2C%22deleteFee%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Finstallment-actions.ts%22%2C%5B%22generateInstallments%22%2C%22updateInstallmentStatus%22%2C%22getInstallmentsByFeeId%22%2C%22deleteInstallmentsByFeeId%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
+        "app/fee-types/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffee-particulars%2Factions.ts%22%2C%5B%22moveFeeParticular%22%2C%22updateFeeParticular%22%2C%22getAllFeeParticulars%22%2C%22deleteFeeParticular%22%2C%22addFeeParticular%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffee-types%2Factions.ts%22%2C%5B%22moveFeeType%22%2C%22getAllFeeTypes%22%2C%22updateFeeType%22%2C%22deleteFeeType%22%2C%22addFeeType%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
+        "app/_not-found/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
       },
       "layer": {
         "app/login/page": "action-browser",
         "app/dashboard/page": "action-browser",
-        "app/fees/page": "action-browser"
+        "app/fees/page": "action-browser",
+        "app/fee-types/page": "action-browser",
+        "app/_not-found/page": "action-browser"
       }
     },
     "1032b681b35ab85b113b48f7479bd10b250bea7a": {
       "workers": {
         "app/login/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
         "app/dashboard/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/fees/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Factions.ts%22%2C%5B%22getAllFees%22%2C%22addFee%22%2C%22updateFee%22%2C%22deleteFee%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Finstallment-actions.ts%22%2C%5B%22generateInstallments%22%2C%22updateInstallmentStatus%22%2C%22getInstallmentsByFeeId%22%2C%22deleteInstallmentsByFeeId%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
+        "app/fees/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Factions.ts%22%2C%5B%22getAllFees%22%2C%22addFee%22%2C%22updateFee%22%2C%22deleteFee%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Finstallment-actions.ts%22%2C%5B%22generateInstallments%22%2C%22updateInstallmentStatus%22%2C%22getInstallmentsByFeeId%22%2C%22deleteInstallmentsByFeeId%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
+        "app/fee-types/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffee-particulars%2Factions.ts%22%2C%5B%22moveFeeParticular%22%2C%22updateFeeParticular%22%2C%22getAllFeeParticulars%22%2C%22deleteFeeParticular%22%2C%22addFeeParticular%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffee-types%2Factions.ts%22%2C%5B%22moveFeeType%22%2C%22getAllFeeTypes%22%2C%22updateFeeType%22%2C%22deleteFeeType%22%2C%22addFeeType%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
+        "app/_not-found/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
       },
       "layer": {
         "app/login/page": "action-browser",
         "app/dashboard/page": "action-browser",
-        "app/fees/page": "action-browser"
+        "app/fees/page": "action-browser",
+        "app/fee-types/page": "action-browser",
+        "app/_not-found/page": "action-browser"
       }
     },
     "3f1126cd6dea36798eed8e98e29a233f988b3be9": {
       "workers": {
         "app/login/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
         "app/dashboard/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/fees/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Factions.ts%22%2C%5B%22getAllFees%22%2C%22addFee%22%2C%22updateFee%22%2C%22deleteFee%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Finstallment-actions.ts%22%2C%5B%22generateInstallments%22%2C%22updateInstallmentStatus%22%2C%22getInstallmentsByFeeId%22%2C%22deleteInstallmentsByFeeId%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
+        "app/fees/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Factions.ts%22%2C%5B%22getAllFees%22%2C%22addFee%22%2C%22updateFee%22%2C%22deleteFee%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Finstallment-actions.ts%22%2C%5B%22generateInstallments%22%2C%22updateInstallmentStatus%22%2C%22getInstallmentsByFeeId%22%2C%22deleteInstallmentsByFeeId%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
+        "app/fee-types/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffee-particulars%2Factions.ts%22%2C%5B%22moveFeeParticular%22%2C%22updateFeeParticular%22%2C%22getAllFeeParticulars%22%2C%22deleteFeeParticular%22%2C%22addFeeParticular%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffee-types%2Factions.ts%22%2C%5B%22moveFeeType%22%2C%22getAllFeeTypes%22%2C%22updateFeeType%22%2C%22deleteFeeType%22%2C%22addFeeType%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
+        "app/_not-found/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
       },
       "layer": {
         "app/login/page": "action-browser",
         "app/dashboard/page": "action-browser",
-        "app/fees/page": "action-browser"
+        "app/fees/page": "action-browser",
+        "app/fee-types/page": "action-browser",
+        "app/_not-found/page": "action-browser"
       }
     },
     "d0a135f19415a7682d73938cddad8e09b0fa8e7a": {
       "workers": {
         "app/login/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
         "app/dashboard/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/fees/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Factions.ts%22%2C%5B%22getAllFees%22%2C%22addFee%22%2C%22updateFee%22%2C%22deleteFee%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Finstallment-actions.ts%22%2C%5B%22generateInstallments%22%2C%22updateInstallmentStatus%22%2C%22getInstallmentsByFeeId%22%2C%22deleteInstallmentsByFeeId%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
+        "app/fees/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Factions.ts%22%2C%5B%22getAllFees%22%2C%22addFee%22%2C%22updateFee%22%2C%22deleteFee%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Finstallment-actions.ts%22%2C%5B%22generateInstallments%22%2C%22updateInstallmentStatus%22%2C%22getInstallmentsByFeeId%22%2C%22deleteInstallmentsByFeeId%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
+        "app/fee-types/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffee-particulars%2Factions.ts%22%2C%5B%22moveFeeParticular%22%2C%22updateFeeParticular%22%2C%22getAllFeeParticulars%22%2C%22deleteFeeParticular%22%2C%22addFeeParticular%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffee-types%2Factions.ts%22%2C%5B%22moveFeeType%22%2C%22getAllFeeTypes%22%2C%22updateFeeType%22%2C%22deleteFeeType%22%2C%22addFeeType%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
+        "app/_not-found/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
       },
       "layer": {
         "app/login/page": "action-browser",
         "app/dashboard/page": "action-browser",
-        "app/fees/page": "action-browser"
+        "app/fees/page": "action-browser",
+        "app/fee-types/page": "action-browser",
+        "app/_not-found/page": "action-browser"
       }
     },
     "ec4bc750b79bdea553e9bbe87014c21b2db652f8": {
       "workers": {
         "app/login/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
         "app/dashboard/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/fees/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Factions.ts%22%2C%5B%22getAllFees%22%2C%22addFee%22%2C%22updateFee%22%2C%22deleteFee%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Finstallment-actions.ts%22%2C%5B%22generateInstallments%22%2C%22updateInstallmentStatus%22%2C%22getInstallmentsByFeeId%22%2C%22deleteInstallmentsByFeeId%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
+        "app/fees/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Factions.ts%22%2C%5B%22getAllFees%22%2C%22addFee%22%2C%22updateFee%22%2C%22deleteFee%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Finstallment-actions.ts%22%2C%5B%22generateInstallments%22%2C%22updateInstallmentStatus%22%2C%22getInstallmentsByFeeId%22%2C%22deleteInstallmentsByFeeId%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
+        "app/fee-types/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffee-particulars%2Factions.ts%22%2C%5B%22moveFeeParticular%22%2C%22updateFeeParticular%22%2C%22getAllFeeParticulars%22%2C%22deleteFeeParticular%22%2C%22addFeeParticular%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffee-types%2Factions.ts%22%2C%5B%22moveFeeType%22%2C%22getAllFeeTypes%22%2C%22updateFeeType%22%2C%22deleteFeeType%22%2C%22addFeeType%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
+        "app/_not-found/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
       },
       "layer": {
         "app/login/page": "action-browser",
         "app/dashboard/page": "action-browser",
-        "app/fees/page": "action-browser"
+        "app/fees/page": "action-browser",
+        "app/fee-types/page": "action-browser",
+        "app/_not-found/page": "action-browser"
       }
     },
     "50c75a08c02b0b7f0291dde15362c83df40533ef": {
@@ -155,8 +175,88 @@
       "layer": {
         "app/fees/page": "action-browser"
       }
+    },
+    "1a19afafb4b7e938782e9856ff04dd88c7d2ac74": {
+      "workers": {
+        "app/fee-types/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffee-particulars%2Factions.ts%22%2C%5B%22moveFeeParticular%22%2C%22updateFeeParticular%22%2C%22getAllFeeParticulars%22%2C%22deleteFeeParticular%22%2C%22addFeeParticular%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffee-types%2Factions.ts%22%2C%5B%22moveFeeType%22%2C%22getAllFeeTypes%22%2C%22updateFeeType%22%2C%22deleteFeeType%22%2C%22addFeeType%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/fee-types/page": "action-browser"
+      }
+    },
+    "3dd873893816c9c483495dbe61228e9b91905b50": {
+      "workers": {
+        "app/fee-types/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffee-particulars%2Factions.ts%22%2C%5B%22moveFeeParticular%22%2C%22updateFeeParticular%22%2C%22getAllFeeParticulars%22%2C%22deleteFeeParticular%22%2C%22addFeeParticular%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffee-types%2Factions.ts%22%2C%5B%22moveFeeType%22%2C%22getAllFeeTypes%22%2C%22updateFeeType%22%2C%22deleteFeeType%22%2C%22addFeeType%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/fee-types/page": "action-browser"
+      }
+    },
+    "9cea9a3354365d6c1d243e462335542570749488": {
+      "workers": {
+        "app/fee-types/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffee-particulars%2Factions.ts%22%2C%5B%22moveFeeParticular%22%2C%22updateFeeParticular%22%2C%22getAllFeeParticulars%22%2C%22deleteFeeParticular%22%2C%22addFeeParticular%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffee-types%2Factions.ts%22%2C%5B%22moveFeeType%22%2C%22getAllFeeTypes%22%2C%22updateFeeType%22%2C%22deleteFeeType%22%2C%22addFeeType%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/fee-types/page": "action-browser"
+      }
+    },
+    "aa3e60dd4a99bc4b0c5ee704ad7dcf7b793eb865": {
+      "workers": {
+        "app/fee-types/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffee-particulars%2Factions.ts%22%2C%5B%22moveFeeParticular%22%2C%22updateFeeParticular%22%2C%22getAllFeeParticulars%22%2C%22deleteFeeParticular%22%2C%22addFeeParticular%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffee-types%2Factions.ts%22%2C%5B%22moveFeeType%22%2C%22getAllFeeTypes%22%2C%22updateFeeType%22%2C%22deleteFeeType%22%2C%22addFeeType%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/fee-types/page": "action-browser"
+      }
+    },
+    "e0a73fcf5fd1a010f62d207155f05c20476fc19b": {
+      "workers": {
+        "app/fee-types/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffee-particulars%2Factions.ts%22%2C%5B%22moveFeeParticular%22%2C%22updateFeeParticular%22%2C%22getAllFeeParticulars%22%2C%22deleteFeeParticular%22%2C%22addFeeParticular%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffee-types%2Factions.ts%22%2C%5B%22moveFeeType%22%2C%22getAllFeeTypes%22%2C%22updateFeeType%22%2C%22deleteFeeType%22%2C%22addFeeType%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/fee-types/page": "action-browser"
+      }
+    },
+    "30e14b798dc76de4e2538c77e8d801aad4498308": {
+      "workers": {
+        "app/fee-types/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffee-particulars%2Factions.ts%22%2C%5B%22moveFeeParticular%22%2C%22updateFeeParticular%22%2C%22getAllFeeParticulars%22%2C%22deleteFeeParticular%22%2C%22addFeeParticular%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffee-types%2Factions.ts%22%2C%5B%22moveFeeType%22%2C%22getAllFeeTypes%22%2C%22updateFeeType%22%2C%22deleteFeeType%22%2C%22addFeeType%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/fee-types/page": "action-browser"
+      }
+    },
+    "734858d7953d294449c60c587b7e26fe19afc679": {
+      "workers": {
+        "app/fee-types/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffee-particulars%2Factions.ts%22%2C%5B%22moveFeeParticular%22%2C%22updateFeeParticular%22%2C%22getAllFeeParticulars%22%2C%22deleteFeeParticular%22%2C%22addFeeParticular%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffee-types%2Factions.ts%22%2C%5B%22moveFeeType%22%2C%22getAllFeeTypes%22%2C%22updateFeeType%22%2C%22deleteFeeType%22%2C%22addFeeType%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/fee-types/page": "action-browser"
+      }
+    },
+    "b8421bee90221db6adf947205bb3fd36d2c14c06": {
+      "workers": {
+        "app/fee-types/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffee-particulars%2Factions.ts%22%2C%5B%22moveFeeParticular%22%2C%22updateFeeParticular%22%2C%22getAllFeeParticulars%22%2C%22deleteFeeParticular%22%2C%22addFeeParticular%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffee-types%2Factions.ts%22%2C%5B%22moveFeeType%22%2C%22getAllFeeTypes%22%2C%22updateFeeType%22%2C%22deleteFeeType%22%2C%22addFeeType%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/fee-types/page": "action-browser"
+      }
+    },
+    "cb4f1613bce4e232aed8e5914be80701a6b3e607": {
+      "workers": {
+        "app/fee-types/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffee-particulars%2Factions.ts%22%2C%5B%22moveFeeParticular%22%2C%22updateFeeParticular%22%2C%22getAllFeeParticulars%22%2C%22deleteFeeParticular%22%2C%22addFeeParticular%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffee-types%2Factions.ts%22%2C%5B%22moveFeeType%22%2C%22getAllFeeTypes%22%2C%22updateFeeType%22%2C%22deleteFeeType%22%2C%22addFeeType%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/fee-types/page": "action-browser"
+      }
+    },
+    "e1d1107dd10ae919ecc952d9bed77e499ff95f0b": {
+      "workers": {
+        "app/fee-types/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffee-particulars%2Factions.ts%22%2C%5B%22moveFeeParticular%22%2C%22updateFeeParticular%22%2C%22getAllFeeParticulars%22%2C%22deleteFeeParticular%22%2C%22addFeeParticular%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffee-types%2Factions.ts%22%2C%5B%22moveFeeType%22%2C%22getAllFeeTypes%22%2C%22updateFeeType%22%2C%22deleteFeeType%22%2C%22addFeeType%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/fee-types/page": "action-browser"
+      }
     }
   },
   "edge": {},
-  "encryptionKey": "Ijofx6pkM4P6bg+joVBwMs6fvkvExpcZvXdEb0Epclc="
+  "encryptionKey": "qL77aSpOugTGXiECTGZEkqwjn6se8r5Vkf6G2H/pgR8="
 }

@@ -77,6 +77,13 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       }
     }
 
+    console.log("Receipt Particulars Debug:", {
+      feeId: fee.id,
+      particularsCount: particulars.length,
+      particularsNames: particulars.map((p: any) => p.particular_name || p.name),
+      rawParticulars: fee.particulars
+    })
+
     const pdfBuffer = await new Promise<Buffer>((resolve, reject) => {
       try {
         const doc = new PDFDocument({ margin: 40, size: "A4" })
@@ -180,19 +187,33 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
           if (particulars.length > 0) {
             particulars.forEach((p: any) => {
               const name = p.particular_name || p.name || ""
+              const pTerm = p.term || fee.term || "Yearly"
               const amt = Number(p.amount) || 0
               total += amt
+              
               doc.font("Helvetica")
               const currentY = doc.y
-              doc.text(name || "Fee", 40, currentY, { width: 300 })
+              
+              // Simplify label: avoid "YEARLY (Yearly)"
+              const displayLabel = name.toUpperCase() === pTerm.toUpperCase() ? name : `${name} (${pTerm})`
+              
+              doc.text(displayLabel, 40, currentY, { width: 300 })
               doc.text(amt.toFixed(2), 400, currentY, { width: 155, align: "right" })
+              
+              // Ensure we move down after each row, handling potential wrapping
+              const textHeight = doc.heightOfString(displayLabel, { width: 300 })
+              doc.y = currentY + Math.max(textHeight, 12) + 2
             })
           } else {
             total = Number(fee.amount) || 0
             const feeTypeName = fee.fee_types?.name || ""
+            const pTerm = fee.term || "Yearly"
             const currentY = doc.y
-            doc.text(feeTypeName || "Fee Amount", 40, currentY, { width: 300 })
+            const displayLabel = (feeTypeName && feeTypeName.toUpperCase() === pTerm.toUpperCase()) ? feeTypeName : `${feeTypeName || "Fee Amount"} (${pTerm})`
+            
+            doc.text(displayLabel, 40, currentY, { width: 300 })
             doc.text(total.toFixed(2), 400, currentY, { width: 155, align: "right" })
+            doc.moveDown(1)
           }
 
           doc.moveDown(0.2)
