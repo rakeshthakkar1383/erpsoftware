@@ -34,7 +34,7 @@ function AppShell({ children }: { children: React.ReactNode }) {
         }
       )
     }
-    if (user.user_metadata?.role === "admin") {
+    if (["admin", "authority", "principal", "clerk"].includes(user.user_metadata?.role)) {
       getAllSchools().then(setSchools)
     }
   }, [user, loading])

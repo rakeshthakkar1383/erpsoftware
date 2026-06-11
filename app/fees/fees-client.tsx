@@ -333,6 +333,11 @@ export default function FeesClient({ initialFees, students, particulars, feeType
     if (form.fee_category === "Trust" && !form.trust_id) { setMessage("Select a trust"); return }
     if (form.fee_category === "Advance" && !form.amount) { setMessage("Enter advance amount"); return }
 
+    if (!schoolId && !form.school_id) {
+      setMessage("Please select a school from the dropdown before saving, or the record will be invisible to clerks.")
+      return
+    }
+
     const primaryFeeTypeId = form.selectedFeeTypeIds.find(id => id !== "bhojan" && id !== "record") || null
     const payload: any = { 
       ...form, 

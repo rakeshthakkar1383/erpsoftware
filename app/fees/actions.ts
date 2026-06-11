@@ -83,9 +83,7 @@ export async function addFee(formData: FormData) {
   }
 
   if (!raw.school_id) {
-     // If still no school_id, we might have a problem for RLS. 
-     // For admins, we allow it, but clerks won't see it.
-     delete raw.school_id
+     return { success: false, message: "Please select a school before adding a fee record, otherwise it will be invisible to clerks." }
   }
   if (!raw.payment_date) raw.payment_date = null
   if (!raw.cheque_date) raw.cheque_date = null
@@ -121,6 +119,7 @@ export async function addFee(formData: FormData) {
 
 export async function updateFee(id: number, formData: FormData) {
   const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
   const raw: any = {}
   formData.forEach((v, k) => {
     if (k === "particulars") {

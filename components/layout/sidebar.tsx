@@ -153,7 +153,7 @@ export default function Sidebar({ user, schoolName, schoolLogo, schools = [], te
           </p>
         </div>
       </div>
-      {role === "admin" && (
+      {["admin", "authority", "principal", "clerk"].includes(role) && (
         <div className="border-b border-slate-700">
           <button
             onClick={() => setShowSchoolManager(!showSchoolManager)}

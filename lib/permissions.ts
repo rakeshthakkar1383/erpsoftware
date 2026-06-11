@@ -26,7 +26,7 @@ export const roleDefaults: Record<string, string[]> = {
   admin: allTabs.map(t => t.key),
   principal: allTabs.map(t => t.key),
   supervision: ["dashboard", "students", "teachers", "subjects", "divisions", "fee-types", "fees", "attendance"],
-  clerk: ["dashboard", "students", "fees", "attendance"],
+  clerk: allTabs.map(t => t.key),
   teacher: ["dashboard", "students", "fees", "attendance", "leaves/teacher"],
   student: ["dashboard", "leaves/student"],
 }
