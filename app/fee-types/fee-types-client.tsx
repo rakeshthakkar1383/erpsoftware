@@ -129,17 +129,18 @@ export default function FeeTypesClient({ initialFeeTypes, initialParticulars, al
                         setEditing(ft); 
                         setForm({ name: ft.name || "", description: ft.description || "", class_names: ft.class_names || "", fee_category: ft.fee_category || "School", school_id: ft.school_id ? String(ft.school_id) : "", trust_id: ft.trust_id ? String(ft.trust_id) : "" }); 
                         
-                        // Deduplicate heads for UI by taking unique name-amount-term combinations
-                        const uniqueHeads: any[] = []
-                        const seen = new Set()
+                        // Group by class to find the set of heads assigned to a single class
+                        const headsByClass: Record<string, any[]> = {}
                         ftHeads.forEach((h: any) => {
-                          const key = `${h.particular_name}-${h.amount}-${h.term}`
-                          if (!seen.has(key)) {
-                            seen.add(key)
-                            uniqueHeads.push({ particular_name: h.particular_name, amount: String(h.amount), duration_months: h.duration_months || 12, term: h.term || "Yearly" })
-                          }
+                          if (!headsByClass[h.class_name]) headsByClass[h.class_name] = []
+                          headsByClass[h.class_name].push({ particular_name: h.particular_name, amount: String(h.amount), duration_months: h.duration_months || 12, term: h.term || "Yearly" })
                         })
-                        setHeads(uniqueHeads);
+                        
+                        // Use heads from the first assigned class as the template for the edit form
+                        const firstClass = Object.keys(headsByClass)[0]
+                        const canonicalHeads = firstClass ? headsByClass[firstClass] : []
+                        
+                        setHeads(canonicalHeads);
                         setMessage(""); 
                         setModal(true) 
                       }}>Edit</button>

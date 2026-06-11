@@ -176,8 +176,12 @@ export default function FeesClient({ initialFees, students, particulars, feeType
   }
 
   const getParticularsForClass = (className: string, feeTypeIds?: string[], term?: string) => particulars.filter((p: any) => {
-    const pClasses = (p.class_name || "").split(",").map((c: string) => c.trim())
-    if (!pClasses.includes(className)) return false
+    if (p.class_name) {
+      const pClasses = (p.class_name || "").split(",").map((c: string) => c.trim().toUpperCase())
+      const isGlobal = pClasses.includes("ALL")
+      if (!isGlobal && !pClasses.includes(className.toUpperCase())) return false
+    }
+    
     if (feeTypeIds && feeTypeIds.length > 0) {
       if (p.fee_type_id && !feeTypeIds.includes(String(p.fee_type_id))) return false
     }
