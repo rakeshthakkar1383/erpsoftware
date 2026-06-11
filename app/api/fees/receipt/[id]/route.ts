@@ -113,6 +113,8 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
           return `${String(d.getDate()).padStart(2, "0")}-${String(d.getMonth() + 1).padStart(2, "0")}-${d.getFullYear()}`
         }
 
+        const isTrustReceipt = String(fee.fee_category || "").toUpperCase() === "TRUST"
+
         const renderReceipt = (title: string, yOffset: number) => {
           const sName = (school?.school_name || "School Name").toUpperCase()
           const sAddr = school?.address || "Address"
@@ -152,6 +154,9 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
           doc.y = doc.y + 10
 
           doc.fontSize(11).font("Helvetica-Bold").text(title, { align: "center" })
+          if (isTrustReceipt && tName) {
+            doc.fontSize(8).font("Helvetica").text(`TRUST: ${tName}`, { align: "center" })
+          }
           doc.moveDown(0.3)
 
           const topY = doc.y
@@ -249,14 +254,16 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
           doc.fontSize(8).text("Office Signature / Seal", 40, sigY, { align: "right" })
         }
 
+        const receiptTitle = isTrustReceipt ? "TRUST FEE RECEIPT" : "FEE RECEIPT"
+
         if (copy === "office") {
-          renderReceipt("FEE RECEIPT (OFFICE COPY)", 40)
+          renderReceipt(`${receiptTitle} (OFFICE COPY)`, 40)
         } else if (copy === "student") {
-          renderReceipt("FEE RECEIPT (STUDENT COPY)", 40)
+          renderReceipt(`${receiptTitle} (STUDENT COPY)`, 40)
         } else {
-          renderReceipt("FEE RECEIPT (OFFICE COPY)", 40)
+          renderReceipt(`${receiptTitle} (OFFICE COPY)`, 40)
           doc.moveTo(40, 415).lineTo(555, 415).dash(5, { space: 5 }).strokeColor("#999999").stroke().undash()
-          renderReceipt("FEE RECEIPT (STUDENT COPY)", 440)
+          renderReceipt(`${receiptTitle} (STUDENT COPY)`, 440)
         }
 
         doc.end()

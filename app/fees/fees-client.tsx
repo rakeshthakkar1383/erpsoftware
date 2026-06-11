@@ -344,7 +344,16 @@ export default function FeesClient({ initialFees, students, particulars, feeType
       student_id: studentId,
       fee_type_id: primaryFeeTypeId || "",
       fee_category: form.fee_category === "Advance" ? "School" : form.fee_category,
-      particulars: form.fee_category === "Advance" ? [{ particular_name: "Advance Fee", amount: String(form.amount), duration_months: 1 }] : form.particulars.filter((p: any) => Number(p.amount) > 0), 
+      particulars: form.fee_category === "Advance" ? [{ particular_name: "Advance Fee", amount: String(form.amount), duration_months: 1 }] : (() => {
+        const filtered = form.particulars.filter((p: any) => Number(p.amount) > 0)
+        if (filtered.length > 0) return filtered
+        const activeTypeIds = form.selectedFeeTypeIds.filter(id => id !== "bhojan" && id !== "record")
+        if (activeTypeIds.length > 0) {
+          const names = activeTypeIds.map(id => feeTypeMap[id]).filter(Boolean)
+          return [{ particular_name: names.length > 0 ? names.join(", ") : `Fee Type ${activeTypeIds[0]}`, amount: String(form.amount || "0"), duration_months: 1, term: form.term || "Yearly" }]
+        }
+        return filtered
+      })(), 
       duration_months: 1 
     }
     delete payload.selectedFeeTypeIds
