@@ -188,7 +188,7 @@ export default function FeesClient({ initialFees, students, particulars, feeType
     
     const pTerm = p.term || "Yearly"
     const targetTerm = term || "Yearly"
-    if (pTerm !== targetTerm) return false
+    if (targetTerm !== "Yearly" && pTerm !== targetTerm) return false
     
     return true
   })
