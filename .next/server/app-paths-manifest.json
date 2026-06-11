@@ -1,7 +1,8 @@
 {
-  "/login/page": "app/login/page.js",
-  "/dashboard/page": "app/dashboard/page.js",
   "/fees/page": "app/fees/page.js",
+  "/manage-users/page": "app/manage-users/page.js",
   "/api/fees/receipt/[id]/route": "app/api/fees/receipt/[id]/route.js",
+  "/dashboard/page": "app/dashboard/page.js",
+  "/login/page": "app/login/page.js",
   "/fee-types/page": "app/fee-types/page.js"
 }
