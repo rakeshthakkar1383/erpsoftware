@@ -42,7 +42,6 @@ export default function FeesClient({ initialFees, students, particulars, feeType
   const [installmentModal, setInstallmentModal] = useState(false)
   const [admissionType, setAdmissionType] = useState<"new" | "old">("old")
   const [reportModal, setReportModal] = useState(false)
-  const [reportFeeTypeIds, setReportFeeTypeIds] = useState<string[]>([])
   const [reportSchoolId, setReportSchoolId] = useState("")
   const [reportFromDate, setReportFromDate] = useState("")
   const [reportToDate, setReportToDate] = useState("")
@@ -472,7 +471,7 @@ export default function FeesClient({ initialFees, students, particulars, feeType
           <input type="file" ref={fileInputRef} className="hidden" accept=".xlsx,.xls" onChange={handleImport} />
           <button className="rounded bg-slate-100 px-3 py-2 text-sm text-slate-700 hover:bg-slate-200" onClick={() => downloadBlob("/api/excel/template/fees", "fees_template.xlsx")}>Template</button>
           <button className="rounded bg-slate-100 px-3 py-2 text-sm text-slate-700 hover:bg-slate-200" onClick={() => fileInputRef.current?.click()}>Import</button>
-          <button className="rounded bg-green-600 px-4 py-2 text-sm text-white hover:bg-green-700" onClick={() => { setReportFeeTypeIds([]); setReportModal(true) }}>Report</button>
+          <button className="rounded bg-green-600 px-4 py-2 text-sm text-white hover:bg-green-700" onClick={() => setReportModal(true)}>Report</button>
           <button className="rounded bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-700"
             onClick={() => { setEditing(null); setForm({ ...emptyForm, school_id: filterSchool }); setInstallments([]); setMessage(""); setAdmissionType("old"); setGuidedClass(""); setGuidedFeeTypeId(""); setModal(true) }}>Add New</button>
         </div>
@@ -920,17 +919,6 @@ export default function FeesClient({ initialFees, students, particulars, feeType
                   </select>
                 </div>
               </div>
-              <div>
-                <label className="mb-1 block text-[10px] font-black text-slate-600 uppercase tracking-widest">Fee Types (Optional)</label>
-                <div className="max-h-32 space-y-1 overflow-y-auto rounded border p-2 bg-slate-50">
-                  {feeTypes.map((t: any) => (
-                    <label key={t.id} className="flex items-center gap-2 rounded px-2 py-1 hover:bg-white cursor-pointer">
-                      <input type="checkbox" className="h-4 w-4 rounded border-slate-300 text-blue-600" checked={reportFeeTypeIds.includes(String(t.id))} onChange={() => setReportFeeTypeIds(prev => prev.includes(String(t.id)) ? prev.filter(i => i !== String(t.id)) : [...prev, String(t.id)])} />
-                      <span className="text-[11px] font-bold text-slate-700">{t.name}</span>
-                    </label>
-                  ))}
-                </div>
-              </div>
             </div>
             <div className="mt-6 flex gap-3">
               <button className="flex-1 rounded bg-green-600 px-5 py-3 text-xs font-black text-white uppercase tracking-widest hover:bg-green-700 shadow-lg shadow-green-100" onClick={() => {
@@ -941,7 +929,6 @@ export default function FeesClient({ initialFees, students, particulars, feeType
                 if (reportSchoolId || schoolId) params.set("school_id", String(reportSchoolId || schoolId))
                 if (reportFromDate) params.set("from_date", reportFromDate)
                 if (reportToDate) params.set("to_date", reportToDate)
-                if (reportFeeTypeIds.length > 0) params.set("fee_type_ids", reportFeeTypeIds.join(","))
                 window.open(`/api/fees/export?${params.toString()}`, "_blank")
               }}>GENERATE EXCEL REPORT</button>
               <button className="rounded bg-slate-100 px-5 py-3 text-xs font-black text-slate-500 uppercase tracking-widest hover:bg-slate-200" onClick={() => setReportModal(false)}>CANCEL</button>
