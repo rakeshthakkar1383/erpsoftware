@@ -28,9 +28,9 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     const schoolId = explicitSchoolId ? Number(explicitSchoolId) : schoolIdFromMetadata
 
     const buf = Buffer.from(await file.arrayBuffer())
-    const wb = XLSX.read(buf, { type: "buffer" })
+    const wb = XLSX.read(buf, { type: "buffer", cellDates: true })
     const ws = wb.Sheets[wb.SheetNames[0]]
-    const rows = XLSX.utils.sheet_to_json(ws) as Record<string, any>[]
+    const rows = XLSX.utils.sheet_to_json(ws, { raw: false, dateNF: "yyyy-mm-dd" }) as Record<string, any>[]
 
     if (rows.length === 0) return NextResponse.json({ imported: 0, errors: ["No rows found"] })
 
@@ -39,7 +39,17 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
 
     for (let i = 0; i < rows.length; i++) {
       const row = rows[i]
-      if (schoolId) row.school_id = schoolId
+
+      // Resolve school_name to school_id (case-insensitive)
+      if (row.school_name) {
+        const { data: school } = await supabase.from("school_info").select("id").ilike("school_name", row.school_name).maybeSingle()
+        if (school?.id) row.school_id = school.id
+        else errors.push(`Row ${i + 2}: School "${row.school_name}" not found`)
+        delete row.school_name
+      }
+      if (!row.school_id && schoolId) {
+        row.school_id = schoolId
+      }
       
       // Fallback for fees/marks if schoolId still missing
       if (!row.school_id && (entity === "fees" || entity === "marks") && row.student_id) {

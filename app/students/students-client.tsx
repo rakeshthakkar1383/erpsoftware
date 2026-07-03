@@ -13,7 +13,7 @@ const emptyForm: Record<string, string> = {
   last_school: "", roll_no: "", division: "", class_name: "", stream: "",
   academic_year_id: "", photo_url: "", birth_cert_url: "", aadhar_no: "", aadhar_url: "", father_aadhar_url: "",
   father_mobile: "", mother_mobile: "", category: "", ration_card_url: "", category_cert_url: "",
-  gr_no: "", admission_no: ""
+  gr_no: "", admission_no: "", school_id: "", mobile: ""
 }
 
 type StudentsClientProps = {
@@ -21,6 +21,7 @@ type StudentsClientProps = {
   divisions: any[]
   streams: any[]
   years: any[]
+  allSchools: any[]
   teacherClass: string
   schoolId: number | null
   schoolName?: string
@@ -28,7 +29,7 @@ type StudentsClientProps = {
 }
 
 export default function StudentsClient({ 
-  students: initialStudents, divisions, streams, years, teacherClass, schoolId, schoolName, schoolLogo 
+  students: initialStudents, divisions, streams, years, allSchools, teacherClass, schoolId, schoolName, schoolLogo 
 }: StudentsClientProps) {
   const [students, setStudents] = useState(initialStudents)
   const [filterClass, setFilterClass] = useState(teacherClass)
@@ -36,12 +37,16 @@ export default function StudentsClient({
   const [filterStream, setFilterStream] = useState("")
   const [filterAy, setFilterAy] = useState("")
   const [search, setSearch] = useState("")
+  const [nameSearch, setNameSearch] = useState("")
+  const [filterSchool, setFilterSchool] = useState(schoolId ? String(schoolId) : "")
   const [modal, setModal] = useState(false)
   const [editing, setEditing] = useState<any>(null)
   const [form, setForm] = useState({ ...emptyForm })
   const [message, setMessage] = useState("")
   const [uploading, setUploading] = useState<string | null>(null)
   const [detailStudent, setDetailStudent] = useState<any>(null)
+  const [sortField, setSortField] = useState<string>("full_name")
+  const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc")
   const fileInputRef = useRef<HTMLInputElement>(null)
   const router = useRouter()
   const supabase = createClient()
@@ -65,7 +70,7 @@ export default function StudentsClient({
 
   const set = (field: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const val = e.target.value
-    const noUpper = ["class_name", "dob"]
+    const noUpper = ["class_name", "dob", "school_id"]
     setForm({ ...form, [field]: noUpper.includes(field) ? val : val.toUpperCase() })
   }
 
@@ -135,7 +140,9 @@ export default function StudentsClient({
       const data = await res.json()
       if (data.error) setMessage(data.error)
       else {
-        setMessage(`Imported ${data.imported} students. ${data.errors?.length || 0} errors.`)
+        let msg = `Imported ${data.imported} students. ${data.errors?.length || 0} errors.`
+        if (data.errorDetails) msg += `\n${data.errorDetails}`
+        setMessage(msg)
         refresh()
       }
     } catch (err: any) { setMessage(err.message || "Import failed") }
@@ -143,13 +150,70 @@ export default function StudentsClient({
   }
 
   const q = search.toLowerCase()
+  const nq = nameSearch.toLowerCase()
   const filtered = students.filter((s: any) => {
+    if (filterSchool && String(s.school_id) !== filterSchool) return false
     if (filterClass && s.class_name !== filterClass) return false
     if (filterDiv && s.division !== filterDiv) return false
     if (filterStream && s.stream !== filterStream) return false
     if (filterAy && String(s.academic_year_id) !== filterAy) return false
+    if (nq && !String(s.full_name || "").toLowerCase().includes(nq)) return false
     if (q && ![s.full_name, s.gender, s.father_name, s.mother_name, s.class_name, s.division, s.stream, s.address, s.village, s.district, String(s.roll_no || ""), String(s.gr_no || "")].some((v: any) => String(v || "").toLowerCase().includes(q))) return false
     return true
+  })
+
+  const getClassOrder = (className: string) => {
+    const idx = classes.indexOf(className)
+    return idx === -1 ? 999 : idx
+  }
+
+  const handleSort = (field: string) => {
+    if (sortField === field) {
+      setSortDirection(prev => (prev === "asc" ? "desc" : "asc"))
+    } else {
+      setSortField(field)
+      setSortDirection("asc")
+    }
+  }
+
+  const sortedStudents = [...filtered].sort((a: any, b: any) => {
+    let valA = a[sortField]
+    let valB = b[sortField]
+
+    if (sortField === "class_name") {
+      const orderA = getClassOrder(a.class_name || "")
+      const orderB = getClassOrder(b.class_name || "")
+      if (orderA !== orderB) {
+        return sortDirection === "asc" ? orderA - orderB : orderB - orderA
+      }
+      const divA = a.division || ""
+      const divB = b.division || ""
+      return sortDirection === "asc" ? divA.localeCompare(divB) : divB.localeCompare(divA)
+    }
+
+    if (sortField === "roll_no" || sortField === "gr_no") {
+      const aValStr = String(valA || "").trim()
+      const bValStr = String(valB || "").trim()
+      
+      const numA = Number(aValStr)
+      const numB = Number(bValStr)
+      
+      const isNumA = aValStr !== "" && !isNaN(numA)
+      const isNumB = bValStr !== "" && !isNaN(numB)
+      
+      if (isNumA && isNumB) {
+        return sortDirection === "asc" ? numA - numB : numB - numA
+      }
+      if (isNumA) return sortDirection === "asc" ? -1 : 1
+      if (isNumB) return sortDirection === "asc" ? 1 : -1
+    }
+
+    const strA = String(valA || "").toLowerCase()
+    const strB = String(valB || "").toLowerCase()
+
+    if (strA < strB) return sortDirection === "asc" ? -1 : 1
+    if (strA > strB) return sortDirection === "asc" ? 1 : -1
+    return 0
   })
 
   return (
@@ -175,9 +239,16 @@ export default function StudentsClient({
 
       <div className="mb-6 flex flex-wrap items-center gap-3">
         <div className="relative group">
-           <input className="w-64 rounded-lg border bg-white p-2.5 pl-10 text-sm shadow-sm transition-all focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Search by name, GR, roll..." value={search} onChange={e => setSearch(e.target.value)} />
+           <input className="w-40 rounded-lg border bg-white p-2.5 pl-10 text-sm shadow-sm transition-all focus:ring-2 focus:ring-blue-500 focus:border-blue-500" placeholder="Name..." value={nameSearch} onChange={e => setNameSearch(e.target.value)} />
            <span className="absolute left-3 top-2.5 text-slate-400 group-focus-within:text-blue-500">🔍</span>
         </div>
+        <input className="w-48 rounded-lg border bg-white p-2.5 text-sm shadow-sm" placeholder="Search by GR, roll, father..." value={search} onChange={e => setSearch(e.target.value)} />
+        {allSchools.length > 1 && (
+          <select className="rounded-lg border bg-white p-2.5 text-sm shadow-sm font-semibold text-slate-600" value={filterSchool} onChange={e => setFilterSchool(e.target.value)}>
+            <option value="">ALL SCHOOLS</option>
+            {allSchools.map((s: any) => <option key={s.id} value={s.id}>{s.school_name}</option>)}
+          </select>
+        )}
         <select className="rounded-lg border bg-white p-2.5 text-sm shadow-sm font-semibold text-slate-600" value={filterClass} onChange={e => { setFilterClass(e.target.value); setFilterDiv(""); setFilterStream("") }} disabled={!!teacherClass}>
           <option value="">ALL CLASSES</option>
           {classes.map(c => <option key={c} value={c}>CLASS {c}</option>)}
@@ -202,20 +273,92 @@ export default function StudentsClient({
       ) : (
         <div className="overflow-hidden rounded-xl border bg-white shadow-sm">
           <table className="min-w-full divide-y divide-slate-200 text-left text-sm">
-            <thead className="bg-slate-50 text-[10px] font-black uppercase tracking-widest text-slate-500">
+            <thead className="bg-slate-50 text-[10px] font-black uppercase tracking-widest text-slate-500 select-none">
               <tr>
-                <th className="px-6 py-4">#</th>
-                <th className="px-6 py-4">GR No</th>
-                <th className="px-6 py-4">Roll No</th>
-                <th className="px-6 py-4">Student Name</th>
-                <th className="px-6 py-4">Class/Div</th>
-                <th className="px-6 py-4">Gender</th>
-                <th className="px-6 py-4">DOB</th>
+                <th className="px-6 py-4 w-12">#</th>
+                <th 
+                  className="px-6 py-4 cursor-pointer hover:text-slate-800 transition-colors"
+                  onClick={() => handleSort("gr_no")}
+                >
+                  <div className="flex items-center gap-1">
+                    GR No
+                    {sortField === "gr_no" ? (
+                      sortDirection === "asc" ? " ⬆" : " ⬇"
+                    ) : (
+                      <span className="text-slate-300 font-normal"> ↕</span>
+                    )}
+                  </div>
+                </th>
+                <th 
+                  className="px-6 py-4 cursor-pointer hover:text-slate-800 transition-colors"
+                  onClick={() => handleSort("roll_no")}
+                >
+                  <div className="flex items-center gap-1">
+                    Roll No
+                    {sortField === "roll_no" ? (
+                      sortDirection === "asc" ? " ⬆" : " ⬇"
+                    ) : (
+                      <span className="text-slate-300 font-normal"> ↕</span>
+                    )}
+                  </div>
+                </th>
+                <th 
+                  className="px-6 py-4 cursor-pointer hover:text-slate-800 transition-colors"
+                  onClick={() => handleSort("full_name")}
+                >
+                  <div className="flex items-center gap-1">
+                    Student Name
+                    {sortField === "full_name" ? (
+                      sortDirection === "asc" ? " ⬆" : " ⬇"
+                    ) : (
+                      <span className="text-slate-300 font-normal"> ↕</span>
+                    )}
+                  </div>
+                </th>
+                <th 
+                  className="px-6 py-4 cursor-pointer hover:text-slate-800 transition-colors"
+                  onClick={() => handleSort("class_name")}
+                >
+                  <div className="flex items-center gap-1">
+                    Class/Div
+                    {sortField === "class_name" ? (
+                      sortDirection === "asc" ? " ⬆" : " ⬇"
+                    ) : (
+                      <span className="text-slate-300 font-normal"> ↕</span>
+                    )}
+                  </div>
+                </th>
+                <th 
+                  className="px-6 py-4 cursor-pointer hover:text-slate-800 transition-colors"
+                  onClick={() => handleSort("gender")}
+                >
+                  <div className="flex items-center gap-1">
+                    Gender
+                    {sortField === "gender" ? (
+                      sortDirection === "asc" ? " ⬆" : " ⬇"
+                    ) : (
+                      <span className="text-slate-300 font-normal"> ↕</span>
+                    )}
+                  </div>
+                </th>
+                <th 
+                  className="px-6 py-4 cursor-pointer hover:text-slate-800 transition-colors"
+                  onClick={() => handleSort("dob")}
+                >
+                  <div className="flex items-center gap-1">
+                    DOB
+                    {sortField === "dob" ? (
+                      sortDirection === "asc" ? " ⬆" : " ⬇"
+                    ) : (
+                      <span className="text-slate-300 font-normal"> ↕</span>
+                    )}
+                  </div>
+                </th>
                 <th className="px-6 py-4 text-right">Actions</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 text-slate-700">
-              {filtered.map((s: any, i: number) => (
+              {sortedStudents.map((s: any, i: number) => (
                 <tr key={s.id} className="hover:bg-slate-50 transition-colors group">
                   <td className="px-6 py-4 text-xs font-bold text-slate-400">{i + 1}</td>
                   <td className="px-6 py-4 text-xs font-black text-blue-600">{s.gr_no || "-"}</td>
@@ -229,7 +372,7 @@ export default function StudentsClient({
                   <td className="px-6 py-4"><span className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${s.gender === "MALE" ? "bg-blue-50 text-blue-600" : "bg-pink-50 text-pink-600"}`}>{s.gender}</span></td>
                   <td className="px-6 py-4 text-xs font-medium text-slate-500">{formatDate(s.dob)}</td>
                   <td className="px-6 py-4 text-right">
-                    <button className="text-[10px] font-black uppercase tracking-widest text-blue-600 hover:text-blue-800" onClick={() => { setEditing(s); setForm({ ...s, academic_year_id: s.academic_year_id || "" }); setMessage(""); setModal(true) }}>Edit Profile</button>
+                    <button className="text-[10px] font-black uppercase tracking-widest text-blue-600 hover:text-blue-800" onClick={() => { setEditing(s); setForm({ ...s, school_id: String(s.school_id || ""), academic_year_id: s.academic_year_id || "" }); setMessage(""); setModal(true) }}>Edit Profile</button>
                     <button className="ml-4 text-[10px] font-black uppercase tracking-widest text-red-600 hover:text-red-800" onClick={() => handleDelete(s.id)}>Remove</button>
                   </td>
                 </tr>
@@ -238,6 +381,8 @@ export default function StudentsClient({
           </table>
         </div>
       )}
+
+      {message && <p className="mt-6 rounded-xl bg-red-50 border border-red-100 p-4 text-xs font-black text-red-600 text-center whitespace-pre-wrap">{message}</p>}
 
       {modal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
@@ -303,11 +448,18 @@ export default function StudentsClient({
                {/* Section 2: Family and Academic Details */}
                <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
                   <div className="space-y-6">
-                     <h4 className="border-b-2 border-blue-600 text-[11px] font-black text-blue-600 uppercase tracking-[0.2em] pb-1">Academic Assignment</h4>
-                     <div className="grid grid-cols-2 gap-4">
+                      <h4 className="border-b-2 border-blue-600 text-[11px] font-black text-blue-600 uppercase tracking-[0.2em] pb-1">Academic Assignment</h4>
+                      <div className="grid grid-cols-2 gap-4">
 
-                        <div className="space-y-1">
-                           <label className="text-[10px] font-black text-slate-500 uppercase">Class *</label>
+                         <div className="col-span-2 space-y-1">
+                            <label className="text-[10px] font-black text-slate-500 uppercase">School *</label>
+                            <select className="w-full rounded-lg border bg-white p-3 text-sm font-bold shadow-sm" value={form.school_id} onChange={set("school_id")}>
+                               <option value="">SELECT SCHOOL</option>
+                               {allSchools.map((s: any) => <option key={s.id} value={s.id}>{s.school_name}</option>)}
+                            </select>
+                         </div>
+                         <div className="space-y-1">
+                            <label className="text-[10px] font-black text-slate-500 uppercase">Class *</label>
                            <select className="w-full rounded-lg border bg-white p-3 text-sm font-bold shadow-sm" value={form.class_name} onChange={set("class_name")}>
                               <option value="">SELECT CLASS</option>
                               {classes.map(c => <option key={c} value={c}>CLASS {c}</option>)}
@@ -448,9 +600,7 @@ export default function StudentsClient({
                </div>
             </div>
 
-            {message && <p className="mt-8 rounded-xl bg-red-50 border border-red-100 p-4 text-xs font-black text-red-600 uppercase text-center">{message}</p>}
-
-            <div className="mt-10 flex gap-4 border-t pt-8">
+                  <div className="mt-10 flex gap-4 border-t pt-8">
               <button className="flex-1 rounded-2xl bg-blue-600 px-8 py-5 text-sm font-black text-white hover:bg-blue-700 shadow-2xl tracking-widest transition-all uppercase" onClick={handleSave}>{editing ? "Update Profile Data" : "Register Student Record"}</button>
               <button className="rounded-2xl bg-slate-100 px-10 py-5 text-sm font-black text-slate-500 hover:bg-slate-200 transition-all uppercase tracking-widest" onClick={() => setModal(false)}>Discard</button>
             </div>

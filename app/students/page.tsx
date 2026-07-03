@@ -27,10 +27,12 @@ export default async function StudentsPage() {
     yearsQuery.then(r => r.data || []),
   ])
 
+  const { data: allSchools } = await supabase.from("school_info").select("id, school_name, logo_url")
+
   let schoolName = ""
   let schoolLogo = ""
   if (schoolId) {
-    const { data: school } = await supabase.from("school_info").select("school_name, logo_url").eq("id", schoolId).single()
+    const school = allSchools?.find((s: any) => s.id === schoolId)
     schoolName = school?.school_name || ""
     schoolLogo = school?.logo_url || ""
   }
@@ -43,6 +45,7 @@ export default async function StudentsPage() {
       divisions={divisions}
       streams={streams}
       years={years}
+      allSchools={allSchools || []}
       teacherClass={teacherClass}
       schoolId={schoolId}
       schoolName={schoolName}

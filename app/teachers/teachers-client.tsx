@@ -26,6 +26,7 @@ export default function TeachersClient({ allSchools, schoolId, allSubjects, allT
   const [message, setMessage] = useState("")
   const [uploading, setUploading] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const excelInputRef = useRef<HTMLInputElement>(null)
   const supabase = createClient()
 
   const refresh = useCallback(async () => {
@@ -99,6 +100,39 @@ export default function TeachersClient({ allSchools, schoolId, allSubjects, allT
     refresh()
   }
 
+  const downloadFile = async (url: string, filename: string) => {
+    try {
+      const res = await fetch(url)
+      const blob = await res.blob()
+      const objUrl = window.URL.createObjectURL(blob)
+      const a = document.createElement("a")
+      a.href = objUrl; a.download = filename
+      document.body.appendChild(a); a.click()
+      document.body.removeChild(a)
+      setTimeout(() => window.URL.revokeObjectURL(objUrl), 1000)
+    } catch { setMessage("Download failed") }
+  }
+
+  const handleImport = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    const fd = new FormData()
+    fd.append("file", file)
+    if (schoolId) fd.append("school_id", String(schoolId))
+    try {
+      const res = await fetch("/api/excel/import/teachers", { method: "POST", body: fd })
+      const data = await res.json()
+      if (data.error) setMessage(data.error)
+      else {
+        let msg = `Imported ${data.imported} teachers. ${data.errors?.length || 0} errors.`
+        if (data.errorDetails) msg += `\n${data.errorDetails}`
+        setMessage(msg)
+        refresh()
+      }
+    } catch (err: any) { setMessage(err.message || "Import failed") }
+    if (excelInputRef.current) excelInputRef.current.value = ""
+  }
+
   const q = search.toLowerCase()
   const filtered = teachers.filter((t: any) => !q || [t.full_name, t.subjects, t.mobile, t.staff_code, t.designation].some((v: any) => String(v || "").toLowerCase().includes(q)))
 
@@ -108,10 +142,15 @@ export default function TeachersClient({ allSchools, schoolId, allSubjects, allT
     <div className="p-4">
       <div className="mb-6 flex items-center justify-between">
         <h2 className="text-2xl font-bold text-slate-800">Teacher Management</h2>
-        <button className="rounded bg-blue-600 px-6 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 shadow-md"
-          onClick={() => { setEditing(null); setForm({ ...emptyForm }); setMessage(""); setModal(true) }}>
-          Add New Teacher
-        </button>
+        <div className="flex gap-2">
+          <input type="file" ref={excelInputRef} className="hidden" accept=".xlsx,.xls" onChange={handleImport} />
+          <button className="rounded bg-slate-100 px-4 py-2 text-xs font-black text-slate-600 hover:bg-slate-200 uppercase tracking-widest transition-all" onClick={() => downloadFile("/api/excel/template/teachers", "teachers_template.xlsx")}>Download Template</button>
+          <button className="rounded bg-slate-100 px-4 py-2 text-xs font-black text-slate-600 hover:bg-slate-200 uppercase tracking-widest transition-all" onClick={() => excelInputRef.current?.click()}>Bulk Import</button>
+          <button className="rounded bg-blue-600 px-6 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 shadow-md"
+            onClick={() => { setEditing(null); setForm({ ...emptyForm }); setMessage(""); setModal(true) }}>
+            Add New Teacher
+          </button>
+        </div>
       </div>
 
       <div className="mb-4 flex items-center gap-3">
@@ -163,6 +202,8 @@ export default function TeachersClient({ allSchools, schoolId, allSubjects, allT
           </table>
         </div>
       )}
+
+      {message && <p className="mt-6 rounded bg-red-50 p-4 text-xs font-bold text-red-600 border border-red-100 whitespace-pre-wrap">{message}</p>}
 
       {modal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
@@ -408,8 +449,6 @@ export default function TeachersClient({ allSchools, schoolId, allSubjects, allT
                  </div>
               </div>
             </div>
-
-            {message && <p className="mt-6 rounded bg-red-50 p-4 text-xs font-bold text-red-600 border border-red-100 uppercase">{message}</p>}
 
             <div className="mt-8 flex gap-3 border-t pt-6">
               <button className="flex-1 rounded-lg bg-blue-600 px-6 py-4 text-sm font-black text-white hover:bg-blue-700 shadow-xl tracking-widest transition-all" onClick={handleSave}>{editing ? "UPDATE TEACHER PROFILE" : "CREATE TEACHER RECORD"}</button>
