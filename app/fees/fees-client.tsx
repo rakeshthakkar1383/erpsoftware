@@ -27,6 +27,7 @@ type FeesClientProps = {
 
 export default function FeesClient({ initialFees, students, particulars, feeTypes, divisions, years, allSchools, schoolId, teacherClass, trusts, preSelectedStudentId }: FeesClientProps) {
   const [fees, setFees] = useState(initialFees)
+  const [filterSchool, setFilterSchool] = useState(schoolId ? String(schoolId) : "")
   const [filterClass, setFilterClass] = useState(teacherClass)
   const [filterDiv, setFilterDiv] = useState("")
   const [filterAy, setFilterAy] = useState("")
@@ -90,6 +91,7 @@ export default function FeesClient({ initialFees, students, particulars, feeType
   const filteredStudentsForGuided = useMemo(() => {
     if (!guidedClass) return []
     return students.filter((s: any) => {
+      if (filterSchool && String(s.school_id) !== filterSchool) return false
       const matchesBase = s.class_name === guidedClass || String(s.id) === String(form.student_id)
       if (!matchesBase) return false
 
@@ -107,7 +109,7 @@ export default function FeesClient({ initialFees, students, particulars, feeType
 
       return true
     })
-  }, [students, guidedClass, form.student_id, guidedSearchRoll, guidedSearchGr, guidedSearchName])
+  }, [students, guidedClass, form.student_id, guidedSearchRoll, guidedSearchGr, guidedSearchName, filterSchool])
 
   useEffect(() => {
     if (preSelectedStudentId) {
@@ -137,6 +139,7 @@ export default function FeesClient({ initialFees, students, particulars, feeType
   }
 
   const filteredStudents = students.filter((s: any) => {
+    if (filterSchool && String(s.school_id) !== filterSchool) return false
     if (filterClass && s.class_name !== filterClass) return false
     if (filterDiv && s.division !== filterDiv) return false
     if (filterAy && String(s.academic_year_id) !== filterAy) return false
@@ -146,6 +149,7 @@ export default function FeesClient({ initialFees, students, particulars, feeType
   const filteredStudentIds = new Set(filteredStudents.map((s: any) => s.id))
   const q = search.toLowerCase()
   const filtered = fees.filter((f: any) => {
+    if (filterSchool && String(f.school_id) !== filterSchool) return false
     if (!filteredStudentIds.has(f.student_id)) return false
     if (filterFeeType && String(f.fee_type_id) !== filterFeeType) return false
     if (!q) return true
@@ -236,7 +240,8 @@ export default function FeesClient({ initialFees, students, particulars, feeType
       mobile: s.mobile || "",
       gender: s.gender || "",
       dob: s.dob || "",
-      category: s.category || ""
+      category: s.category || "",
+      school_id: s.school_id ? String(s.school_id) : prev.school_id
     }))
   }
 
@@ -469,12 +474,18 @@ export default function FeesClient({ initialFees, students, particulars, feeType
           <button className="rounded bg-slate-100 px-3 py-2 text-sm text-slate-700 hover:bg-slate-200" onClick={() => fileInputRef.current?.click()}>Import</button>
           <button className="rounded bg-green-600 px-4 py-2 text-sm text-white hover:bg-green-700" onClick={() => { setReportFeeTypeIds([]); setReportModal(true) }}>Report</button>
           <button className="rounded bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-700"
-            onClick={() => { setEditing(null); setForm({ ...emptyForm }); setInstallments([]); setMessage(""); setAdmissionType("old"); setGuidedClass(""); setGuidedFeeTypeId(""); setModal(true) }}>Add New</button>
+            onClick={() => { setEditing(null); setForm({ ...emptyForm, school_id: filterSchool }); setInstallments([]); setMessage(""); setAdmissionType("old"); setGuidedClass(""); setGuidedFeeTypeId(""); setModal(true) }}>Add New</button>
         </div>
       </div>
       {message && <p className="mb-3 text-sm text-slate-700">{message}</p>}
       <div className="mb-4 flex flex-wrap gap-3">
         <input className="rounded border p-2 text-sm" placeholder="Search..." value={search} onChange={e => setSearch(e.target.value)} />
+        {!schoolId && allSchools.length > 0 && (
+          <select className="rounded border p-2 text-sm" value={filterSchool} onChange={e => setFilterSchool(e.target.value)}>
+            <option value="">All Schools</option>
+            {allSchools.map((s: any) => <option key={s.id} value={String(s.id)}>{s.school_name}</option>)}
+          </select>
+        )}
         <select className="rounded border p-2 text-sm" value={filterClass} onChange={e => { setFilterClass(e.target.value); setFilterDiv("") }} disabled={!!teacherClass}>
           <option value="">All Classes</option>
           {classes.map(c => <option key={c} value={c}>Class {c}</option>)}
