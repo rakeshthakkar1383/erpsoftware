@@ -47,7 +47,16 @@ export default function FeesClient({ initialFees, students, particulars, feeType
   const [reportToDate, setReportToDate] = useState("")
   const [guidedClass, setGuidedClass] = useState("")
   const [guidedFeeTypeId, setGuidedFeeTypeId] = useState("")
+  const [guidedSearchRoll, setGuidedSearchRoll] = useState("")
+  const [guidedSearchGr, setGuidedSearchGr] = useState("")
+  const [guidedSearchName, setGuidedSearchName] = useState("")
   const fileInputRef = useRef<HTMLInputElement>(null)
+
+  useEffect(() => {
+    setGuidedSearchRoll("")
+    setGuidedSearchGr("")
+    setGuidedSearchName("")
+  }, [guidedClass])
 
   const studentMap: any = {}
   students.forEach((s: any) => { studentMap[s.id] = s })
@@ -80,8 +89,25 @@ export default function FeesClient({ initialFees, students, particulars, feeType
 
   const filteredStudentsForGuided = useMemo(() => {
     if (!guidedClass) return []
-    return students.filter((s: any) => s.class_name === guidedClass || String(s.id) === String(form.student_id))
-  }, [students, guidedClass, form.student_id])
+    return students.filter((s: any) => {
+      const matchesBase = s.class_name === guidedClass || String(s.id) === String(form.student_id)
+      if (!matchesBase) return false
+
+      if (String(s.id) === String(form.student_id)) return true
+
+      if (guidedSearchRoll && !String(s.roll_no || "").toLowerCase().includes(guidedSearchRoll.toLowerCase())) {
+        return false
+      }
+      if (guidedSearchGr && !String(s.gr_no || "").toLowerCase().includes(guidedSearchGr.toLowerCase())) {
+        return false
+      }
+      if (guidedSearchName && !String(s.full_name || "").toLowerCase().includes(guidedSearchName.toLowerCase())) {
+        return false
+      }
+
+      return true
+    })
+  }, [students, guidedClass, form.student_id, guidedSearchRoll, guidedSearchGr, guidedSearchName])
 
   useEffect(() => {
     if (preSelectedStudentId) {
@@ -619,7 +645,9 @@ export default function FeesClient({ initialFees, students, particulars, feeType
                     <select className="w-full rounded border p-3 text-sm font-bold bg-blue-50 border-blue-200" value={form.student_id || ""} onChange={e => handleStudentSelect(e.target.value)}>
                       <option value="">SELECT STUDENT *</option>
                       {filteredStudentsForGuided.map((s: any) => (
-                        <option key={s.id} value={s.id}>{s.full_name} ({s.class_name}{s.division ? ` - ${s.division}` : ""})</option>
+                        <option key={s.id} value={s.id}>
+                          {s.full_name} ({s.class_name}{s.division ? ` - ${s.division}` : ""}){s.roll_no ? ` | Roll: ${s.roll_no}` : ""}{s.gr_no ? ` | GR: ${s.gr_no}` : ""}
+                        </option>
                       ))}
                     </select>
                   )}
@@ -687,12 +715,39 @@ export default function FeesClient({ initialFees, students, particulars, feeType
                         {availableFeeTypeOptions.map((t: any) => <option key={t.id} value={String(t.id)}>{t.name}</option>)}
                       </select>
 
-                      <select className="w-full rounded border p-3 text-sm font-bold bg-blue-50 border-blue-200" value={form.student_id || ""} onChange={e => handleStudentSelect(e.target.value)}>
-                        <option value="">STEP 3: SELECT STUDENT *</option>
-                        {filteredStudentsForGuided.map((s: any) => (
-                          <option key={s.id} value={s.id}>{s.full_name} ({s.class_name}{s.division ? ` - ${s.division}` : ""})</option>
-                        ))}
-                      </select>
+                      <div className="space-y-2">
+                        <select className="w-full rounded border p-3 text-sm font-bold bg-blue-50 border-blue-200" value={form.student_id || ""} onChange={e => handleStudentSelect(e.target.value)}>
+                          <option value="">STEP 3: SELECT STUDENT *</option>
+                          {filteredStudentsForGuided.map((s: any) => (
+                            <option key={s.id} value={s.id}>
+                              {s.full_name} ({s.class_name}{s.division ? ` - ${s.division}` : ""}){s.roll_no ? ` | Roll: ${s.roll_no}` : ""}{s.gr_no ? ` | GR: ${s.gr_no}` : ""}
+                            </option>
+                          ))}
+                        </select>
+                        <div className="grid grid-cols-2 gap-2">
+                          <input
+                            type="text"
+                            placeholder="Search Roll No"
+                            className="w-full rounded border p-2 text-xs font-semibold text-slate-700 bg-white placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                            value={guidedSearchRoll}
+                            onChange={e => setGuidedSearchRoll(e.target.value)}
+                          />
+                          <input
+                            type="text"
+                            placeholder="Search GR No"
+                            className="w-full rounded border p-2 text-xs font-semibold text-slate-700 bg-white placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                            value={guidedSearchGr}
+                            onChange={e => setGuidedSearchGr(e.target.value)}
+                          />
+                        </div>
+                        <input
+                          type="text"
+                          placeholder="Search Student Name"
+                          className="w-full rounded border p-2 text-xs font-semibold text-slate-700 bg-white placeholder-slate-400 focus:outline-none focus:ring-1 focus:ring-blue-500"
+                          value={guidedSearchName}
+                          onChange={e => setGuidedSearchName(e.target.value)}
+                        />
+                      </div>
                     </div>
                   )}
                 </div>
