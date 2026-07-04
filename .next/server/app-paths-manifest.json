@@ -1,6 +1,6 @@
 {
-  "/login/page": "app/login/page.js",
-  "/fees/page": "app/fees/page.js",
-  "/api/fees/export/route": "app/api/fees/export/route.js",
-  "/dashboard/page": "app/dashboard/page.js"
+  "/_not-found/page": "app/_not-found/page.js",
+  "/dashboard/page": "app/dashboard/page.js",
+  "/student-gatepass/page": "app/student-gatepass/page.js",
+  "/page": "app/page.js"
 }

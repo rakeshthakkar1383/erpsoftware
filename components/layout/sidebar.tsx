@@ -4,7 +4,7 @@ import { useState, useRef, useEffect } from "react"
 import {
   LayoutDashboard, Users, GraduationCap, DollarSign, CalendarCheck,
   BookOpen, ListOrdered, GitBranch,
-  UserCheck, FileText, LogOut, ChevronDown, Plus, Building2, Calendar, Award, Clock, FileInput, DoorOpen
+  UserCheck, FileText, LogOut, ChevronDown, Plus, Building2, Calendar, Award, Clock, FileInput, DoorOpen, BadgeCheck
 } from "lucide-react"
 import { addSchool } from "@/app/manage-schools/actions"
 import { roleDefaults } from "@/lib/permissions"
@@ -30,6 +30,7 @@ const allTabs = [
   { key: "leaves/teacher", label: "Teacher Leave", icon: FileInput },
   { key: "academic-years", label: "Academic Years", icon: Calendar },
   { key: "manage-users", label: "User Management", icon: UserCheck },
+  { key: "student-gatepass", label: "Student Gatepass", icon: BadgeCheck },
 ]
 
 type School = {

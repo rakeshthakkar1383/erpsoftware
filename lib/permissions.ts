@@ -19,6 +19,7 @@ export const allTabs = [
   { key: "leaves/student", label: "Student Leave" },
   { key: "leaves/teacher", label: "Teacher Leave" },
   { key: "academic-years", label: "Academic Years" },
+  { key: "student-gatepass", label: "Student Gatepass" },
 ]
 
 export const roleDefaults: Record<string, string[]> = {

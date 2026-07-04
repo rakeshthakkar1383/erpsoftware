@@ -187,3 +187,22 @@ export interface TeacherSubject {
   school_id: number | null
   teachers?: { full_name: string | null } | null
 }
+
+export interface StudentGatepass {
+  id: number
+  school_id: number | null
+  student_id: number | null
+  visitor_name: string
+  visitor_mobile: string | null
+  visitor_relation: string | null
+  visitor_vehicle_no: string | null
+  visitor_town_village: string | null
+  gatepass_date: string
+  reason: string | null
+  visitor_photo_url: string | null
+  visitor_signature: string | null
+  permission_given_by: string | null
+  permission_signature: string | null
+  status: string | null
+  created_at: string | null
+}
