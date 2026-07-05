@@ -76,6 +76,38 @@ export default function StudentGatepassClient({ initialData, allSchools, student
   const selectedSchool = allSchools.find(s => s.id === selectedSchoolId)
   const selectedStudent = students.find(s => s.id === selectedStudentId)
 
+  const persistSelectedSchool = (schoolId: number) => {
+    setSelectedSchoolId(schoolId)
+    if (typeof window !== "undefined") {
+      window.localStorage.setItem("gatepass-selected-school-id", String(schoolId))
+    }
+  }
+
+  useEffect(() => {
+    if (typeof window === "undefined") return
+
+    const storedSchoolId = window.localStorage.getItem("gatepass-selected-school-id")
+    if (storedSchoolId) {
+      const parsedSchoolId = Number(storedSchoolId)
+      if (!Number.isNaN(parsedSchoolId) && allSchools.some(s => s.id === parsedSchoolId)) {
+        setSelectedSchoolId(parsedSchoolId)
+        return
+      }
+    }
+
+    if (schoolId) {
+      setSelectedSchoolId(schoolId)
+    } else if (allSchools.length > 0 && !selectedSchoolId) {
+      setSelectedSchoolId(allSchools[0].id)
+    }
+  }, [schoolId, allSchools])
+
+  useEffect(() => {
+    if (typeof window !== "undefined" && selectedSchoolId) {
+      window.localStorage.setItem("gatepass-selected-school-id", String(selectedSchoolId))
+    }
+  }, [selectedSchoolId])
+
   const startCamera = async (target: "photo" | "visitorSig" | "permissionSig") => {
     setCaptureTarget(target)
     setCapturing(true)
@@ -177,7 +209,11 @@ export default function StudentGatepassClient({ initialData, allSchools, student
 
   const handleEdit = (gp: GatepassRecord) => {
     setEditingId(gp.id)
-    setSelectedSchoolId(gp.school_id || selectedSchoolId)
+    if (gp.school_id) {
+      persistSelectedSchool(gp.school_id)
+    } else {
+      setSelectedSchoolId(selectedSchoolId)
+    }
     setSelectedStudentId(gp.student_id || "")
     setVisitorName(gp.visitor_name)
     setVisitorMobile(gp.visitor_mobile || "")
@@ -212,7 +248,7 @@ export default function StudentGatepassClient({ initialData, allSchools, student
     }, 200)
   }
 
-  const selectedSchoolForDisplay = selectedSchool || currentSchool
+  const selectedSchoolForDisplay = selectedSchool || currentSchool || null
 
   return (
     <div className="p-6">
@@ -262,7 +298,7 @@ export default function StudentGatepassClient({ initialData, allSchools, student
             <label className="mb-1 block text-xs font-bold uppercase text-slate-500">School</label>
             <select
               value={selectedSchoolId}
-              onChange={e => setSelectedSchoolId(Number(e.target.value))}
+              onChange={e => persistSelectedSchool(Number(e.target.value))}
               className="w-full rounded-lg border border-slate-300 p-2.5 text-sm"
             >
               {allSchools.map(s => (
