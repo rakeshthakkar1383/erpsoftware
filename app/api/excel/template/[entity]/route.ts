@@ -43,8 +43,8 @@ const templates: Record<string, string[]> = {
   marks: ["student_id", "exam_id", "subject", "marks"],
 }
 
-export async function GET(_request: NextRequest, { params }: { params: Promise<{ entity: string }> }) {
-  const { entity } = await params
+export async function GET(_request: NextRequest, { params }: { params: { entity: string } }) {
+  const { entity } = params
   const headers = templates[entity]
   if (!headers) return NextResponse.json({ error: `Unknown entity: ${entity}. Supported: ${Object.keys(templates).join(", ")}` }, { status: 400 })
 

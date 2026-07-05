@@ -34,9 +34,15 @@ export async function middleware(request: NextRequest) {
     },
   })
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser()
+  let user = null
+  try {
+    const {
+      data: { user: currentUser },
+    } = await supabase.auth.getUser()
+    user = currentUser
+  } catch (error) {
+    console.error("Middleware auth check failed:", error)
+  }
 
   const publicPaths = ["/login", "/signup", "/forgot-password"]
   const isPublic = publicPaths.some((p) =>

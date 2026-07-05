@@ -16,6 +16,7 @@ type School = {
   id: number
   school_name: string | null
   logo_url: string | null
+  address?: string | null
 }
 
 type GatepassRecord = {
@@ -460,97 +461,81 @@ export default function StudentGatepassClient({ initialData, allSchools, student
             </div>
             <div className="p-8" ref={pdfRef}>
               <div className="rounded-xl border-2 border-slate-300 bg-white p-8">
-                <div className="mb-6 flex items-start justify-between">
-                  <div>
-                    <h1 className="text-xl font-bold uppercase text-slate-800">
-                      {pdfPreview.students ? `${pdfPreview.students.full_name}` : "Student"} Gatepass
-                    </h1>
-                    <p className="text-sm text-slate-500">{pdfPreview.gatepass_date}</p>
+                <div className="mb-6 flex items-center justify-between gap-4">
+                  <div className="flex-1 text-center">
+                    <p className="text-lg font-bold uppercase text-slate-800">
+                      {selectedSchoolForDisplay?.school_name || "SHANTINIKETAN VIDHYALAY"}
+                    </p>
+                    <p className="text-sm text-slate-500">{selectedSchoolForDisplay?.address || "Address"}</p>
                   </div>
                   {selectedSchoolForDisplay?.logo_url ? (
-                    <img src={selectedSchoolForDisplay.logo_url} alt="" className="h-16 w-16 rounded border border-slate-200 object-contain" />
-                  ) : selectedSchoolForDisplay?.school_name ? (
-                    <div className="flex h-16 w-16 items-center justify-center rounded bg-slate-700 text-xs font-bold text-white">
-                      {selectedSchoolForDisplay.school_name.charAt(0)}
-                    </div>
+                    <img src={selectedSchoolForDisplay.logo_url} alt="School logo" className="h-16 w-16 rounded border border-slate-200 object-contain" />
                   ) : null}
                 </div>
 
-                <div className="mb-4 border-b-2 border-slate-800 pb-4">
-                  <p className="text-center text-lg font-bold uppercase tracking-wide text-slate-800">
-                    {selectedSchoolForDisplay?.school_name || "School"}
-                  </p>
+                <div className="mb-6 text-center">
+                  <h1 className="text-2xl font-bold uppercase text-slate-800">Student Exit Pass</h1>
                 </div>
 
                 <div className="mb-6">
                   <h2 className="mb-3 text-sm font-bold uppercase text-slate-600 border-b border-slate-200 pb-1">Student Details</h2>
-                  <div className="flex items-start gap-4">
-                    {pdfPreview.students?.photo_url ? (
-                      <img src={pdfPreview.students.photo_url} alt="" className="h-24 w-24 rounded-lg border border-slate-200 object-cover" />
-                    ) : (
-                      <div className="flex h-24 w-24 items-center justify-center rounded-lg bg-slate-100 text-xs text-slate-400">No Photo</div>
-                    )}
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-[1fr_auto] md:items-start">
                     <div className="space-y-1 text-sm">
                       <p><span className="font-medium text-slate-600">Name:</span> {pdfPreview.students?.full_name || "—"}</p>
                       <p><span className="font-medium text-slate-600">GR No:</span> {pdfPreview.students?.gr_no || "—"}</p>
                       <p><span className="font-medium text-slate-600">Class:</span> {pdfPreview.students?.class_name || "—"}</p>
                     </div>
+                    {pdfPreview.students?.photo_url ? (
+                      <img src={pdfPreview.students.photo_url} alt="Student" className="h-24 w-24 rounded-lg border border-slate-200 object-cover" />
+                    ) : (
+                      <div className="flex h-24 w-24 items-center justify-center rounded-lg border border-dashed border-slate-300 bg-slate-50 text-xs text-slate-400">No photo</div>
+                    )}
                   </div>
                 </div>
 
                 <div className="mb-6">
                   <h2 className="mb-3 text-sm font-bold uppercase text-slate-600 border-b border-slate-200 pb-1">Visitor Details</h2>
-                  <div className="grid grid-cols-2 gap-3 text-sm">
-                    <p><span className="font-medium text-slate-600">Name:</span> {pdfPreview.visitor_name}</p>
-                    <p><span className="font-medium text-slate-600">Mobile:</span> {pdfPreview.visitor_mobile || "—"}</p>
-                    <p><span className="font-medium text-slate-600">Relation:</span> {pdfPreview.visitor_relation || "—"}</p>
-                    <p><span className="font-medium text-slate-600">Vehicle No:</span> {pdfPreview.visitor_vehicle_no || "—"}</p>
-                    <p><span className="font-medium text-slate-600">Town/Village:</span> {pdfPreview.visitor_town_village || "—"}</p>
-                    <p><span className="font-medium text-slate-600">Date:</span> {pdfPreview.gatepass_date}</p>
+                  <div className="grid grid-cols-1 gap-4 md:grid-cols-[1fr_auto] md:items-start">
+                    <div className="space-y-1 text-sm">
+                      <p><span className="font-medium text-slate-600">Name:</span> {pdfPreview.visitor_name}</p>
+                      <p><span className="font-medium text-slate-600">Mobile:</span> {pdfPreview.visitor_mobile || "—"}</p>
+                      <p><span className="font-medium text-slate-600">Relation:</span> {pdfPreview.visitor_relation || "—"}</p>
+                      <p><span className="font-medium text-slate-600">Vehicle No:</span> {pdfPreview.visitor_vehicle_no || "—"}</p>
+                      <p><span className="font-medium text-slate-600">Town/Village:</span> {pdfPreview.visitor_town_village || "—"}</p>
+                      <p><span className="font-medium text-slate-600">Date:</span> {pdfPreview.gatepass_date}</p>
+                      {pdfPreview.reason && (
+                        <p><span className="font-medium text-slate-600">Reason:</span> {pdfPreview.reason}</p>
+                      )}
+                    </div>
+                    {pdfPreview.visitor_photo_url ? (
+                      <img src={pdfPreview.visitor_photo_url} alt="Visitor" className="h-24 w-24 rounded-lg border border-slate-200 object-cover" />
+                    ) : (
+                      <div className="flex h-24 w-24 items-center justify-center rounded-lg border border-dashed border-slate-300 bg-slate-50 text-xs text-slate-400">No photo</div>
+                    )}
                   </div>
-                  {pdfPreview.reason && (
-                    <p className="mt-2 text-sm"><span className="font-medium text-slate-600">Reason:</span> {pdfPreview.reason}</p>
-                  )}
-                </div>
-
-                <div className="mb-6 grid grid-cols-2 gap-4">
-                  {pdfPreview.visitor_photo_url && (
-                    <div>
-                      <p className="mb-1 text-xs font-bold uppercase text-slate-500">Visitor Photo</p>
-                      <img src={pdfPreview.visitor_photo_url} alt="" className="h-32 w-full rounded-lg border border-slate-200 object-cover" />
-                    </div>
-                  )}
-                  {pdfPreview.visitor_signature && (
-                    <div>
-                      <p className="mb-1 text-xs font-bold uppercase text-slate-500">Visitor Signature</p>
-                      <img src={pdfPreview.visitor_signature} alt="" className="h-20 w-full rounded-lg border border-slate-200 bg-white object-contain" />
-                    </div>
-                  )}
                 </div>
 
                 <div className="mb-6 border-t border-slate-200 pt-4">
-                  <div className="grid grid-cols-2 gap-4">
+                  <div className="grid grid-cols-2 gap-8">
                     <div>
-                      <p className="mb-1 text-xs font-bold uppercase text-slate-500">Permission Given By</p>
-                      <p className="text-sm font-medium text-slate-800">{pdfPreview.permission_given_by || "—"}</p>
-                      {pdfPreview.permission_signature && (
-                        <img src={pdfPreview.permission_signature} alt="" className="mt-1 h-16 rounded-lg border border-slate-200 bg-white object-contain" />
-                      )}
+                      <p className="mb-1 text-xs font-bold uppercase text-slate-500">Permission Given By & Sign</p>
+                      <p className="mb-4 border-b border-slate-800 h-16 flex items-end text-sm font-medium text-slate-800">
+                        {pdfPreview.permission_given_by || "—"}
+                      </p>
                     </div>
                     <div>
-                      <p className="mb-1 text-xs font-bold uppercase text-slate-500">Permission Signature</p>
-                      {pdfPreview.permission_signature ? (
-                        <img src={pdfPreview.permission_signature} alt="" className="h-16 rounded-lg border border-slate-200 bg-white object-contain" />
-                      ) : (
-                        <p className="text-sm text-slate-400">—</p>
-                      )}
+                      <p className="mb-1 text-xs font-bold uppercase text-slate-500">Visitor Signature</p>
+                      <p className="mb-4 border-b border-slate-800 h-16 flex items-end text-sm font-medium text-slate-800">
+                        {pdfPreview.visitor_signature ? (
+                          <img src={pdfPreview.visitor_signature} alt="" className="h-full w-auto object-contain" />
+                        ) : "—"}
+                      </p>
                     </div>
                   </div>
                 </div>
 
                 <div className="border-t-2 border-slate-800 pt-6 text-center">
                   <p className="text-lg font-bold text-slate-700">Thank You</p>
-                  <p className="mt-1 text-xs text-slate-400">Please sign out at the gate</p>
                 </div>
               </div>
             </div>
@@ -580,52 +565,58 @@ export default function StudentGatepassClient({ initialData, allSchools, student
             <p className="text-center text-lg font-bold uppercase tracking-wide text-slate-800">
               {selectedSchoolForDisplay?.school_name || "School"}
             </p>
+            {selectedSchoolForDisplay?.address ? (
+              <p className="mt-1 text-center text-sm text-slate-500">{selectedSchoolForDisplay.address}</p>
+            ) : null}
           </div>
 
           <div className="mb-6">
             <h2 className="mb-3 text-sm font-bold uppercase text-slate-600 border-b border-slate-200 pb-1">Student Details</h2>
-            <div className="flex items-start gap-4">
-              {pdfPreview?.students?.photo_url ? (
-                <img src={pdfPreview.students.photo_url} alt="" className="h-24 w-24 rounded-lg border border-slate-200 object-cover" />
-              ) : (
-                <div className="flex h-24 w-24 items-center justify-center rounded-lg bg-slate-100 text-xs text-slate-400">No Photo</div>
-              )}
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-[1fr_auto] md:items-start">
               <div className="space-y-1 text-sm">
                 <p><span className="font-medium text-slate-600">Name:</span> {pdfPreview?.students?.full_name || "—"}</p>
                 <p><span className="font-medium text-slate-600">GR No:</span> {pdfPreview?.students?.gr_no || "—"}</p>
                 <p><span className="font-medium text-slate-600">Class:</span> {pdfPreview?.students?.class_name || "—"}</p>
               </div>
+              {pdfPreview?.students?.photo_url ? (
+                <img src={pdfPreview.students.photo_url} alt="" className="h-24 w-24 rounded-lg border border-slate-200 object-cover" />
+              ) : (
+                <div className="flex h-24 w-24 items-center justify-center rounded-lg bg-slate-100 text-xs text-slate-400">No Photo</div>
+              )}
             </div>
           </div>
 
           <div className="mb-6">
             <h2 className="mb-3 text-sm font-bold uppercase text-slate-600 border-b border-slate-200 pb-1">Visitor Details</h2>
-            <div className="grid grid-cols-2 gap-3 text-sm">
-              <p><span className="font-medium text-slate-600">Name:</span> {pdfPreview?.visitor_name}</p>
-              <p><span className="font-medium text-slate-600">Mobile:</span> {pdfPreview?.visitor_mobile || "—"}</p>
-              <p><span className="font-medium text-slate-600">Relation:</span> {pdfPreview?.visitor_relation || "—"}</p>
-              <p><span className="font-medium text-slate-600">Vehicle No:</span> {pdfPreview?.visitor_vehicle_no || "—"}</p>
-              <p><span className="font-medium text-slate-600">Town/Village:</span> {pdfPreview?.visitor_town_village || "—"}</p>
-              <p><span className="font-medium text-slate-600">Date:</span> {pdfPreview?.gatepass_date}</p>
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-[1fr_auto] md:items-start">
+              <div className="grid grid-cols-2 gap-3 text-sm">
+                <p><span className="font-medium text-slate-600">Name:</span> {pdfPreview?.visitor_name}</p>
+                <p><span className="font-medium text-slate-600">Mobile:</span> {pdfPreview?.visitor_mobile || "—"}</p>
+                <p><span className="font-medium text-slate-600">Relation:</span> {pdfPreview?.visitor_relation || "—"}</p>
+                <p><span className="font-medium text-slate-600">Vehicle No:</span> {pdfPreview?.visitor_vehicle_no || "—"}</p>
+                <p><span className="font-medium text-slate-600">Town/Village:</span> {pdfPreview?.visitor_town_village || "—"}</p>
+                <p><span className="font-medium text-slate-600">Date:</span> {pdfPreview?.gatepass_date}</p>
+              </div>
+              {pdfPreview?.visitor_photo_url ? (
+                <img src={pdfPreview.visitor_photo_url} alt="" className="h-24 w-24 rounded-lg border border-slate-200 object-cover" />
+              ) : (
+                <div className="flex h-24 w-24 items-center justify-center rounded-lg bg-slate-100 text-xs text-slate-400">No Photo</div>
+              )}
             </div>
             {pdfPreview?.reason && (
               <p className="mt-2 text-sm"><span className="font-medium text-slate-600">Reason:</span> {pdfPreview.reason}</p>
             )}
           </div>
 
-          <div className="mb-6 grid grid-cols-2 gap-4">
-            {pdfPreview?.visitor_photo_url && (
-              <div>
-                <p className="mb-1 text-xs font-bold uppercase text-slate-500">Visitor Photo</p>
-                <img src={pdfPreview.visitor_photo_url} alt="" className="h-32 w-full rounded-lg border border-slate-200 object-cover" />
-              </div>
-            )}
-            {pdfPreview?.visitor_signature && (
-              <div>
-                <p className="mb-1 text-xs font-bold uppercase text-slate-500">Visitor Signature</p>
+          <div className="mb-6 grid grid-cols-1 gap-4 md:grid-cols-2">
+            <div>
+              <p className="mb-1 text-xs font-bold uppercase text-slate-500">Visitor Signature</p>
+              {pdfPreview?.visitor_signature ? (
                 <img src={pdfPreview.visitor_signature} alt="" className="h-20 w-full rounded-lg border border-slate-200 bg-white object-contain" />
-              </div>
-            )}
+              ) : (
+                <div className="flex h-20 items-center justify-center rounded-lg border border-dashed border-slate-300 bg-slate-50 text-sm text-slate-400">No signature</div>
+              )}
+            </div>
           </div>
 
           <div className="mb-6 border-t border-slate-200 pt-4">

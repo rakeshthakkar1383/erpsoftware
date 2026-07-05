@@ -6,14 +6,20 @@ export const dynamic = "force-dynamic"
 
 const allowedEntities = ["students", "teachers", "fees", "attendance", "exams", "marks"]
 
-export async function POST(request: NextRequest, { params }: { params: Promise<{ entity: string }> }) {
-  const { entity } = await params
+export async function POST(request: NextRequest, { params }: { params: { entity: string } }) {
+  const { entity } = params
   if (!allowedEntities.includes(entity)) {
     return NextResponse.json({ error: `Unknown entity: ${entity}` }, { status: 400 })
   }
 
   const supabase = await createClient()
-  const { data: { user } } = await supabase.auth.getUser()
+  let user = null
+  try {
+    const { data } = await supabase.auth.getUser()
+    user = data.user
+  } catch (error) {
+    console.error("Excel import auth lookup failed:", error)
+  }
   if (!user) return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
 
   const schoolIdFromMetadata = user.user_metadata?.school_id
