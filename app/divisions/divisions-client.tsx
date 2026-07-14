@@ -136,7 +136,15 @@ export default function DivisionsClient({ initialDivisions, teachers, allSchools
                  {!editing && <p className="text-[10px] font-medium text-slate-400 italic">Enter multiple divisions like "A, B, C" to create them at once.</p>}
               </div>
             </div>
-            {message && <p className="mt-4 rounded bg-red-50 p-3 text-xs font-bold text-red-600 border border-red-100 uppercase">{message}</p>}
+            {message && (
+              <p className={`mt-4 rounded p-3 text-xs font-bold text-center border uppercase ${
+                message.includes("failed") || message.includes("error") || (message.includes("errors.") && !message.includes("0 errors."))
+                  ? "bg-red-50 border-red-100 text-red-600"
+                  : "bg-green-50 border-green-100 text-green-600"
+              }`}>
+                {message}
+              </p>
+            )}
             <div className="mt-6 flex gap-3">
               <button className="flex-1 rounded bg-blue-600 px-5 py-3 text-xs font-black text-white uppercase tracking-widest hover:bg-blue-700 shadow-lg shadow-blue-200" onClick={handleSave}>{editing ? "Update Division" : "Create Divisions"}</button>
               <button className="rounded bg-slate-100 px-5 py-3 text-xs font-black text-slate-500 uppercase tracking-widest hover:bg-slate-200" onClick={() => setModal(false)}>Cancel</button>

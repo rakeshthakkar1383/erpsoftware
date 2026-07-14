@@ -203,7 +203,15 @@ export default function TeachersClient({ allSchools, schoolId, allSubjects, allT
         </div>
       )}
 
-      {message && <p className="mt-6 rounded bg-red-50 p-4 text-xs font-bold text-red-600 border border-red-100 whitespace-pre-wrap">{message}</p>}
+      {message && (
+        <p className={`mt-6 rounded p-4 text-xs font-bold text-center whitespace-pre-wrap border ${
+          message.includes("failed") || message.includes("error") || (message.includes("errors.") && !message.includes("0 errors."))
+            ? "bg-red-50 border-red-100 text-red-600"
+            : "bg-green-50 border-green-100 text-green-600"
+        }`}>
+          {message}
+        </p>
+      )}
 
       {modal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">

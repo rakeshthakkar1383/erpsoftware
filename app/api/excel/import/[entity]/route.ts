@@ -40,11 +40,58 @@ export async function POST(request: NextRequest, { params }: { params: { entity:
 
     if (rows.length === 0) return NextResponse.json({ imported: 0, errors: ["No rows found"] })
 
+    // Cache resolved active academic years by school_id to avoid redundant queries
+    const activeYearCache: Record<number, number | null> = {}
+
+    const getActiveYearForSchool = async (sId: number): Promise<number | null> => {
+      if (activeYearCache[sId] !== undefined) {
+        return activeYearCache[sId]
+      }
+      try {
+        const { data: activeYear } = await supabase
+          .from("academic_years")
+          .select("id")
+          .eq("school_id", sId)
+          .eq("is_active", true)
+          .maybeSingle()
+        activeYearCache[sId] = activeYear?.id ? Number(activeYear.id) : null
+      } catch (e) {
+        console.error(`Failed to query active academic year for school ${sId}:`, e)
+        activeYearCache[sId] = null
+      }
+      return activeYearCache[sId]
+    }
+
     const errors: string[] = []
     let imported = 0
 
     for (let i = 0; i < rows.length; i++) {
       const row = rows[i]
+
+      // Clean up row keys: trim strings, remove empty/null/placeholder values
+      for (const key of Object.keys(row)) {
+        if (typeof row[key] === "string") {
+          row[key] = row[key].trim()
+        }
+        const valStr = String(row[key]).toLowerCase()
+        if (
+          row[key] === null ||
+          row[key] === undefined ||
+          row[key] === "" ||
+          valStr === "null" ||
+          valStr === "n/a" ||
+          valStr === "none" ||
+          valStr === "nil" ||
+          valStr === "undefined"
+        ) {
+          delete row[key]
+        }
+      }
+
+      // If the row contains absolutely no values, skip it
+      if (Object.keys(row).length === 0) {
+        continue
+      }
 
       // Resolve school_name to school_id (case-insensitive)
       if (row.school_name) {
@@ -61,6 +108,60 @@ export async function POST(request: NextRequest, { params }: { params: { entity:
       if (!row.school_id && (entity === "fees" || entity === "marks") && row.student_id) {
          const { data: student } = await supabase.from("students").select("school_id").eq("id", row.student_id).single()
          if (student?.school_id) row.school_id = student.school_id
+      }
+
+      // Set fallback academic_year_id for students if not provided and school_id is available
+      if (entity === "students" && !row.academic_year_id && row.school_id) {
+        const activeYrId = await getActiveYearForSchool(Number(row.school_id))
+        if (activeYrId) {
+          row.academic_year_id = activeYrId
+        }
+      }
+
+      // Normalize fields specifically for students
+      if (entity === "students") {
+        if (row.class_name) {
+          const cls = String(row.class_name).toLowerCase()
+          if (cls === "balvatika") {
+            row.class_name = "Balvatika"
+          } else {
+            const match = cls.match(/\d+/)
+            if (match) {
+              const num = parseInt(match[0], 10)
+              if (num >= 1 && num <= 12) {
+                row.class_name = String(num)
+              }
+            }
+          }
+        }
+        if (row.gender) {
+          const g = String(row.gender).toUpperCase()
+          if (g === "M" || g === "MALE") row.gender = "MALE"
+          else if (g === "F" || g === "FEMALE") row.gender = "FEMALE"
+        }
+        if (row.division) {
+          row.division = String(row.division).toUpperCase()
+        }
+      }
+
+      // Normalize teachers
+      if (entity === "teachers") {
+        if (row.gender) {
+          const g = String(row.gender).toUpperCase()
+          if (g === "M" || g === "MALE") row.gender = "MALE"
+          else if (g === "F" || g === "FEMALE") row.gender = "FEMALE"
+        }
+      }
+
+      // Convert known numeric/bigint fields to numbers to prevent database cast errors
+      const numericFields = ["school_id", "roll_no", "academic_year_id", "student_id", "exam_id", "amount", "marks", "salary", "basic_pay", "grade_pay"]
+      for (const field of numericFields) {
+        if (row[field] !== undefined && row[field] !== null) {
+          const parsed = Number(row[field])
+          if (!isNaN(parsed)) {
+            row[field] = parsed
+          }
+        }
       }
 
       const { error } = await supabase.from(entity as any).insert([row])
