@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useRef, useMemo } from "react"
 import { useRouter } from "next/navigation"
-import { getAllStudents, getStudentsGrouped, addStudent, updateStudent, deleteStudent } from "./actions"
+import { getAllStudents, getStudentsGrouped, addStudent, updateStudent, deleteStudent, findDuplicateNames, removeDuplicateStudents } from "./actions"
 import { createClient } from "@/lib/supabase/client"
 import { formatDate } from "@/lib/utils"
 
@@ -61,6 +61,9 @@ export default function StudentsClient({
   const [message, setMessage] = useState("")
   const [uploading, setUploading] = useState<string | null>(null)
   const [loading, setLoading] = useState(false)
+  const [duplicates, setDuplicates] = useState<{ name: string; class_name: string; dob: string; students: any[] }[]>([])
+  const [showDuplicates, setShowDuplicates] = useState(false)
+  const [selectedToRemove, setSelectedToRemove] = useState<Record<number, number[]>>({})
   const fileInputRef = useRef<HTMLInputElement>(null)
   const router = useRouter()
   const supabase = createClient()
@@ -220,6 +223,85 @@ export default function StudentsClient({
     if (fileInputRef.current) fileInputRef.current.value = ""
   }
 
+  const handleFindDuplicates = async () => {
+    setLoading(true)
+    setShowDuplicates(true)
+    setSelectedToRemove({})
+    try {
+      const f: Record<string, any> = {}
+      if (filterSchool) f.school_id = Number(filterSchool)
+      if (filterClass) f.class_name = filterClass
+      if (filterDiv) f.division = filterDiv
+      const result = await findDuplicateNames(f)
+      setDuplicates(result)
+      const initial: Record<number, number[]> = {}
+      result.forEach((group, gi) => {
+        initial[gi] = group.students.slice(1).map(s => s.id)
+      })
+      setSelectedToRemove(initial)
+    } catch (err: any) {
+      setMessage(err.message || "Failed to find duplicates")
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const toggleStudentSelection = (groupIndex: number, studentId: number) => {
+    setSelectedToRemove(prev => {
+      const current = prev[groupIndex] || []
+      const next = current.includes(studentId)
+        ? current.filter(id => id !== studentId)
+        : [...current, studentId]
+      return { ...prev, [groupIndex]: next }
+    })
+  }
+
+  const toggleGroupAll = (groupIndex: number, studentIds: number[]) => {
+    setSelectedToRemove(prev => {
+      const current = prev[groupIndex] || []
+      const allSelected = studentIds.every(id => current.includes(id))
+      return { ...prev, [groupIndex]: allSelected ? [] : studentIds }
+    })
+  }
+
+  const handleRemoveDuplicates = async (groupIndex: number) => {
+    const ids = selectedToRemove[groupIndex] || []
+    if (!ids.length) return
+    if (!window.confirm(`Remove ${ids.length} duplicate student(s)?`)) return
+    setLoading(true)
+    try {
+      const res = await removeDuplicateStudents(ids)
+      if (!res.success) { setMessage(res.message); return }
+      setMessage(res.message)
+      await handleFindDuplicates()
+      if (viewMode === "list") await loadList(currentPage)
+      else await loadGrouped(viewMode === "school" ? "school_id" : "class_name")
+    } catch (err: any) {
+      setMessage(err.message || "Remove failed")
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  const handleRemoveAllDuplicates = async () => {
+    const allIds: number[] = Object.values(selectedToRemove).flat()
+    if (!allIds.length) return
+    if (!window.confirm(`Remove ${allIds.length} duplicate students across all groups?`)) return
+    setLoading(true)
+    try {
+      const res = await removeDuplicateStudents(allIds)
+      if (!res.success) { setMessage(res.message); return }
+      setMessage(res.message)
+      await handleFindDuplicates()
+      if (viewMode === "list") await loadList(currentPage)
+      else await loadGrouped(viewMode === "school" ? "school_id" : "class_name")
+    } catch (err: any) {
+      setMessage(err.message || "Remove failed")
+    } finally {
+      setLoading(false)
+    }
+  }
+
   const getSchoolName = (sid: number | string) => {
     const school = allSchools.find((s: any) => s.id === Number(sid))
     return school?.school_name || "Unknown School"
@@ -275,6 +357,7 @@ export default function StudentsClient({
           <input type="file" ref={fileInputRef} className="hidden" accept=".xlsx,.xls" onChange={handleImport} />
           <button className="rounded bg-slate-100 px-3 py-2 text-xs font-bold text-slate-600 hover:bg-slate-200 transition-all" onClick={() => { const a = document.createElement("a"); a.href = "/api/excel/template/students"; a.download = "students_template.xlsx"; a.click() }}>Template</button>
           <button className="rounded bg-slate-100 px-3 py-2 text-xs font-bold text-slate-600 hover:bg-slate-200 transition-all" onClick={() => fileInputRef.current?.click()}>Import</button>
+          <button className="rounded bg-amber-500 px-3 py-2 text-xs font-bold text-white hover:bg-amber-600 transition-all" onClick={handleFindDuplicates}>Find Duplicates</button>
           <button className="rounded bg-blue-600 px-5 py-2 text-xs font-black text-white hover:bg-blue-700 shadow-lg transition-all" onClick={() => { setEditing(null); setForm({ ...emptyForm }); setMessage(""); setModal(true) }}>+ New Student</button>
         </div>
       </div>
@@ -427,6 +510,165 @@ export default function StudentsClient({
                 </div>
               )
             })
+          )}
+        </div>
+      )}
+
+      {/* Duplicates Panel */}
+      {showDuplicates && (
+        <div className="mt-4 rounded-xl border bg-white shadow-sm overflow-hidden">
+          <div className="flex items-center justify-between bg-amber-50 px-6 py-4 border-b border-amber-200">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-amber-500 text-white text-sm font-black">{Object.values(selectedToRemove).flat().length}</div>
+              <div>
+                <h3 className="text-sm font-black text-amber-800 uppercase">Duplicate Students (Same Name + Class + DOB)</h3>
+                <p className="text-[10px] font-bold text-amber-500 uppercase tracking-widest">{duplicates.length} groups found</p>
+              </div>
+            </div>
+            <div className="flex gap-2">
+              {Object.values(selectedToRemove).flat().length > 0 && (
+                <button className="rounded-lg bg-red-600 px-4 py-2 text-xs font-black text-white hover:bg-red-700 transition-all" onClick={handleRemoveAllDuplicates} disabled={loading}>
+                  Remove {Object.values(selectedToRemove).flat().length} Selected
+                </button>
+              )}
+              <button className="rounded-lg bg-slate-300 px-4 py-2 text-xs font-black text-slate-600 hover:bg-slate-400 transition-all" onClick={() => { setShowDuplicates(false); setDuplicates([]); setSelectedToRemove({}) }}>Close</button>
+            </div>
+          </div>
+          {duplicates.length === 0 ? (
+            <div className="p-12 text-center">
+              <p className="text-sm font-bold uppercase tracking-widest text-green-600">No duplicate students found!</p>
+            </div>
+          ) : (
+            <div className="divide-y divide-slate-100 max-h-[60vh] overflow-y-auto">
+              {duplicates.map((group, gi) => {
+                const studentIds = group.students.map(s => s.id)
+                const selected = selectedToRemove[gi] || []
+                const allSelected = studentIds.every(id => selected.includes(id))
+                const maxPaid = Math.max(...group.students.map((s: any) => s.total_paid || 0))
+                return (
+                  <div key={gi} className="p-4">
+                    <div className="flex items-center justify-between mb-3">
+                      <div className="flex items-center gap-2">
+                        <span className="rounded-full bg-amber-100 px-3 py-1 text-xs font-black text-amber-700">{group.name}</span>
+                        <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-bold text-slate-500">Class {group.class_name}</span>
+                        <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-bold text-slate-500">DOB: {group.dob}</span>
+                        <span className="text-[10px] font-bold text-slate-400">{group.students.length} students</span>
+                      </div>
+                      <div className="flex items-center gap-3">
+                        <label className="flex items-center gap-1.5 cursor-pointer">
+                          <input type="checkbox" checked={allSelected} onChange={() => toggleGroupAll(gi, studentIds)} className="h-3.5 w-3.5 rounded border-amber-400 text-amber-500 focus:ring-amber-400" />
+                          <span className="text-[10px] font-bold text-amber-600">Select All</span>
+                        </label>
+                        {selected.length > 0 && (
+                          <button className="rounded bg-red-500 px-3 py-1.5 text-[10px] font-black text-white hover:bg-red-600 transition-all" onClick={() => handleRemoveDuplicates(gi)} disabled={loading}>
+                            Remove {selected.length}
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                    <div className="overflow-x-auto">
+                      <table className="min-w-full text-left text-xs">
+                        <thead className="bg-slate-50 text-[10px] font-black uppercase text-slate-400">
+                          <tr>
+                            <th className="px-3 py-2 w-8"></th>
+                            <th className="px-3 py-2">GR No</th>
+                            <th className="px-3 py-2">Roll No</th>
+                            <th className="px-3 py-2">Div</th>
+                            <th className="px-3 py-2">Gender</th>
+                            <th className="px-3 py-2">Father</th>
+                            <th className="px-3 py-2">Admission No</th>
+                            <th className="px-3 py-2 text-right">Total Paid</th>
+                            <th className="px-3 py-2 text-right">Receipts</th>
+                            <th className="px-3 py-2">Action</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-50">
+                          {group.students.map((s: any) => (
+                            <tr key={s.id} className={`hover:bg-slate-50 ${selected.includes(s.id) ? "bg-red-50/50" : ""}`}>
+                              <td className="px-3 py-2">
+                                <input type="checkbox" checked={selected.includes(s.id)} onChange={() => toggleStudentSelection(gi, s.id)} className="h-3.5 w-3.5 rounded border-slate-300 text-red-500 focus:ring-red-400" />
+                              </td>
+                              <td className="px-3 py-2 font-bold text-blue-600">{s.gr_no || "-"}</td>
+                              <td className="px-3 py-2 font-semibold">{s.roll_no || "-"}</td>
+                              <td className="px-3 py-2 font-semibold">{s.division || "-"}</td>
+                              <td className="px-3 py-2">{s.gender || "-"}</td>
+                              <td className="px-3 py-2 text-slate-500">{s.father_name || "-"}</td>
+                              <td className="px-3 py-2 text-slate-500">{s.admission_no || "-"}</td>
+                              <td className="px-3 py-2 text-right">
+                                <span className={`font-black ${s.total_paid > 0 ? "text-green-600" : "text-slate-400"}`}>
+                                  {s.total_paid > 0 ? `\u20B9${s.total_paid.toLocaleString()}` : "-"}
+                                </span>
+                                {s.total_paid === maxPaid && s.total_paid > 0 && (
+                                  <span className="ml-1 rounded bg-green-100 px-1 py-0.5 text-[8px] font-black text-green-600">MAX</span>
+                                )}
+                              </td>
+                              <td className="px-3 py-2 text-right text-slate-500">{s.fees?.length || 0}</td>
+                              <td className="px-3 py-2">
+                                <button className="font-bold text-blue-600 hover:text-blue-800" onClick={() => router.push(`/students/${s.id}`)}>View</button>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+
+                    {/* Fees History per student */}
+                    {group.students.some((s: any) => s.fees?.length > 0) && (
+                      <div className="mt-3 rounded-lg border bg-slate-50 overflow-hidden">
+                        <div className="bg-slate-100 px-4 py-2 text-[10px] font-black uppercase text-slate-500 tracking-widest">Fees Paid History</div>
+                        <div className="divide-y divide-slate-100">
+                          {group.students.map((s: any) => (
+                            <div key={s.id} className="px-4 py-2">
+                              <div className="flex items-center gap-2 mb-1.5">
+                                <span className="text-xs font-black text-slate-700">{s.full_name}</span>
+                                <span className="text-[10px] font-bold text-slate-400">GR: {s.gr_no || "-"}</span>
+                                <span className={`text-[10px] font-black ${s.total_paid > 0 ? "text-green-600" : "text-slate-400"}`}>
+                                  {s.total_paid > 0 ? `Total: \u20B9${s.total_paid.toLocaleString()}` : "No payments"}
+                                </span>
+                              </div>
+                              {s.fees?.length > 0 ? (
+                                <table className="w-full text-[10px]">
+                                  <thead className="text-slate-400 font-bold uppercase">
+                                    <tr>
+                                      <th className="text-left py-1">Date</th>
+                                      <th className="text-left py-1">Receipt</th>
+                                      <th className="text-left py-1">Term</th>
+                                      <th className="text-left py-1">Mode</th>
+                                      <th className="text-left py-1">Category</th>
+                                      <th className="text-right py-1">Amount</th>
+                                      <th className="text-center py-1">Status</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody className="text-slate-600">
+                                    {s.fees.map((f: any) => (
+                                      <tr key={f.id} className="hover:bg-white">
+                                        <td className="py-0.5">{f.payment_date || "-"}</td>
+                                        <td className="py-0.5 font-bold">{f.receipt_no || "-"}</td>
+                                        <td className="py-0.5">{f.term || "-"}</td>
+                                        <td className="py-0.5">{f.payment_mode || "-"}</td>
+                                        <td className="py-0.5">{f.fee_category || "-"}</td>
+                                        <td className="py-0.5 text-right font-bold">{"\u20B9"}{Number(f.amount || 0).toLocaleString()}</td>
+                                        <td className="py-0.5 text-center">
+                                          <span className={`rounded px-1.5 py-0.5 text-[8px] font-black ${f.status === "Paid" ? "bg-green-100 text-green-600" : f.status === "Partial" ? "bg-yellow-100 text-yellow-600" : "bg-red-100 text-red-600"}`}>
+                                            {f.status}
+                                          </span>
+                                        </td>
+                                      </tr>
+                                    ))}
+                                  </tbody>
+                                </table>
+                              ) : (
+                                <p className="text-[10px] text-slate-400 italic">No fee records</p>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+                )
+              })}
+            </div>
           )}
         </div>
       )}

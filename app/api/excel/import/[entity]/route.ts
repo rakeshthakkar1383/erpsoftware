@@ -153,6 +153,21 @@ export async function POST(request: NextRequest, { params }: { params: { entity:
         }
       }
 
+      // Normalize students - check for duplicate GR numbers
+      if (entity === "students" && row.gr_no && row.gr_no.toString().trim()) {
+        const grNo = row.gr_no.toString().trim()
+        const { data: existingGr } = await supabase
+          .from("students")
+          .select("id")
+          .eq("gr_no", grNo)
+          .limit(1)
+        if (existingGr && existingGr.length > 0) {
+          errors.push(`Row ${i + 2}: GR No "${grNo}" already exists for another student`)
+          continue
+        }
+        row.gr_no = grNo
+      }
+
       // Convert known numeric/bigint fields to numbers to prevent database cast errors
       const numericFields = ["school_id", "roll_no", "academic_year_id", "student_id", "exam_id", "amount", "marks", "salary", "basic_pay", "grade_pay"]
       for (const field of numericFields) {
