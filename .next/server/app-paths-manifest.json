@@ -1,6 +1,5 @@
 {
-  "/dashboard/page": "app/dashboard/page.js",
   "/login/page": "app/login/page.js",
-  "/students/page": "app/students/page.js",
-  "/api/excel/import/[entity]/route": "app/api/excel/import/[entity]/route.js"
+  "/dashboard/page": "app/dashboard/page.js",
+  "/fees/page": "app/fees/page.js"
 }

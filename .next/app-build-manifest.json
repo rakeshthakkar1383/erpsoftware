@@ -31,15 +31,15 @@
       "static/chunks/main-app.js",
       "static/chunks/app/dashboard/loading.js"
     ],
-    "/students/page": [
+    "/fees/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/students/page.js"
+      "static/chunks/app/fees/page.js"
     ],
-    "/students/loading": [
+    "/fees/loading": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
-      "static/chunks/app/students/loading.js"
+      "static/chunks/app/fees/loading.js"
     ]
   }
 }
