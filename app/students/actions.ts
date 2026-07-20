@@ -132,6 +132,7 @@ export async function updateStudent(id: number, formData: FormData) {
   const { data: { user } } = await supabase.auth.getUser()
   const raw: any = {}
   formData.forEach((v, k) => { raw[k] = v })
+  delete raw.academic_year_id
   
   if (raw.school_id) raw.school_id = Number(raw.school_id)
   else if (user?.user_metadata?.school_id) raw.school_id = Number(user.user_metadata.school_id)

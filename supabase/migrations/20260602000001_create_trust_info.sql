@@ -20,7 +20,7 @@ LANGUAGE sql
 STABLE
 AS $$
   SELECT COALESCE(
-    (auth.jwt() -> 'user_metadata' ->> 'school_id')::bigint,
+    NULLIF((auth.jwt() -> 'user_metadata' ->> 'school_id'), '')::bigint,
     0
   )
 $$;

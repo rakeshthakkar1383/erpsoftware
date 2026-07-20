@@ -31,16 +31,6 @@
       "static/chunks/main-app.js",
       "static/chunks/app/dashboard/loading.js"
     ],
-    "/fees/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/fees/page.js"
-    ],
-    "/fees/loading": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/fees/loading.js"
-    ],
     "/students/page": [
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
@@ -50,16 +40,6 @@
       "static/chunks/webpack.js",
       "static/chunks/main-app.js",
       "static/chunks/app/students/loading.js"
-    ],
-    "/students/[id]/page": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/students/[id]/page.js"
-    ],
-    "/students/[id]/loading": [
-      "static/chunks/webpack.js",
-      "static/chunks/main-app.js",
-      "static/chunks/app/students/[id]/loading.js"
     ]
   }
 }

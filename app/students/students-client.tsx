@@ -321,7 +321,7 @@ export default function StudentsClient({
       <td className="px-4 py-3"><span className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${s.gender === "MALE" ? "bg-blue-50 text-blue-600" : "bg-pink-50 text-pink-600"}`}>{s.gender}</span></td>
       <td className="px-4 py-3 text-xs text-slate-500">{formatDate(s.dob)}</td>
       <td className="px-4 py-3 text-right">
-        <button className="text-[10px] font-black text-blue-600 hover:text-blue-800" onClick={() => { setEditing(s); setForm({ ...s, school_id: String(s.school_id || ""), academic_year_id: s.academic_year_id || "" }); setMessage(""); setModal(true) }}>Edit</button>
+        <button className="text-[10px] font-black text-blue-600 hover:text-blue-800" onClick={() => { setEditing(s); setForm({ ...s, school_id: String(s.school_id || "") }); setMessage(""); setModal(true) }}>Edit</button>
         <button className="ml-3 text-[10px] font-black text-red-600 hover:text-red-800" onClick={() => handleDelete(s.id)}>Remove</button>
       </td>
     </tr>
