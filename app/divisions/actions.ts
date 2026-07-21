@@ -63,3 +63,53 @@ export async function deleteDivision(id: number) {
   revalidatePath("/divisions")
   return { success: !error, message: error?.message || "Division deleted" }
 }
+
+export async function bulkAddDivisions(formData: FormData) {
+  const supabase = await createClient()
+  const { data: { user } } = await supabase.auth.getUser()
+
+  const schoolIdRaw = formData.get("school_id") as string
+  let schoolId: number | null = null
+  if (schoolIdRaw) schoolId = Number(schoolIdRaw)
+  else if (user?.user_metadata?.school_id) schoolId = Number(user.user_metadata.school_id)
+
+  const classNames = JSON.parse(formData.get("class_names") as string || "[]") as string[]
+  const divisionNames = JSON.parse(formData.get("division_names") as string || "[]") as string[]
+
+  if (classNames.length === 0 || divisionNames.length === 0) {
+    return { success: false, message: "Select at least one class and one division" }
+  }
+
+  const records = classNames.flatMap(cls =>
+    divisionNames.map(div => ({
+      class_name: cls,
+      division_name: div.toUpperCase(),
+      school_id: schoolId,
+    }))
+  )
+
+  const { data: existing, error: fetchError } = await supabase
+    .from("divisions")
+    .select("class_name, division_name, school_id")
+    .in("class_name", classNames)
+    .in("division_name", divisionNames.map(d => d.toUpperCase()))
+
+  if (fetchError) return { success: false, message: fetchError.message }
+
+  const existingSet = new Set(
+    (existing || []).map((r: any) => `${r.class_name}|${r.division_name}|${r.school_id}`)
+  )
+
+  const newRecords = records.filter(r => !existingSet.has(`${r.class_name}|${r.division_name}|${r.school_id}`))
+
+  if (newRecords.length === 0) {
+    return { success: false, message: "All selected divisions already exist" }
+  }
+
+  const { error } = await supabase.from("divisions").insert(newRecords)
+  revalidatePath("/divisions")
+  return {
+    success: !error,
+    message: error?.message || `${newRecords.length} Division(s) created (${records.length - newRecords.length} duplicates skipped)`
+  }
+}

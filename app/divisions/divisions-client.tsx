@@ -1,9 +1,11 @@
 "use client"
 
 import { useState, useRef } from "react"
-import { getAllDivisions, addDivision, updateDivision, deleteDivision } from "./actions"
+import { getAllDivisions, addDivision, updateDivision, deleteDivision, bulkAddDivisions } from "./actions"
 
 const classes = ["Balvatika", ...Array.from({ length: 12 }, (_, i) => String(i + 1))]
+const bulkClasses = Array.from({ length: 12 }, (_, i) => String(i + 1))
+const bulkDivisions = Array.from({ length: 26 }, (_, i) => String.fromCharCode(65 + i))
 const emptyForm: Record<string, string> = { class_name: "", division_name: "" }
 
 export default function DivisionsClient({ initialDivisions, teachers, allSchools, schoolId }: { initialDivisions: any[], teachers: any[], allSchools: any[], schoolId: number | null }) {
@@ -14,8 +16,42 @@ export default function DivisionsClient({ initialDivisions, teachers, allSchools
   const [form, setForm] = useState({ ...emptyForm })
   const [message, setMessage] = useState("")
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const [bulkModal, setBulkModal] = useState(false)
+  const [bulkSelectedClasses, setBulkSelectedClasses] = useState<string[]>([])
+  const [bulkSelectedDivisions, setBulkSelectedDivisions] = useState<string[]>([])
+  const [bulkSchoolId, setBulkSchoolId] = useState<string>(schoolId ? String(schoolId) : "")
+  const [bulkMessage, setBulkMessage] = useState("")
+  const [bulkLoading, setBulkLoading] = useState(false)
 
   const refresh = async () => setDivisions(await getAllDivisions())
+
+  const toggleBulkClass = (c: string) => setBulkSelectedClasses(prev => prev.includes(c) ? prev.filter(x => x !== c) : [...prev, c])
+  const toggleBulkDiv = (d: string) => setBulkSelectedDivisions(prev => prev.includes(d) ? prev.filter(x => x !== d) : [...prev, d])
+  const selectAllBulkClasses = () => setBulkSelectedClasses(bulkClasses)
+  const selectAllBulkDivisions = () => setBulkSelectedDivisions(bulkDivisions)
+
+  const handleBulkSave = async () => {
+    if (bulkSelectedClasses.length === 0 || bulkSelectedDivisions.length === 0) {
+      setBulkMessage("Select at least one class and one division")
+      return
+    }
+    setBulkLoading(true)
+    const fd = new FormData()
+    fd.append("school_id", bulkSchoolId)
+    fd.append("class_names", JSON.stringify(bulkSelectedClasses))
+    fd.append("division_names", JSON.stringify(bulkSelectedDivisions))
+    const res = await bulkAddDivisions(fd)
+    setBulkLoading(false)
+    if (res.success) {
+      setBulkModal(false)
+      setBulkSelectedClasses([])
+      setBulkSelectedDivisions([])
+      setBulkMessage("")
+      refresh()
+    } else {
+      setBulkMessage(res.message)
+    }
+  }
 
   const set = (field: string) => (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) =>
     setForm(prev => ({ ...prev, [field]: field === "class_name" ? e.target.value : e.target.value.toUpperCase() }))
@@ -81,6 +117,8 @@ export default function DivisionsClient({ initialDivisions, teachers, allSchools
           <button className="rounded bg-slate-100 px-3 py-2 text-sm text-slate-700 hover:bg-slate-200" onClick={() => fileInputRef.current?.click()}>Import</button>
           <button className="rounded bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-700"
             onClick={() => { setEditing(null); setForm({ ...emptyForm }); setMessage(""); setModal(true) }}>Add New</button>
+          <button className="rounded bg-purple-600 px-4 py-2 text-sm text-white hover:bg-purple-700"
+            onClick={() => { setBulkSelectedClasses([]); setBulkSelectedDivisions([]); setBulkSchoolId(schoolId ? String(schoolId) : ""); setBulkMessage(""); setBulkModal(true) }}>Bulk Create</button>
         </div>
       </div>
       {message && <p className="mb-3 text-sm text-slate-700">{message}</p>}
@@ -148,6 +186,79 @@ export default function DivisionsClient({ initialDivisions, teachers, allSchools
             <div className="mt-6 flex gap-3">
               <button className="flex-1 rounded bg-blue-600 px-5 py-3 text-xs font-black text-white uppercase tracking-widest hover:bg-blue-700 shadow-lg shadow-blue-200" onClick={handleSave}>{editing ? "Update Division" : "Create Divisions"}</button>
               <button className="rounded bg-slate-100 px-5 py-3 text-xs font-black text-slate-500 uppercase tracking-widest hover:bg-slate-200" onClick={() => setModal(false)}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
+      {bulkModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
+          <div className="w-full max-w-2xl max-h-[90vh] overflow-y-auto rounded-lg bg-white p-6 shadow-xl">
+            <h3 className="mb-4 text-xl font-black uppercase tracking-tight text-slate-800">Bulk Create Divisions</h3>
+            <p className="mb-4 text-xs text-slate-500">Select classes and divisions to create all combinations at once.</p>
+
+            <div className="grid gap-4">
+              {!schoolId && (
+                <div className="space-y-1">
+                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Select School *</label>
+                  <select className="w-full rounded border p-3 text-sm" value={bulkSchoolId} onChange={e => setBulkSchoolId(e.target.value)}>
+                    <option value="">SELECT SCHOOL</option>
+                    {allSchools.map((s: any) => <option key={s.id} value={s.id}>{s.school_name}</option>)}
+                  </select>
+                </div>
+              )}
+
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Select Classes (1-12) *</label>
+                  <button className="text-[10px] font-bold text-blue-600 hover:underline" onClick={selectAllBulkClasses}>Select All</button>
+                </div>
+                <div className="grid grid-cols-4 gap-2 sm:grid-cols-6">
+                  {bulkClasses.map(c => (
+                    <label key={c} className={`flex items-center justify-center gap-1.5 rounded border px-3 py-2 text-sm font-bold cursor-pointer transition-all ${bulkSelectedClasses.includes(c) ? "border-blue-500 bg-blue-50 text-blue-700" : "border-slate-200 bg-white text-slate-600 hover:border-slate-300"}`}>
+                      <input type="checkbox" className="hidden" checked={bulkSelectedClasses.includes(c)} onChange={() => toggleBulkClass(c)} />
+                      <span>{c}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              <div className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <label className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Select Divisions (A-Z) *</label>
+                  <button className="text-[10px] font-bold text-blue-600 hover:underline" onClick={selectAllBulkDivisions}>Select All</button>
+                </div>
+                <div className="grid grid-cols-6 gap-2 sm:grid-cols-9">
+                  {bulkDivisions.map(d => (
+                    <label key={d} className={`flex items-center justify-center rounded border px-3 py-2 text-sm font-bold cursor-pointer transition-all ${bulkSelectedDivisions.includes(d) ? "border-blue-500 bg-blue-50 text-blue-700" : "border-slate-200 bg-white text-slate-600 hover:border-slate-300"}`}>
+                      <input type="checkbox" className="hidden" checked={bulkSelectedDivisions.includes(d)} onChange={() => toggleBulkDiv(d)} />
+                      <span>{d}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              <div className="rounded bg-slate-100 p-3 text-center">
+                <span className="text-xs font-bold text-slate-700">
+                  {bulkSelectedClasses.length} class(es) × {bulkSelectedDivisions.length} division(s) = <span className="text-blue-600">{bulkSelectedClasses.length * bulkSelectedDivisions.length}</span> division(s) will be created
+                </span>
+              </div>
+            </div>
+
+            {bulkMessage && (
+              <p className={`mt-4 rounded p-3 text-xs font-bold text-center border uppercase ${
+                bulkMessage.includes("failed") || bulkMessage.includes("error") || bulkMessage.includes("already exist")
+                  ? "bg-red-50 border-red-100 text-red-600"
+                  : "bg-green-50 border-green-100 text-green-600"
+              }`}>
+                {bulkMessage}
+              </p>
+            )}
+
+            <div className="mt-6 flex gap-3">
+              <button className="flex-1 rounded bg-purple-600 px-5 py-3 text-xs font-black text-white uppercase tracking-widest hover:bg-purple-700 shadow-lg shadow-purple-200 disabled:opacity-50" onClick={handleBulkSave} disabled={bulkLoading}>
+                {bulkLoading ? "Creating..." : "Create Divisions"}
+              </button>
+              <button className="rounded bg-slate-100 px-5 py-3 text-xs font-black text-slate-500 uppercase tracking-widest hover:bg-slate-200" onClick={() => setBulkModal(false)}>Cancel</button>
             </div>
           </div>
         </div>
