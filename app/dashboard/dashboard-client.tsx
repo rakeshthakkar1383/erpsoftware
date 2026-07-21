@@ -1,6 +1,8 @@
 "use client"
 
 import { useState, useMemo } from "react"
+import { useRouter } from "next/navigation"
+import { formatDate } from "@/lib/utils"
 
 const classes = ["Balvatika", ...Array.from({ length: 12 }, (_, i) => String(i + 1))]
 
@@ -26,6 +28,10 @@ export default function DashboardClient({
   const [selectedFeeClass, setSelectedFeeClass] = useState<string | null>(teacherClass || null)
   const [selectedTrust, setSelectedTrust] = useState<number | null>(null)
   const [selectedLeaveStatus, setSelectedLeaveStatus] = useState<string | null>(null)
+  const [studentSearch, setStudentSearch] = useState("")
+  const [studentFilterClass, setStudentFilterClass] = useState("")
+  const [studentFilterDiv, setStudentFilterDiv] = useState("")
+  const router = useRouter()
 
   const school = schools.find(s => s.id === selectedSchoolId)
 
@@ -84,36 +90,72 @@ export default function DashboardClient({
   const getStudentsByDiv = (cls: string, div: string) => filteredStudents.filter(s => s.class_name === cls && s.division === div)
   const getDivisionsForClass = (cls: string) => filteredDivisions.filter(d => d.class_name === cls)
 
-  const renderStudentList = (list: any[], paidSet?: Set<number>) => {
+  const renderStudentTable = (list: any[], paidSet?: Set<number>, showClass = true) => {
     if (list.length === 0) return <p className="text-sm text-slate-500">No students</p>
     const isPaid = paidSet || paidStudentIds
-    const paid = list.filter(s => isPaid.has(s.id))
-    const unpaid = list.filter(s => !isPaid.has(s.id))
     return (
-      <div className="space-y-1">
-        {paid.length > 0 && (
-          <div>
-            <p className="text-xs font-semibold text-green-700">Paid ({paid.length})</p>
-            <div className="flex flex-wrap gap-1">
-              {paid.map(s => (
-                <span key={s.id} className="rounded bg-green-50 px-2 py-0.5 text-xs text-green-700">{s.full_name}</span>
-              ))}
-            </div>
-          </div>
-        )}
-        {unpaid.length > 0 && (
-          <div>
-            <p className="text-xs font-semibold text-red-700">Unpaid ({unpaid.length})</p>
-            <div className="flex flex-wrap gap-1">
-              {unpaid.map(s => (
-                <span key={s.id} className="rounded bg-red-50 px-2 py-0.5 text-xs text-red-700">{s.full_name}</span>
-              ))}
-            </div>
-          </div>
-        )}
+      <div className="overflow-x-auto rounded-lg border">
+        <table className="min-w-full divide-y divide-slate-200 text-left text-xs">
+          <thead className="bg-slate-50 text-[10px] font-black uppercase tracking-widest text-slate-500">
+            <tr>
+              <th className="px-3 py-2 w-8">#</th>
+              <th className="px-3 py-2">GR No</th>
+              <th className="px-3 py-2">Roll No</th>
+              <th className="px-3 py-2">Student Name</th>
+              {showClass && <th className="px-3 py-2">Class/Div</th>}
+              {!showClass && <th className="px-3 py-2">Division</th>}
+              <th className="px-3 py-2">Gender</th>
+              <th className="px-3 py-2">DOB</th>
+              <th className="px-3 py-2 text-right">Fee Status</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-slate-100">
+            {list.map((s: any, i: number) => {
+              const paid = isPaid.has(s.id)
+              return (
+                <tr key={s.id} className="hover:bg-slate-50 transition-colors">
+                  <td className="px-3 py-2 text-xs font-bold text-slate-400">{i + 1}</td>
+                  <td className="px-3 py-2 text-xs font-black text-blue-600">{s.gr_no || "-"}</td>
+                  <td className="px-3 py-2 text-xs font-bold">{s.roll_no || "-"}</td>
+                  <td className="px-3 py-2">
+                    <button className="text-xs font-bold text-slate-800 hover:text-blue-600 transition-colors text-left" onClick={() => router.push(`/students/${s.id}`)}>{s.full_name}</button>
+                  </td>
+                  <td className="px-3 py-2 text-xs font-semibold">
+                    {showClass ? `${s.class_name}${s.division ? ` / ${s.division}` : ""}` : (s.division || "-")}
+                  </td>
+                  <td className="px-3 py-2">
+                    <span className={`rounded-full px-2 py-0.5 text-[10px] font-bold ${s.gender === "MALE" ? "bg-blue-50 text-blue-600" : "bg-pink-50 text-pink-600"}`}>{s.gender || "-"}</span>
+                  </td>
+                  <td className="px-3 py-2 text-xs text-slate-500">{formatDate(s.dob)}</td>
+                  <td className="px-3 py-2 text-right">
+                    <span className={`rounded-full px-2 py-0.5 text-[10px] font-black ${paid ? "bg-green-100 text-green-700" : "bg-red-100 text-red-600"}`}>
+                      {paid ? "PAID" : "UNPAID"}
+                    </span>
+                  </td>
+                </tr>
+              )
+            })}
+          </tbody>
+        </table>
       </div>
     )
   }
+
+  const displayStudents = useMemo(() => {
+    let list = filteredStudents
+    if (studentFilterClass) list = list.filter(s => s.class_name === studentFilterClass)
+    if (studentFilterDiv) list = list.filter(s => s.division === studentFilterDiv)
+    if (studentSearch) {
+      const q = studentSearch.toLowerCase()
+      list = list.filter(s =>
+        (s.full_name || "").toLowerCase().includes(q) ||
+        (s.gr_no || "").toLowerCase().includes(q) ||
+        (s.father_name || "").toLowerCase().includes(q) ||
+        (s.admission_no || "").toLowerCase().includes(q)
+      )
+    }
+    return list
+  }, [filteredStudents, studentFilterClass, studentFilterDiv, studentSearch])
 
   return (
     <div>
@@ -158,6 +200,40 @@ export default function DashboardClient({
           <div className="rounded-lg border border-indigo-200 bg-indigo-50 p-4 shadow-sm">
             <div className="text-xs uppercase tracking-wide text-indigo-600">Trust Fees Paid</div>
             <div className="text-3xl font-bold text-indigo-800">{trustPaidStudentIds.size}</div>
+          </div>
+        </div>
+      )}
+
+      {selectedSchoolId && (
+        <div className="mb-6 rounded-xl border bg-white shadow-sm overflow-hidden">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b bg-slate-50 px-6 py-4">
+            <div className="flex items-center gap-3">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-600 text-white text-sm font-black">{displayStudents.length}</div>
+              <div>
+                <h3 className="text-sm font-black text-slate-800 uppercase">Students List</h3>
+                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{school?.school_name}</p>
+              </div>
+            </div>
+            <div className="flex flex-wrap items-center gap-2">
+              <input className="w-48 rounded-lg border bg-white p-2 text-xs" placeholder="Search name, GR No..." value={studentSearch} onChange={e => setStudentSearch(e.target.value)} />
+              <select className="rounded-lg border bg-white p-2 text-xs font-semibold text-slate-600" value={studentFilterClass} onChange={e => { setStudentFilterClass(e.target.value); setStudentFilterDiv("") }}>
+                <option value="">All Classes</option>
+                {classes.map(c => <option key={c} value={c}>Class {c}</option>)}
+              </select>
+              <select className="rounded-lg border bg-white p-2 text-xs font-semibold text-slate-600" value={studentFilterDiv} onChange={e => setStudentFilterDiv(e.target.value)}>
+                <option value="">All Divisions</option>
+                {filteredDivisions.filter((d: any) => !studentFilterClass || d.class_name === studentFilterClass).map((d: any) => (
+                  <option key={d.id} value={d.division_name}>{d.division_name}</option>
+                ))}
+              </select>
+            </div>
+          </div>
+          <div className="max-h-[50vh] overflow-y-auto">
+            {displayStudents.length === 0 ? (
+              <div className="p-12 text-center"><p className="text-sm font-bold uppercase tracking-widest text-slate-400">No students found.</p></div>
+            ) : (
+              renderStudentTable(displayStudents)
+            )}
           </div>
         </div>
       )}
@@ -292,7 +368,7 @@ export default function DashboardClient({
                     </button>
                     {selectedTrust === trust.id && (
                       <div className="border-t px-4 py-3">
-                        {renderStudentList(studentsWithTrustFees, paidIds)}
+                        {renderStudentTable(studentsWithTrustFees, paidIds)}
                       </div>
                     )}
                   </div>
@@ -351,7 +427,7 @@ export default function DashboardClient({
                                     {list.length} students {selectedDiv === divKey ? "▲" : "▼"}
                                   </button>
                                   {selectedDiv === divKey && (
-                                    <div className="mt-2">{renderStudentList(list)}</div>
+                                    <div className="mt-2">{renderStudentTable(list, undefined, false)}</div>
                                   )}
                                 </td>
                               </tr>
@@ -390,7 +466,7 @@ export default function DashboardClient({
                     </button>
                     {selectedFeeClass === cls && (
                       <div className="border-t px-4 py-3">
-                        {renderStudentList(list)}
+                        {renderStudentTable(list)}
                       </div>
                     )}
                   </div>
