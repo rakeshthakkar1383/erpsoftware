@@ -2,7 +2,7 @@
 
 import { useState, useCallback, useRef, useMemo } from "react"
 import { useRouter } from "next/navigation"
-import { getAllStudents, getStudentsGrouped, addStudent, updateStudent, deleteStudent, findDuplicateNames, removeDuplicateStudents } from "./actions"
+import { getAllStudents, getStudentsGrouped, addStudent, updateStudent, deleteStudent, findDuplicateNames, removeDuplicateStudents, bulkDeleteStudents } from "./actions"
 import { createClient } from "@/lib/supabase/client"
 import { formatDate } from "@/lib/utils"
 
@@ -64,6 +64,7 @@ export default function StudentsClient({
   const [duplicates, setDuplicates] = useState<{ name: string; class_name: string; dob: string; students: any[] }[]>([])
   const [showDuplicates, setShowDuplicates] = useState(false)
   const [selectedToRemove, setSelectedToRemove] = useState<Record<number, number[]>>({})
+  const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set())
   const fileInputRef = useRef<HTMLInputElement>(null)
   const router = useRouter()
   const supabase = createClient()
@@ -307,8 +308,54 @@ export default function StudentsClient({
     return school?.school_name || "Unknown School"
   }
 
+  const toggleStudentSelect = (id: number) => {
+    setSelectedIds(prev => {
+      const next = new Set(prev)
+      if (next.has(id)) next.delete(id)
+      else next.add(id)
+      return next
+    })
+  }
+
+  const toggleSelectAll = (ids: number[]) => {
+    setSelectedIds(prev => {
+      const allSelected = ids.every(id => prev.has(id))
+      if (allSelected) {
+        const next = new Set(prev)
+        ids.forEach(id => next.delete(id))
+        return next
+      } else {
+        const next = new Set(prev)
+        ids.forEach(id => next.add(id))
+        return next
+      }
+    })
+  }
+
+  const handleBulkDelete = async () => {
+    const ids = Array.from(selectedIds)
+    if (!ids.length) return
+    if (!window.confirm(`Are you sure you want to delete ${ids.length} student(s)? This action cannot be undone.`)) return
+    setLoading(true)
+    try {
+      const res = await bulkDeleteStudents(ids)
+      if (!res.success) { setMessage(res.message); return }
+      setMessage(res.message)
+      setSelectedIds(new Set())
+      if (viewMode === "list") await loadList(currentPage)
+      else await loadGrouped(viewMode === "school" ? "school_id" : "class_name")
+    } catch (err: any) {
+      setMessage(err.message || "Delete failed")
+    } finally {
+      setLoading(false)
+    }
+  }
+
   const renderRow = (s: any, index: number, showClass = true) => (
-    <tr key={s.id} className="hover:bg-slate-50 transition-colors">
+    <tr key={s.id} className={`hover:bg-slate-50 transition-colors ${selectedIds.has(s.id) ? "bg-blue-50/60" : ""}`}>
+      <td className="px-4 py-3">
+        <input type="checkbox" checked={selectedIds.has(s.id)} onChange={() => toggleStudentSelect(s.id)} className="h-3.5 w-3.5 rounded border-slate-300 text-blue-600 focus:ring-blue-500" />
+      </td>
       <td className="px-4 py-3 text-xs font-bold text-slate-400">{index + 1}</td>
       <td className="px-4 py-3 text-xs font-black text-blue-600">{s.gr_no || "-"}</td>
       <td className="px-4 py-3 text-xs font-bold">{s.roll_no || "-"}</td>
@@ -327,20 +374,26 @@ export default function StudentsClient({
     </tr>
   )
 
-  const TableHead = ({ showClass }: { showClass: boolean }) => (
-    <thead className="bg-slate-50 text-[10px] font-black uppercase tracking-widest text-slate-500 select-none">
-      <tr>
-        <th className="px-4 py-3 w-12">#</th>
-        <th className="px-4 py-3">GR No</th>
-        <th className="px-4 py-3">Roll No</th>
-        <th className="px-4 py-3">Student Name</th>
-        <th className="px-4 py-3">{showClass ? "Class/Div" : "Division"}</th>
-        <th className="px-4 py-3">Gender</th>
-        <th className="px-4 py-3">DOB</th>
-        <th className="px-4 py-3 text-right">Actions</th>
-      </tr>
-    </thead>
-  )
+  const TableHead = ({ showClass, rowIds }: { showClass: boolean; rowIds?: number[] }) => {
+    const allSelected = rowIds && rowIds.length > 0 && rowIds.every(id => selectedIds.has(id))
+    return (
+      <thead className="bg-slate-50 text-[10px] font-black uppercase tracking-widest text-slate-500 select-none">
+        <tr>
+          <th className="px-4 py-3 w-10">
+            <input type="checkbox" checked={!!allSelected} onChange={() => rowIds && toggleSelectAll(rowIds)} className="h-3.5 w-3.5 rounded border-slate-300 text-blue-600 focus:ring-blue-500" />
+          </th>
+          <th className="px-4 py-3 w-12">#</th>
+          <th className="px-4 py-3">GR No</th>
+          <th className="px-4 py-3">Roll No</th>
+          <th className="px-4 py-3">Student Name</th>
+          <th className="px-4 py-3">{showClass ? "Class/Div" : "Division"}</th>
+          <th className="px-4 py-3">Gender</th>
+          <th className="px-4 py-3">DOB</th>
+          <th className="px-4 py-3 text-right">Actions</th>
+        </tr>
+      </thead>
+    )
+  }
 
   return (
     <div className="p-4">
@@ -358,6 +411,11 @@ export default function StudentsClient({
           <button className="rounded bg-slate-100 px-3 py-2 text-xs font-bold text-slate-600 hover:bg-slate-200 transition-all" onClick={() => { const a = document.createElement("a"); a.href = "/api/excel/template/students"; a.download = "students_template.xlsx"; a.click() }}>Template</button>
           <button className="rounded bg-slate-100 px-3 py-2 text-xs font-bold text-slate-600 hover:bg-slate-200 transition-all" onClick={() => fileInputRef.current?.click()}>Import</button>
           <button className="rounded bg-amber-500 px-3 py-2 text-xs font-bold text-white hover:bg-amber-600 transition-all" onClick={handleFindDuplicates}>Find Duplicates</button>
+          {selectedIds.size > 0 && (
+            <button className="rounded bg-red-600 px-4 py-2 text-xs font-black text-white hover:bg-red-700 transition-all shadow-lg" onClick={handleBulkDelete} disabled={loading}>
+              Delete {selectedIds.size} Selected
+            </button>
+          )}
           <button className="rounded bg-blue-600 px-5 py-2 text-xs font-black text-white hover:bg-blue-700 shadow-lg transition-all" onClick={() => { setEditing(null); setForm({ ...emptyForm }); setMessage(""); setModal(true) }}>+ New Student</button>
         </div>
       </div>
@@ -428,7 +486,7 @@ export default function StudentsClient({
             <>
               <div className="overflow-x-auto">
                 <table className="min-w-full divide-y divide-slate-200 text-left text-sm">
-                  <TableHead showClass={true} />
+                  <TableHead showClass={true} rowIds={students.map(s => s.id)} />
                   <tbody className="divide-y divide-slate-100 text-slate-700">
                     {students.map((s: any, i: number) => renderRow(s, (currentPage - 1) * pageSize + i))}
                   </tbody>
@@ -476,7 +534,7 @@ export default function StudentsClient({
                 </div>
                 <div className="overflow-x-auto">
                   <table className="min-w-full divide-y text-left text-sm">
-                    <TableHead showClass={true} />
+                    <TableHead showClass={true} rowIds={sList.map(s => s.id)} />
                     <tbody className="divide-y divide-slate-100 text-slate-700">
                       {sList.map((s: any, i: number) => renderRow(s, i))}
                     </tbody>
@@ -501,7 +559,7 @@ export default function StudentsClient({
                   </div>
                   <div className="overflow-x-auto">
                     <table className="min-w-full divide-y text-left text-sm">
-                      <TableHead showClass={false} />
+                      <TableHead showClass={false} rowIds={sList.map((s: any) => s.id)} />
                       <tbody className="divide-y divide-slate-100 text-slate-700">
                         {sList.map((s: any, i: number) => renderRow(s, i, false))}
                       </tbody>

@@ -245,3 +245,11 @@ export async function deleteStudent(id: number) {
   revalidatePath("/students")
   return { success: !error, message: error?.message || "Student deleted" }
 }
+
+export async function bulkDeleteStudents(ids: number[]) {
+  const supabase = await createClient()
+  if (!ids.length) return { success: true, message: "No students selected", deleted: 0 }
+  const { error } = await supabase.from("students").delete().in("id", ids)
+  revalidatePath("/students")
+  return { success: !error, message: error?.message || `${ids.length} student(s) deleted`, deleted: ids.length }
+}
