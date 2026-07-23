@@ -2,122 +2,114 @@
   "node": {
     "0ee35b41d0488aaf36d19ab60f102373ab13aa2c": {
       "workers": {
-        "app/login/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
         "app/dashboard/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/divisions/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fdivisions%2Factions.ts%22%2C%5B%22updateDivision%22%2C%22addDivision%22%2C%22deleteDivision%22%2C%22bulkAddDivisions%22%2C%22getAllDivisions%22%2C%22getAllTeachers%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/students/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
+        "app/teachers/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fteachers%2Factions.ts%22%2C%5B%22getAllTeachers%22%2C%22updateTeacher%22%2C%22addTeacher%22%2C%22deleteTeacher%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
+        "app/students/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
+        "app/student-gatepass/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudent-gatepass%2Factions.ts%22%2C%5B%22updateGatepass%22%2C%22deleteGatepass%22%2C%22uploadPhoto%22%2C%22addGatepass%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
+        "app/staff-gatepass/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstaff-gatepass%2Factions.ts%22%2C%5B%22addStaffGatepass%22%2C%22deleteStaffGatepass%22%2C%22updateStaffGatepass%22%2C%22uploadPhoto%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
       },
       "layer": {
-        "app/login/page": "action-browser",
         "app/dashboard/page": "action-browser",
-        "app/divisions/page": "action-browser",
-        "app/students/page": "action-browser"
+        "app/teachers/page": "action-browser",
+        "app/students/page": "action-browser",
+        "app/student-gatepass/page": "action-browser",
+        "app/staff-gatepass/page": "action-browser"
       }
     },
     "1032b681b35ab85b113b48f7479bd10b250bea7a": {
       "workers": {
-        "app/login/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
         "app/dashboard/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/divisions/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fdivisions%2Factions.ts%22%2C%5B%22updateDivision%22%2C%22addDivision%22%2C%22deleteDivision%22%2C%22bulkAddDivisions%22%2C%22getAllDivisions%22%2C%22getAllTeachers%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/students/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
+        "app/teachers/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fteachers%2Factions.ts%22%2C%5B%22getAllTeachers%22%2C%22updateTeacher%22%2C%22addTeacher%22%2C%22deleteTeacher%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
+        "app/students/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
+        "app/student-gatepass/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudent-gatepass%2Factions.ts%22%2C%5B%22updateGatepass%22%2C%22deleteGatepass%22%2C%22uploadPhoto%22%2C%22addGatepass%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
+        "app/staff-gatepass/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstaff-gatepass%2Factions.ts%22%2C%5B%22addStaffGatepass%22%2C%22deleteStaffGatepass%22%2C%22updateStaffGatepass%22%2C%22uploadPhoto%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
       },
       "layer": {
-        "app/login/page": "action-browser",
         "app/dashboard/page": "action-browser",
-        "app/divisions/page": "action-browser",
-        "app/students/page": "action-browser"
+        "app/teachers/page": "action-browser",
+        "app/students/page": "action-browser",
+        "app/student-gatepass/page": "action-browser",
+        "app/staff-gatepass/page": "action-browser"
       }
     },
     "3f1126cd6dea36798eed8e98e29a233f988b3be9": {
       "workers": {
-        "app/login/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
         "app/dashboard/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/divisions/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fdivisions%2Factions.ts%22%2C%5B%22updateDivision%22%2C%22addDivision%22%2C%22deleteDivision%22%2C%22bulkAddDivisions%22%2C%22getAllDivisions%22%2C%22getAllTeachers%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/students/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
+        "app/teachers/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fteachers%2Factions.ts%22%2C%5B%22getAllTeachers%22%2C%22updateTeacher%22%2C%22addTeacher%22%2C%22deleteTeacher%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
+        "app/students/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
+        "app/student-gatepass/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudent-gatepass%2Factions.ts%22%2C%5B%22updateGatepass%22%2C%22deleteGatepass%22%2C%22uploadPhoto%22%2C%22addGatepass%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
+        "app/staff-gatepass/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstaff-gatepass%2Factions.ts%22%2C%5B%22addStaffGatepass%22%2C%22deleteStaffGatepass%22%2C%22updateStaffGatepass%22%2C%22uploadPhoto%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
       },
       "layer": {
-        "app/login/page": "action-browser",
         "app/dashboard/page": "action-browser",
-        "app/divisions/page": "action-browser",
-        "app/students/page": "action-browser"
+        "app/teachers/page": "action-browser",
+        "app/students/page": "action-browser",
+        "app/student-gatepass/page": "action-browser",
+        "app/staff-gatepass/page": "action-browser"
       }
     },
     "d0a135f19415a7682d73938cddad8e09b0fa8e7a": {
       "workers": {
-        "app/login/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
         "app/dashboard/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/divisions/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fdivisions%2Factions.ts%22%2C%5B%22updateDivision%22%2C%22addDivision%22%2C%22deleteDivision%22%2C%22bulkAddDivisions%22%2C%22getAllDivisions%22%2C%22getAllTeachers%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/students/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
+        "app/teachers/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fteachers%2Factions.ts%22%2C%5B%22getAllTeachers%22%2C%22updateTeacher%22%2C%22addTeacher%22%2C%22deleteTeacher%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
+        "app/students/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
+        "app/student-gatepass/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudent-gatepass%2Factions.ts%22%2C%5B%22updateGatepass%22%2C%22deleteGatepass%22%2C%22uploadPhoto%22%2C%22addGatepass%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
+        "app/staff-gatepass/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstaff-gatepass%2Factions.ts%22%2C%5B%22addStaffGatepass%22%2C%22deleteStaffGatepass%22%2C%22updateStaffGatepass%22%2C%22uploadPhoto%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
       },
       "layer": {
-        "app/login/page": "action-browser",
         "app/dashboard/page": "action-browser",
-        "app/divisions/page": "action-browser",
-        "app/students/page": "action-browser"
+        "app/teachers/page": "action-browser",
+        "app/students/page": "action-browser",
+        "app/student-gatepass/page": "action-browser",
+        "app/staff-gatepass/page": "action-browser"
       }
     },
     "ec4bc750b79bdea553e9bbe87014c21b2db652f8": {
       "workers": {
-        "app/login/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
         "app/dashboard/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/divisions/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fdivisions%2Factions.ts%22%2C%5B%22updateDivision%22%2C%22addDivision%22%2C%22deleteDivision%22%2C%22bulkAddDivisions%22%2C%22getAllDivisions%22%2C%22getAllTeachers%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/students/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
+        "app/teachers/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fteachers%2Factions.ts%22%2C%5B%22getAllTeachers%22%2C%22updateTeacher%22%2C%22addTeacher%22%2C%22deleteTeacher%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
+        "app/students/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
+        "app/student-gatepass/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudent-gatepass%2Factions.ts%22%2C%5B%22updateGatepass%22%2C%22deleteGatepass%22%2C%22uploadPhoto%22%2C%22addGatepass%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
+        "app/staff-gatepass/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstaff-gatepass%2Factions.ts%22%2C%5B%22addStaffGatepass%22%2C%22deleteStaffGatepass%22%2C%22updateStaffGatepass%22%2C%22uploadPhoto%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
       },
       "layer": {
-        "app/login/page": "action-browser",
         "app/dashboard/page": "action-browser",
-        "app/divisions/page": "action-browser",
-        "app/students/page": "action-browser"
+        "app/teachers/page": "action-browser",
+        "app/students/page": "action-browser",
+        "app/student-gatepass/page": "action-browser",
+        "app/staff-gatepass/page": "action-browser"
       }
     },
-    "008cdda95fd57192eb3e20576241c7625acd6b53": {
+    "11228b64682771cbd0c2b0738c32496385123640": {
       "workers": {
-        "app/divisions/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fdivisions%2Factions.ts%22%2C%5B%22updateDivision%22%2C%22addDivision%22%2C%22deleteDivision%22%2C%22bulkAddDivisions%22%2C%22getAllDivisions%22%2C%22getAllTeachers%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/students/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fdivisions%2Factions.ts%22%2C%5B%22updateDivision%22%2C%22addDivision%22%2C%22deleteDivision%22%2C%22bulkAddDivisions%22%2C%22getAllDivisions%22%2C%22getAllTeachers%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstreams%2Factions.ts%22%2C%5B%22updateStream%22%2C%22addStream%22%2C%22getAllStreams%22%2C%22deleteStream%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Facademic-years%2Factions.ts%22%2C%5B%22updateAcademicYear%22%2C%22getAllAcademicYears%22%2C%22addAcademicYear%22%2C%22deleteAcademicYear%22%5D%5D%5D&__client_imported__=!"
+        "app/teachers/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fteachers%2Factions.ts%22%2C%5B%22getAllTeachers%22%2C%22updateTeacher%22%2C%22addTeacher%22%2C%22deleteTeacher%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
       },
       "layer": {
-        "app/divisions/page": "action-browser",
-        "app/students/page": "rsc"
+        "app/teachers/page": "action-browser"
       }
     },
-    "32653e5ec73fb3223d4429ba30459f421314cafe": {
+    "9f2a702bee688a75794b1c6cbcb1efb348e6a83d": {
       "workers": {
-        "app/divisions/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fdivisions%2Factions.ts%22%2C%5B%22updateDivision%22%2C%22addDivision%22%2C%22deleteDivision%22%2C%22bulkAddDivisions%22%2C%22getAllDivisions%22%2C%22getAllTeachers%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/students/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fdivisions%2Factions.ts%22%2C%5B%22updateDivision%22%2C%22addDivision%22%2C%22deleteDivision%22%2C%22bulkAddDivisions%22%2C%22getAllDivisions%22%2C%22getAllTeachers%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstreams%2Factions.ts%22%2C%5B%22updateStream%22%2C%22addStream%22%2C%22getAllStreams%22%2C%22deleteStream%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Facademic-years%2Factions.ts%22%2C%5B%22updateAcademicYear%22%2C%22getAllAcademicYears%22%2C%22addAcademicYear%22%2C%22deleteAcademicYear%22%5D%5D%5D&__client_imported__=!"
+        "app/teachers/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fteachers%2Factions.ts%22%2C%5B%22getAllTeachers%22%2C%22updateTeacher%22%2C%22addTeacher%22%2C%22deleteTeacher%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
       },
       "layer": {
-        "app/divisions/page": "action-browser",
-        "app/students/page": "rsc"
+        "app/teachers/page": "action-browser"
       }
     },
-    "983b6a389841bf451fcbec74b7cf65d10664035d": {
+    "c58c2b1b8fb6774b99df4feaa8c8055941eaea24": {
       "workers": {
-        "app/divisions/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fdivisions%2Factions.ts%22%2C%5B%22updateDivision%22%2C%22addDivision%22%2C%22deleteDivision%22%2C%22bulkAddDivisions%22%2C%22getAllDivisions%22%2C%22getAllTeachers%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/students/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fdivisions%2Factions.ts%22%2C%5B%22updateDivision%22%2C%22addDivision%22%2C%22deleteDivision%22%2C%22bulkAddDivisions%22%2C%22getAllDivisions%22%2C%22getAllTeachers%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstreams%2Factions.ts%22%2C%5B%22updateStream%22%2C%22addStream%22%2C%22getAllStreams%22%2C%22deleteStream%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Facademic-years%2Factions.ts%22%2C%5B%22updateAcademicYear%22%2C%22getAllAcademicYears%22%2C%22addAcademicYear%22%2C%22deleteAcademicYear%22%5D%5D%5D&__client_imported__=!"
+        "app/teachers/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fteachers%2Factions.ts%22%2C%5B%22getAllTeachers%22%2C%22updateTeacher%22%2C%22addTeacher%22%2C%22deleteTeacher%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
       },
       "layer": {
-        "app/divisions/page": "action-browser",
-        "app/students/page": "rsc"
+        "app/teachers/page": "action-browser"
       }
     },
-    "dd3e01b94073b63069adf490ad65a2aa4802eba9": {
+    "cf551d546745d9cbbd1580773382ca70552569f4": {
       "workers": {
-        "app/divisions/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fdivisions%2Factions.ts%22%2C%5B%22updateDivision%22%2C%22addDivision%22%2C%22deleteDivision%22%2C%22bulkAddDivisions%22%2C%22getAllDivisions%22%2C%22getAllTeachers%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/students/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fdivisions%2Factions.ts%22%2C%5B%22updateDivision%22%2C%22addDivision%22%2C%22deleteDivision%22%2C%22bulkAddDivisions%22%2C%22getAllDivisions%22%2C%22getAllTeachers%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstreams%2Factions.ts%22%2C%5B%22updateStream%22%2C%22addStream%22%2C%22getAllStreams%22%2C%22deleteStream%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Facademic-years%2Factions.ts%22%2C%5B%22updateAcademicYear%22%2C%22getAllAcademicYears%22%2C%22addAcademicYear%22%2C%22deleteAcademicYear%22%5D%5D%5D&__client_imported__=!"
+        "app/teachers/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fteachers%2Factions.ts%22%2C%5B%22getAllTeachers%22%2C%22updateTeacher%22%2C%22addTeacher%22%2C%22deleteTeacher%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
       },
       "layer": {
-        "app/divisions/page": "action-browser",
-        "app/students/page": "rsc"
-      }
-    },
-    "ed21f7b6c7b9dc136bc62ce09d962b5c2b2191fe": {
-      "workers": {
-        "app/divisions/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fdivisions%2Factions.ts%22%2C%5B%22updateDivision%22%2C%22addDivision%22%2C%22deleteDivision%22%2C%22bulkAddDivisions%22%2C%22getAllDivisions%22%2C%22getAllTeachers%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/students/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fdivisions%2Factions.ts%22%2C%5B%22updateDivision%22%2C%22addDivision%22%2C%22deleteDivision%22%2C%22bulkAddDivisions%22%2C%22getAllDivisions%22%2C%22getAllTeachers%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstreams%2Factions.ts%22%2C%5B%22updateStream%22%2C%22addStream%22%2C%22getAllStreams%22%2C%22deleteStream%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Facademic-years%2Factions.ts%22%2C%5B%22updateAcademicYear%22%2C%22getAllAcademicYears%22%2C%22addAcademicYear%22%2C%22deleteAcademicYear%22%5D%5D%5D&__client_imported__=!"
-      },
-      "layer": {
-        "app/divisions/page": "action-browser",
-        "app/students/page": "rsc"
+        "app/teachers/page": "action-browser"
       }
     },
     "03510f5a7022562039fe3e273d55a32f0a5e580a": {
@@ -177,6 +169,54 @@
       }
     },
     "f1c2b43a216ef714fa180af5f95979e348691a0b": {
+      "workers": {
+        "app/students/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fdivisions%2Factions.ts%22%2C%5B%22updateDivision%22%2C%22addDivision%22%2C%22deleteDivision%22%2C%22bulkAddDivisions%22%2C%22getAllDivisions%22%2C%22getAllTeachers%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstreams%2Factions.ts%22%2C%5B%22updateStream%22%2C%22addStream%22%2C%22getAllStreams%22%2C%22deleteStream%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Facademic-years%2Factions.ts%22%2C%5B%22updateAcademicYear%22%2C%22getAllAcademicYears%22%2C%22addAcademicYear%22%2C%22deleteAcademicYear%22%5D%5D%5D&__client_imported__=!"
+      },
+      "layer": {
+        "app/students/page": "rsc"
+      }
+    },
+    "008cdda95fd57192eb3e20576241c7625acd6b53": {
+      "workers": {
+        "app/students/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fdivisions%2Factions.ts%22%2C%5B%22updateDivision%22%2C%22addDivision%22%2C%22deleteDivision%22%2C%22bulkAddDivisions%22%2C%22getAllDivisions%22%2C%22getAllTeachers%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstreams%2Factions.ts%22%2C%5B%22updateStream%22%2C%22addStream%22%2C%22getAllStreams%22%2C%22deleteStream%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Facademic-years%2Factions.ts%22%2C%5B%22updateAcademicYear%22%2C%22getAllAcademicYears%22%2C%22addAcademicYear%22%2C%22deleteAcademicYear%22%5D%5D%5D&__client_imported__=!"
+      },
+      "layer": {
+        "app/students/page": "rsc"
+      }
+    },
+    "32653e5ec73fb3223d4429ba30459f421314cafe": {
+      "workers": {
+        "app/students/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fdivisions%2Factions.ts%22%2C%5B%22updateDivision%22%2C%22addDivision%22%2C%22deleteDivision%22%2C%22bulkAddDivisions%22%2C%22getAllDivisions%22%2C%22getAllTeachers%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstreams%2Factions.ts%22%2C%5B%22updateStream%22%2C%22addStream%22%2C%22getAllStreams%22%2C%22deleteStream%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Facademic-years%2Factions.ts%22%2C%5B%22updateAcademicYear%22%2C%22getAllAcademicYears%22%2C%22addAcademicYear%22%2C%22deleteAcademicYear%22%5D%5D%5D&__client_imported__=!"
+      },
+      "layer": {
+        "app/students/page": "rsc"
+      }
+    },
+    "983b6a389841bf451fcbec74b7cf65d10664035d": {
+      "workers": {
+        "app/students/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fdivisions%2Factions.ts%22%2C%5B%22updateDivision%22%2C%22addDivision%22%2C%22deleteDivision%22%2C%22bulkAddDivisions%22%2C%22getAllDivisions%22%2C%22getAllTeachers%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstreams%2Factions.ts%22%2C%5B%22updateStream%22%2C%22addStream%22%2C%22getAllStreams%22%2C%22deleteStream%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Facademic-years%2Factions.ts%22%2C%5B%22updateAcademicYear%22%2C%22getAllAcademicYears%22%2C%22addAcademicYear%22%2C%22deleteAcademicYear%22%5D%5D%5D&__client_imported__=!"
+      },
+      "layer": {
+        "app/students/page": "rsc"
+      }
+    },
+    "d5f7fc2e27527c33a05e6477d0a1ffd122000209": {
+      "workers": {
+        "app/students/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fdivisions%2Factions.ts%22%2C%5B%22updateDivision%22%2C%22addDivision%22%2C%22deleteDivision%22%2C%22bulkAddDivisions%22%2C%22getAllDivisions%22%2C%22getAllTeachers%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstreams%2Factions.ts%22%2C%5B%22updateStream%22%2C%22addStream%22%2C%22getAllStreams%22%2C%22deleteStream%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Facademic-years%2Factions.ts%22%2C%5B%22updateAcademicYear%22%2C%22getAllAcademicYears%22%2C%22addAcademicYear%22%2C%22deleteAcademicYear%22%5D%5D%5D&__client_imported__=!"
+      },
+      "layer": {
+        "app/students/page": "rsc"
+      }
+    },
+    "dd3e01b94073b63069adf490ad65a2aa4802eba9": {
+      "workers": {
+        "app/students/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fdivisions%2Factions.ts%22%2C%5B%22updateDivision%22%2C%22addDivision%22%2C%22deleteDivision%22%2C%22bulkAddDivisions%22%2C%22getAllDivisions%22%2C%22getAllTeachers%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstreams%2Factions.ts%22%2C%5B%22updateStream%22%2C%22addStream%22%2C%22getAllStreams%22%2C%22deleteStream%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Facademic-years%2Factions.ts%22%2C%5B%22updateAcademicYear%22%2C%22getAllAcademicYears%22%2C%22addAcademicYear%22%2C%22deleteAcademicYear%22%5D%5D%5D&__client_imported__=!"
+      },
+      "layer": {
+        "app/students/page": "rsc"
+      }
+    },
+    "ed21f7b6c7b9dc136bc62ce09d962b5c2b2191fe": {
       "workers": {
         "app/students/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fdivisions%2Factions.ts%22%2C%5B%22updateDivision%22%2C%22addDivision%22%2C%22deleteDivision%22%2C%22bulkAddDivisions%22%2C%22getAllDivisions%22%2C%22getAllTeachers%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstreams%2Factions.ts%22%2C%5B%22updateStream%22%2C%22addStream%22%2C%22getAllStreams%22%2C%22deleteStream%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Facademic-years%2Factions.ts%22%2C%5B%22updateAcademicYear%22%2C%22getAllAcademicYears%22%2C%22addAcademicYear%22%2C%22deleteAcademicYear%22%5D%5D%5D&__client_imported__=!"
       },
@@ -248,17 +288,71 @@
         "app/students/page": "rsc"
       }
     },
-    "d5f7fc2e27527c33a05e6477d0a1ffd122000209": {
+    "14ea8775d10a17304de218b86a2f3f4862834950": {
       "workers": {
-        "app/students/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fdivisions%2Factions.ts%22%2C%5B%22updateDivision%22%2C%22addDivision%22%2C%22deleteDivision%22%2C%22bulkAddDivisions%22%2C%22getAllDivisions%22%2C%22getAllTeachers%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstreams%2Factions.ts%22%2C%5B%22updateStream%22%2C%22addStream%22%2C%22getAllStreams%22%2C%22deleteStream%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Facademic-years%2Factions.ts%22%2C%5B%22updateAcademicYear%22%2C%22getAllAcademicYears%22%2C%22addAcademicYear%22%2C%22deleteAcademicYear%22%5D%5D%5D&__client_imported__=!",
-        "app/divisions/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fdivisions%2Factions.ts%22%2C%5B%22updateDivision%22%2C%22addDivision%22%2C%22deleteDivision%22%2C%22bulkAddDivisions%22%2C%22getAllDivisions%22%2C%22getAllTeachers%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
+        "app/student-gatepass/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudent-gatepass%2Factions.ts%22%2C%5B%22updateGatepass%22%2C%22deleteGatepass%22%2C%22uploadPhoto%22%2C%22addGatepass%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
       },
       "layer": {
-        "app/students/page": "rsc",
-        "app/divisions/page": "action-browser"
+        "app/student-gatepass/page": "action-browser"
+      }
+    },
+    "4084874106c4d8ecc506669cb225dd104f6070f7": {
+      "workers": {
+        "app/student-gatepass/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudent-gatepass%2Factions.ts%22%2C%5B%22updateGatepass%22%2C%22deleteGatepass%22%2C%22uploadPhoto%22%2C%22addGatepass%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/student-gatepass/page": "action-browser"
+      }
+    },
+    "95f3ebfaddf344852a87dc4116f4e1f435c3edfe": {
+      "workers": {
+        "app/student-gatepass/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudent-gatepass%2Factions.ts%22%2C%5B%22updateGatepass%22%2C%22deleteGatepass%22%2C%22uploadPhoto%22%2C%22addGatepass%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/student-gatepass/page": "action-browser"
+      }
+    },
+    "e070059a1fe992d1e3cdd338f818f27772c84ab6": {
+      "workers": {
+        "app/student-gatepass/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudent-gatepass%2Factions.ts%22%2C%5B%22updateGatepass%22%2C%22deleteGatepass%22%2C%22uploadPhoto%22%2C%22addGatepass%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/student-gatepass/page": "action-browser"
+      }
+    },
+    "1e3633571fe43c66652cd7506c11c83f86c3608a": {
+      "workers": {
+        "app/staff-gatepass/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstaff-gatepass%2Factions.ts%22%2C%5B%22addStaffGatepass%22%2C%22deleteStaffGatepass%22%2C%22updateStaffGatepass%22%2C%22uploadPhoto%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/staff-gatepass/page": "action-browser"
+      }
+    },
+    "c6286794415c65de26133ff3b43e5768f2cf4323": {
+      "workers": {
+        "app/staff-gatepass/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstaff-gatepass%2Factions.ts%22%2C%5B%22addStaffGatepass%22%2C%22deleteStaffGatepass%22%2C%22updateStaffGatepass%22%2C%22uploadPhoto%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/staff-gatepass/page": "action-browser"
+      }
+    },
+    "ef55eb251975b3480a4169cded3f98485911b2e4": {
+      "workers": {
+        "app/staff-gatepass/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstaff-gatepass%2Factions.ts%22%2C%5B%22addStaffGatepass%22%2C%22deleteStaffGatepass%22%2C%22updateStaffGatepass%22%2C%22uploadPhoto%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/staff-gatepass/page": "action-browser"
+      }
+    },
+    "fac26f8442560b16d31cc5970aa1f2466ab55a3d": {
+      "workers": {
+        "app/staff-gatepass/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstaff-gatepass%2Factions.ts%22%2C%5B%22addStaffGatepass%22%2C%22deleteStaffGatepass%22%2C%22updateStaffGatepass%22%2C%22uploadPhoto%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/staff-gatepass/page": "action-browser"
       }
     }
   },
   "edge": {},
-  "encryptionKey": "+Y/E4UlCUhDUfogi4HzKWQ6TXTQ9VvVBylF8Wt1qYCM="
+  "encryptionKey": "h891WaQdWywnEvWoyV04Ld6SAPGK0mAnX2IEUNfysCw="
 }

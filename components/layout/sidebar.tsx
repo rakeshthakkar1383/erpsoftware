@@ -31,6 +31,7 @@ const allTabs = [
   { key: "academic-years", label: "Academic Years", icon: Calendar },
   { key: "manage-users", label: "User Management", icon: UserCheck },
   { key: "student-gatepass", label: "Student Gatepass", icon: BadgeCheck },
+  { key: "staff-gatepass", label: "Staff Gatepass", icon: BadgeCheck },
 ]
 
 type School = {

@@ -70,6 +70,10 @@ export async function POST(request: NextRequest, { params }: { params: { entity:
 
       // Clean up row keys: trim strings, remove empty/null/placeholder values
       for (const key of Object.keys(row)) {
+        if (key.startsWith("__EMPTY")) {
+          delete row[key]
+          continue
+        }
         if (typeof row[key] === "string") {
           row[key] = row[key].trim()
         }

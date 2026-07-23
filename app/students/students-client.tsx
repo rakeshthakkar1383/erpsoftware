@@ -214,9 +214,13 @@ export default function StudentsClient({
     try {
       const res = await fetch("/api/excel/import/students", { method: "POST", body: fd })
       const data = await res.json()
-      if (data.error) setMessage(data.error)
+      if (!res.ok || data.error) setMessage(data.error || data.errorDetails || `Import failed (${res.status})`)
       else {
-        setMessage(`Imported ${data.imported} students. ${data.errors?.length || 0} errors.`)
+        const errCount = data.errors?.length || 0
+        const msg = errCount > 0
+          ? `Imported ${data.imported} students. ${errCount} error(s):\n${data.errorDetails || data.errors.join("; ")}`
+          : `Successfully imported ${data.imported} students.`
+        setMessage(msg)
         if (viewMode === "list") await loadList(currentPage)
         else await loadGrouped(viewMode === "school" ? "school_id" : "class_name")
       }
@@ -472,6 +476,14 @@ export default function StudentsClient({
           </div>
         )}
       </div>
+
+      {message && (
+        <div className="mb-4">
+          <p className={`rounded-xl p-3 text-xs font-black text-center border whitespace-pre-line ${message.includes("error") || message.includes("fail") ? "bg-red-50 border-red-100 text-red-600" : "bg-green-50 border-green-100 text-green-600"}`}>
+            {message}
+          </p>
+        </div>
+      )}
 
       {/* Content */}
       {loading ? (
@@ -731,11 +743,7 @@ export default function StudentsClient({
         </div>
       )}
 
-      {message && (
-        <p className={`mt-4 rounded-xl p-3 text-xs font-black text-center border ${message.includes("error") || message.includes("fail") ? "bg-red-50 border-red-100 text-red-600" : "bg-green-50 border-green-100 text-green-600"}`}>
-          {message}
-        </p>
-      )}
+
 
       {/* Student Modal */}
       {modal && (
