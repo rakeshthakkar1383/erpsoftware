@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react"
 import { getAllExams, addExam, updateExam, deleteExam } from "./actions"
-import { formatDate } from "@/lib/utils"
+import { formatDate, safeJsonResponse } from "@/lib/utils"
 
 const classes = ["Balvatika", ...Array.from({ length: 12 }, (_, i) => String(i + 1))]
 const semesters = ["SEM 1", "SEM 2"]
@@ -58,10 +58,10 @@ export default function ExamsClient({ allSchools, schoolId }: { allSchools: any[
     fd.append("file", file)
     try {
       const res = await fetch("/api/excel/import/exams", { method: "POST", body: fd })
-      const data = await res.json()
-      if (data.error) setMessage(data.error)
+      const { data, error } = await safeJsonResponse(res)
+      if (error || !data) setMessage(error || "Import failed")
       else {
-        setMessage(`Imported ${data.imported} exams. ${data.errors?.length || 0} errors.`)
+        setMessage(`Imported ${data.imported || 0} exams. ${data.errors?.length || 0} errors.`)
         refresh()
       }
     } catch (err: any) { setMessage(err.message || "Import failed") }

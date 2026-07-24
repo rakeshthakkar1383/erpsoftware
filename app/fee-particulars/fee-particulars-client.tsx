@@ -2,6 +2,7 @@
 
 import { useState, useRef } from "react"
 import { getAllFeeParticulars, addFeeParticular, updateFeeParticular, deleteFeeParticular, moveFeeParticular } from "./actions"
+import { safeJsonResponse } from "@/lib/utils"
 
 const allClasses = ["Balvatika", ...Array.from({ length: 12 }, (_, i) => String(i + 1))]
 const emptyForm: Record<string, string> = { class_name: "", particular_name: "", amount: "", duration_months: "12", term: "Yearly", fee_type_id: "", fee_category: "School", school_id: "", trust_id: "" }
@@ -76,10 +77,10 @@ export default function FeeParticularsClient({ initialParticulars, feeTypes, all
     fd.append("file", file)
     try {
       const res = await fetch("/api/excel/import/fee-particulars", { method: "POST", body: fd })
-      const data = await res.json()
-      if (data.error) setMessage(data.error)
+      const { data, error } = await safeJsonResponse(res)
+      if (error || !data) setMessage(error || "Import failed")
       else {
-        setMessage(`Imported ${data.imported} records. ${data.errors?.length || 0} errors.`)
+        setMessage(`Imported ${data.imported || 0} records. ${data.errors?.length || 0} errors.`)
         refresh()
       }
     } catch (err: any) { setMessage(err.message || "Import failed") }

@@ -100,7 +100,7 @@ export default async function StudentsPage({
       totalPages={studentsResult.totalPages}
       currentPage={page}
       pageSize={pageSize}
-      viewMode={viewMode as "list" | "school" | "class"}
+      viewMode={viewMode as "list" | "school" | "class" | "duplicates"}
       groupBy={groupBy || undefined}
       filters={filters}
       divisions={divisions}

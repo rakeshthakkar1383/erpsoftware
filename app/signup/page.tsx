@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
 import { createClient } from "@/lib/supabase/client"
+import { safeJsonResponse } from "@/lib/utils"
 
 export const dynamic = "force-dynamic"
 
@@ -23,8 +24,14 @@ export default function SignupPage() {
   const [loading, setLoading] = useState(false)
 
   useEffect(() => {
-    fetch("/api/teachers/all").then(r => r.json()).then(setTeachers).catch(() => {})
-    fetch("/api/school-info").then(r => r.json()).then(d => setSchools(Array.isArray(d) ? d : [])).catch(() => {})
+    fetch("/api/teachers/all")
+      .then(safeJsonResponse)
+      .then(res => { if (Array.isArray(res.data)) setTeachers(res.data) })
+      .catch(() => {})
+    fetch("/api/school-info")
+      .then(safeJsonResponse)
+      .then(res => { if (Array.isArray(res.data)) setSchools(res.data) })
+      .catch(() => {})
   }, [])
 
   const handleSubmit = async (e: React.FormEvent) => {

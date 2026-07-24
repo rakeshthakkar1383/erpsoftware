@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef, useCallback } from "react"
 import { getAllTeachers, addTeacher, updateTeacher, deleteTeacher } from "./actions"
 import { createClient } from "@/lib/supabase/client"
-import { formatDate } from "@/lib/utils"
+import { formatDate, safeJsonResponse } from "@/lib/utils"
 
 const classes = ["Balvatika", ...Array.from({ length: 12 }, (_, i) => String(i + 1))]
 const emptyForm = { 
@@ -121,10 +121,10 @@ export default function TeachersClient({ allSchools, schoolId, allSubjects, allT
     if (schoolId) fd.append("school_id", String(schoolId))
     try {
       const res = await fetch("/api/excel/import/teachers", { method: "POST", body: fd })
-      const data = await res.json()
-      if (data.error) setMessage(data.error)
+      const { data, error } = await safeJsonResponse(res)
+      if (error || !data) setMessage(error || "Import failed")
       else {
-        let msg = `Imported ${data.imported} teachers. ${data.errors?.length || 0} errors.`
+        let msg = `Imported ${data.imported || 0} teachers. ${data.errors?.length || 0} errors.`
         if (data.errorDetails) msg += `\n${data.errorDetails}`
         setMessage(msg)
         refresh()

@@ -186,17 +186,18 @@ export async function findDuplicateNames(filters: any = {}) {
     const name = (s.full_name || "").trim().toUpperCase()
     const cls = (s.class_name || "").trim()
     const dob = (s.dob || "").trim()
+    const schoolId = s.school_id || 0
     if (!name || !cls || !dob) continue
-    const key = `${cls}|${name}|${dob}`
+    const key = `${schoolId}|${cls}|${name}|${dob}`
     if (!keyMap[key]) keyMap[key] = []
     keyMap[key].push(s)
   }
 
-  const duplicates: { name: string; class_name: string; dob: string; students: any[] }[] = []
+  const duplicates: { school_id: number; name: string; class_name: string; dob: string; students: any[] }[] = []
   for (const [key, students] of Object.entries(keyMap)) {
     if (students.length > 1) {
-      const [cls, name, dob] = key.split("|")
-      duplicates.push({ name, class_name: cls, dob, students })
+      const [schoolId, cls, name, dob] = key.split("|")
+      duplicates.push({ school_id: Number(schoolId), name, class_name: cls, dob, students })
     }
   }
 

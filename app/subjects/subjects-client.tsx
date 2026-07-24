@@ -2,6 +2,7 @@
 
 import { useState, useRef } from "react"
 import { getAllSubjects, addSubject, updateSubject, deleteSubject } from "./actions"
+import { safeJsonResponse } from "@/lib/utils"
 
 const classes = ["Balvatika", ...Array.from({ length: 12 }, (_, i) => String(i + 1))]
 const emptyForm: Record<string, string> = { class_name: "", subject_name: "" }
@@ -53,10 +54,10 @@ export default function SubjectsClient({ initialSubjects, allSchools, schoolId }
     fd.append("file", file)
     try {
       const res = await fetch("/api/excel/import/subjects", { method: "POST", body: fd })
-      const data = await res.json()
-      if (data.error) setMessage(data.error)
+      const { data, error } = await safeJsonResponse(res)
+      if (error || !data) setMessage(error || "Import failed")
       else {
-        setMessage(`Imported ${data.imported} records. ${data.errors?.length || 0} errors.`)
+        setMessage(`Imported ${data.imported || 0} records. ${data.errors?.length || 0} errors.`)
         refresh()
       }
     } catch (err: any) { setMessage(err.message || "Import failed") }
