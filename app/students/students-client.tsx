@@ -55,6 +55,7 @@ export default function StudentsClient({
   const [filterClass, setFilterClass] = useState(initFilters.class_name || teacherClass || "")
   const [filterDiv, setFilterDiv] = useState(initFilters.division || "")
   const [filterStream, setFilterStream] = useState(initFilters.stream || "")
+  const [filterNotPaid, setFilterNotPaid] = useState(!!initFilters.not_paid)
   const [modal, setModal] = useState(false)
   const [editing, setEditing] = useState<any>(null)
   const [form, setForm] = useState({ ...emptyForm })
@@ -75,9 +76,10 @@ export default function StudentsClient({
     if (filterClass) f.class_name = filterClass
     if (filterDiv) f.division = filterDiv
     if (filterStream) f.stream = filterStream
+    if (filterNotPaid) f.not_paid = true
     if (search) f.search = search
     return f
-  }, [filterSchool, filterClass, filterDiv, filterStream, search])
+  }, [filterSchool, filterClass, filterDiv, filterStream, filterNotPaid, search])
 
   const loadList = useCallback(async (page: number) => {
     setLoading(true)
@@ -469,6 +471,10 @@ export default function StudentsClient({
             <option value="">All Streams</option>
             {streams.map((st: any) => <option key={st.id} value={st.stream_name}>{st.stream_name}</option>)}
           </select>
+          <label className={`flex cursor-pointer items-center gap-2 rounded-lg border px-3 py-2.5 text-xs font-black uppercase tracking-wider transition-all ${filterNotPaid ? "border-red-300 bg-red-50 text-red-600" : "border-slate-200 bg-slate-50 text-slate-500 hover:bg-slate-100"}`}>
+            <input type="checkbox" checked={filterNotPaid} onChange={e => setFilterNotPaid(e.target.checked)} className="h-4 w-4 rounded border-red-300 text-red-600 focus:ring-red-500" />
+            Not Paid
+          </label>
           <button className="rounded-lg bg-blue-600 px-4 py-2.5 text-xs font-black text-white hover:bg-blue-700 transition-all" onClick={applyFilters}>Apply</button>
         </div>
 

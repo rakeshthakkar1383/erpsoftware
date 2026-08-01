@@ -41,15 +41,26 @@ export default function FeesClient({ initialFees, students, particulars, feeType
   const [installments, setInstallments] = useState<any[]>([])
   const [installmentModal, setInstallmentModal] = useState(false)
   const [admissionType, setAdmissionType] = useState<"new" | "old">("old")
-  const [reportModal, setReportModal] = useState(false)
+  const [activeTab, setActiveTab] = useState<"fees" | "report" | "unpaid">("fees")
   const [reportSchoolId, setReportSchoolId] = useState("")
+  const [reportType, setReportType] = useState<"all" | "unpaid">("unpaid")
+  const [reportFeeCategory, setReportFeeCategory] = useState<"all" | "School" | "Trust">("all")
+  const [reportTrustId, setReportTrustId] = useState("")
+  const [reportClass, setReportClass] = useState("")
+  const [reportDiv, setReportDiv] = useState("")
+  const [reportAy, setReportAy] = useState("")
+  const [reportFeeTypeId, setReportFeeTypeId] = useState("")
   const [reportFromDate, setReportFromDate] = useState("")
   const [reportToDate, setReportToDate] = useState("")
+  const [reportGroupBy, setReportGroupBy] = useState<"none" | "class" | "school" | "trust" | "year" | "fee_type">("none")
   const [guidedClass, setGuidedClass] = useState("")
   const [guidedFeeTypeId, setGuidedFeeTypeId] = useState("")
   const [guidedSearchRoll, setGuidedSearchRoll] = useState("")
   const [guidedSearchGr, setGuidedSearchGr] = useState("")
   const [guidedSearchName, setGuidedSearchName] = useState("")
+  const [unpaidSearch, setUnpaidSearch] = useState("")
+  const [unpaidClass, setUnpaidClass] = useState(teacherClass)
+  const [unpaidDiv, setUnpaidDiv] = useState("")
   const fileInputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
@@ -69,6 +80,35 @@ export default function FeesClient({ initialFees, students, particulars, feeType
 
   const trustMap: any = {}
   trusts.forEach((t: any) => { trustMap[t.id] = t.trust_name })
+
+  const paidStudentIds = useMemo(
+    () => new Set(fees.filter((f: any) => f.status === "Paid").map((f: any) => f.student_id)),
+    [fees]
+  )
+
+  const unpaidStudents = useMemo(() => {
+    const qq = unpaidSearch.toLowerCase()
+    return students.filter((s: any) => {
+      if (paidStudentIds.has(s.id)) return false
+      if (filterSchool && String(s.school_id) !== filterSchool) return false
+      if (unpaidClass && s.class_name !== unpaidClass) return false
+      if (unpaidDiv && s.division !== unpaidDiv) return false
+      if (qq && !String(s.full_name || "").toLowerCase().includes(qq) && !String(s.gr_no || "").toLowerCase().includes(qq) && !String(s.roll_no || "").toLowerCase().includes(qq) && !String(s.father_name || "").toLowerCase().includes(qq)) return false
+      return true
+    })
+  }, [students, paidStudentIds, filterSchool, unpaidSearch, unpaidClass, unpaidDiv])
+
+  const downloadUnpaidCsv = () => {
+    const header = ["GR No", "Roll No", "Student Name", "Class", "Division", "Father Name", "Mobile"]
+    const rows = unpaidStudents.map((s: any) => [s.gr_no || "", s.roll_no || "", s.full_name || "", s.class_name || "", s.division || "", s.father_name || "", s.mobile || ""])
+    const csv = [header, ...rows].map(r => r.map(v => `"${String(v ?? "").replace(/"/g, '""')}"`).join(",")).join("\n")
+    const blob = new Blob(["\ufeff" + csv], { type: "text/csv;charset=utf-8;" })
+    const a = document.createElement("a")
+    a.href = URL.createObjectURL(blob)
+    a.download = "unpaid_students.csv"
+    a.click()
+    URL.revokeObjectURL(a.href)
+  }
 
   const availableFeeTypeOptions = useMemo(() => {
     let base = feeTypes.filter((t: any) => {
@@ -465,18 +505,22 @@ export default function FeesClient({ initialFees, students, particulars, feeType
 
   return (
     <div>
-      <div className="mb-4 flex items-center justify-between">
-        <h2 className="text-2xl font-semibold">Fees</h2>
-        <div className="flex items-center gap-2">
+      <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-wrap gap-2">
+          <button className={`rounded px-4 py-2 text-sm font-semibold uppercase tracking-wide transition ${activeTab === "fees" ? "bg-blue-600 text-white" : "bg-slate-100 text-slate-700 hover:bg-slate-200"}`} onClick={() => setActiveTab("fees")}>Fees</button>
+          <button className={`rounded px-4 py-2 text-sm font-semibold uppercase tracking-wide transition ${activeTab === "unpaid" ? "bg-red-600 text-white" : "bg-slate-100 text-slate-700 hover:bg-slate-200"}`} onClick={() => setActiveTab("unpaid")}>Unpaid Students</button>
+          <button className={`rounded px-4 py-2 text-sm font-semibold uppercase tracking-wide transition ${activeTab === "report" ? "bg-green-600 text-white" : "bg-slate-100 text-slate-700 hover:bg-slate-200"}`} onClick={() => setActiveTab("report")}>Reports</button>
+        </div>
+        <div className="flex flex-wrap items-center gap-2">
           <input type="file" ref={fileInputRef} className="hidden" accept=".xlsx,.xls" onChange={handleImport} />
           <button className="rounded bg-slate-100 px-3 py-2 text-sm text-slate-700 hover:bg-slate-200" onClick={() => downloadBlob("/api/excel/template/fees", "fees_template.xlsx")}>Template</button>
           <button className="rounded bg-slate-100 px-3 py-2 text-sm text-slate-700 hover:bg-slate-200" onClick={() => fileInputRef.current?.click()}>Import</button>
-          <button className="rounded bg-green-600 px-4 py-2 text-sm text-white hover:bg-green-700" onClick={() => setReportModal(true)}>Report</button>
           <button className="rounded bg-blue-600 px-4 py-2 text-sm text-white hover:bg-blue-700"
-            onClick={() => { setEditing(null); setForm({ ...emptyForm, school_id: filterSchool }); setInstallments([]); setMessage(""); setAdmissionType("old"); setGuidedClass(""); setGuidedFeeTypeId(""); setModal(true) }}>Add New</button>
+            onClick={() => { setEditing(null); setForm({ ...emptyForm, school_id: filterSchool }); setInstallments([]); setMessage(""); setAdmissionType("old"); setGuidedClass(""); setGuidedFeeTypeId(""); setActiveTab("fees"); setModal(true) }}>Add New</button>
         </div>
       </div>
       {message && <p className="mb-3 text-sm text-slate-700">{message}</p>}
+      {activeTab === "fees" && (<>
       <div className="mb-4 flex flex-wrap gap-3">
         <input className="rounded border p-2 text-sm" placeholder="Search..." value={search} onChange={e => setSearch(e.target.value)} />
         {!schoolId && allSchools.length > 0 && (
@@ -616,6 +660,198 @@ export default function FeesClient({ initialFees, students, particulars, feeType
               })}
             </tbody>
           </table>
+        </div>
+      )}
+      </>)}
+      {activeTab === "unpaid" && (
+        <div className="rounded border bg-white p-6 shadow-sm">
+          <div className="mb-4 flex flex-wrap gap-3 items-center justify-between">
+            <div>
+              <h3 className="text-xl font-semibold text-red-700">Unpaid Students</h3>
+              <p className="text-sm text-slate-500">Students who have not paid any fees ({unpaidStudents.length}).</p>
+            </div>
+            <div className="flex gap-2">
+              <button className="rounded bg-green-600 px-4 py-2 text-sm font-semibold text-white hover:bg-green-700" onClick={downloadUnpaidCsv}>Download CSV</button>
+              <button className="rounded bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-200" onClick={() => setActiveTab("fees")}>Back to Fees</button>
+            </div>
+          </div>
+          <div className="mb-4 flex flex-wrap gap-3">
+            <input className="rounded border p-2 text-sm" placeholder="Search name / GR / roll..." value={unpaidSearch} onChange={e => setUnpaidSearch(e.target.value)} />
+            {!schoolId && allSchools.length > 0 && (
+              <select className="rounded border p-2 text-sm" value={filterSchool} onChange={e => setFilterSchool(e.target.value)}>
+                <option value="">All Schools</option>
+                {allSchools.map((s: any) => <option key={s.id} value={String(s.id)}>{s.school_name}</option>)}
+              </select>
+            )}
+            <select className="rounded border p-2 text-sm" value={unpaidClass} onChange={e => { setUnpaidClass(e.target.value); setUnpaidDiv("") }} disabled={!!teacherClass}>
+              <option value="">All Classes</option>
+              {classes.map(c => <option key={c} value={c}>Class {c}</option>)}
+            </select>
+            <select className="rounded border p-2 text-sm" value={unpaidDiv} onChange={e => setUnpaidDiv(e.target.value)}>
+              <option value="">All Divisions</option>
+              {divisions.filter((d: any) => d.class_name === unpaidClass || !unpaidClass).map((d: any) => (
+                <option key={d.id} value={d.division_name}>{d.division_name}</option>
+              ))}
+            </select>
+          </div>
+          {unpaidStudents.length === 0 ? <p>No unpaid students found.</p> : (
+            <div className="overflow-x-auto rounded border">
+              <table className="min-w-full divide-y divide-slate-200 text-left text-sm">
+                <thead className="bg-slate-50 uppercase text-slate-600">
+                  <tr>
+                    <th className="px-3 py-2">#</th>
+                    <th className="px-3 py-2">GR No</th>
+                    <th className="px-3 py-2">Roll No</th>
+                    <th className="px-3 py-2">Student Name</th>
+                    <th className="px-3 py-2">Class/Div</th>
+                    <th className="px-3 py-2">Father Name</th>
+                    <th className="px-3 py-2">Mobile</th>
+                    <th className="px-3 py-2">Status</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100 bg-white text-slate-700">
+                  {unpaidStudents.map((s: any, i: number) => (
+                    <tr key={s.id}>
+                      <td className="px-3 py-2">{i + 1}</td>
+                      <td className="px-3 py-2 text-xs font-bold text-blue-600">{s.gr_no || "-"}</td>
+                      <td className="px-3 py-2">{s.roll_no || "-"}</td>
+                      <td className="px-3 py-2 font-semibold">{s.full_name || "-"}</td>
+                      <td className="px-3 py-2">{s.class_name}{s.division ? ` / ${s.division}` : ""}</td>
+                      <td className="px-3 py-2">{s.father_name || "-"}</td>
+                      <td className="px-3 py-2">{s.mobile || "-"}</td>
+                      <td className="px-3 py-2"><span className="rounded bg-red-100 px-2 py-0.5 text-xs font-medium text-red-700">NOT PAID</span></td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )}
+        </div>
+      )}
+      {activeTab === "report" && (
+        <div className="rounded border bg-white p-6 shadow-sm">
+          <div className="mb-4 flex flex-wrap gap-3 items-center justify-between">
+            <div>
+              <h3 className="text-xl font-semibold">Unpaid Fees Report</h3>
+              <p className="text-sm text-slate-500">Generate class-wise, school-wise, trust-wise, year-wise, or fee type-wise Excel reports with summary totals.</p>
+            </div>
+            <button className="rounded bg-blue-600 px-4 py-2 text-sm font-semibold text-white hover:bg-blue-700" onClick={() => setActiveTab("fees")}>Back to Fees</button>
+          </div>
+
+          <div className="grid gap-4 lg:grid-cols-2">
+            {!schoolId && (
+              <div>
+                <label className="mb-1 block text-xs font-black uppercase tracking-widest text-slate-600">School</label>
+                <select className="w-full rounded border p-2 text-sm bg-slate-50" value={reportSchoolId} onChange={e => setReportSchoolId(e.target.value)}>
+                  <option value="">ALL SCHOOLS</option>
+                  {allSchools.map(s => <option key={s.id} value={s.id}>{s.school_name}</option>)}
+                </select>
+              </div>
+            )}
+            <div>
+              <label className="mb-1 block text-xs font-black uppercase tracking-widest text-slate-600">Category</label>
+              <select className="w-full rounded border p-2 text-sm bg-slate-50" value={reportFeeCategory} onChange={e => setReportFeeCategory(e.target.value as "all" | "School" | "Trust")}>
+                <option value="all">ALL FEES</option>
+                <option value="School">School Fees</option>
+                <option value="Trust">Trust Fees</option>
+              </select>
+            </div>
+            <div>
+              <label className="mb-1 block text-xs font-black uppercase tracking-widest text-slate-600">Trust</label>
+              <select className="w-full rounded border p-2 text-sm bg-slate-50" value={reportTrustId} onChange={e => setReportTrustId(e.target.value)}>
+                <option value="">ALL TRUSTS</option>
+                {trusts.map((t: any) => <option key={t.id} value={String(t.id)}>{t.trust_name}</option>)}
+              </select>
+            </div>
+            <div>
+              <label className="mb-1 block text-xs font-black uppercase tracking-widest text-slate-600">Report Type</label>
+              <select className="w-full rounded border p-2 text-sm bg-slate-50" value={reportType} onChange={e => setReportType(e.target.value as "all" | "unpaid")}>
+                <option value="unpaid">Unpaid Fees Only</option>
+                <option value="all">All Fees</option>
+              </select>
+            </div>
+            <div>
+              <label className="mb-1 block text-xs font-black uppercase tracking-widest text-slate-600">Academic Year</label>
+              <select className="w-full rounded border p-2 text-sm bg-slate-50" value={reportAy} onChange={e => setReportAy(e.target.value)}>
+                <option value="">ALL YEARS</option>
+                {years.map((y: any) => <option key={y.id} value={y.id}>{y.year_name}</option>)}
+              </select>
+            </div>
+            <div>
+              <label className="mb-1 block text-xs font-black uppercase tracking-widest text-slate-600">Class</label>
+              <select className="w-full rounded border p-2 text-sm bg-slate-50" value={reportClass} onChange={e => { setReportClass(e.target.value); setReportDiv("") }} disabled={!!teacherClass}>
+                <option value="">ALL CLASSES</option>
+                {classes.map(c => <option key={c} value={c}>CLASS {c}</option>)}
+              </select>
+            </div>
+            <div>
+              <label className="mb-1 block text-xs font-black uppercase tracking-widest text-slate-600">Division</label>
+              <select className="w-full rounded border p-2 text-sm bg-slate-50" value={reportDiv} onChange={e => setReportDiv(e.target.value)}>
+                <option value="">ALL DIVISIONS</option>
+                {divisions.filter((d: any) => d.class_name === reportClass || !reportClass).map((d: any) => (
+                  <option key={d.id} value={d.division_name}>{d.division_name}</option>
+                ))}
+              </select>
+            </div>
+            <div>
+              <label className="mb-1 block text-xs font-black uppercase tracking-widest text-slate-600">Fee Type</label>
+              <select className="w-full rounded border p-2 text-sm bg-slate-50" value={reportFeeTypeId} onChange={e => setReportFeeTypeId(e.target.value)}>
+                <option value="">ALL FEE TYPES</option>
+                {feeTypes.map((t: any) => <option key={t.id} value={String(t.id)}>{t.name}</option>)}
+              </select>
+            </div>
+            <div className="grid gap-3 lg:col-span-2 xl:grid-cols-2">
+              <div>
+                <label className="mb-1 block text-xs font-black uppercase tracking-widest text-slate-600">From Date</label>
+                <input type="date" className="w-full rounded border p-2 text-sm bg-slate-50" value={reportFromDate} onChange={e => setReportFromDate(e.target.value)} />
+              </div>
+              <div>
+                <label className="mb-1 block text-xs font-black uppercase tracking-widest text-slate-600">To Date</label>
+                <input type="date" className="w-full rounded border p-2 text-sm bg-slate-50" value={reportToDate} onChange={e => setReportToDate(e.target.value)} />
+              </div>
+            </div>
+            <div>
+              <label className="mb-1 block text-xs font-black uppercase tracking-widest text-slate-600">Group Summary By</label>
+              <select className="w-full rounded border p-2 text-sm bg-slate-50" value={reportGroupBy} onChange={e => setReportGroupBy(e.target.value as any)}>
+                <option value="none">NO GROUPING</option>
+                <option value="class">CLASS-WISE</option>
+                <option value="school">SCHOOL-WISE</option>
+                <option value="trust">TRUST-WISE</option>
+                <option value="year">YEAR-WISE</option>
+                <option value="fee_type">FEE TYPE-WISE</option>
+              </select>
+            </div>
+          </div>
+          <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
+            <button className="flex-1 rounded bg-green-600 px-5 py-3 text-xs font-black text-white uppercase tracking-widest hover:bg-green-700" onClick={() => {
+              const params = new URLSearchParams()
+              if (reportClass) params.set("class_name", reportClass)
+              if (reportDiv) params.set("division", reportDiv)
+              if (reportAy) params.set("academic_year_id", reportAy)
+              if (reportSchoolId || schoolId) params.set("school_id", String(reportSchoolId || schoolId))
+              if (reportFromDate) params.set("from_date", reportFromDate)
+              if (reportToDate) params.set("to_date", reportToDate)
+              if (reportType === "unpaid") params.set("status", "unpaid")
+              if (reportFeeCategory !== "all") params.set("fee_category", reportFeeCategory)
+              if (reportTrustId) params.set("trust_id", reportTrustId)
+              if (reportFeeTypeId) params.set("fee_type_ids", reportFeeTypeId)
+              if (reportGroupBy !== "none") params.set("group_by", reportGroupBy)
+              window.open(`/api/fees/export?${params.toString()}`, "_blank")
+            }}>DOWNLOAD EXCEL REPORT</button>
+            <button className="rounded bg-slate-100 px-5 py-3 text-xs font-black text-slate-500 uppercase tracking-widest hover:bg-slate-200" onClick={() => {
+              setReportSchoolId("")
+              setReportType("unpaid")
+              setReportFeeCategory("all")
+              setReportTrustId("")
+              setReportClass("")
+              setReportDiv("")
+              setReportAy("")
+              setReportFeeTypeId("")
+              setReportFromDate("")
+              setReportToDate("")
+              setReportGroupBy("none")
+            }}>RESET FILTERS</button>
+          </div>
         </div>
       )}
       {modal && (
@@ -871,67 +1107,6 @@ export default function FeesClient({ initialFees, students, particulars, feeType
             <div className="mt-4 flex gap-3">
               <button className="rounded bg-blue-600 px-5 py-2 text-white hover:bg-blue-700" onClick={handleSave}>{editing ? "Update" : (admissionType === "new" ? "Admit & Collect Fee" : "Save")}</button>
               <button className="rounded bg-slate-300 px-5 py-2 text-slate-700 hover:bg-slate-400" onClick={() => setModal(false)}>Cancel</button>
-            </div>
-          </div>
-        </div>
-      )}
-      {reportModal && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40" onClick={() => setReportModal(false)}>
-          <div className="w-full max-w-lg rounded-lg bg-white p-6 shadow-xl" onClick={e => e.stopPropagation()}>
-            <div className="mb-4 flex items-center justify-between">
-              <h3 className="text-xl font-bold uppercase tracking-tight text-slate-800">Generate Fees Report</h3>
-              <button className="text-slate-400 hover:text-slate-600" onClick={() => setReportModal(false)}>✕</button>
-            </div>
-            
-            <div className="space-y-4">
-              {!schoolId && (
-                <div>
-                  <label className="mb-1 block text-[10px] font-black text-slate-600 uppercase tracking-widest">School</label>
-                  <select className="w-full rounded border p-2 text-sm font-bold bg-slate-50" value={reportSchoolId} onChange={e => setReportSchoolId(e.target.value)}>
-                    <option value="">ALL SCHOOLS</option>
-                    {allSchools.map(s => <option key={s.id} value={s.id}>{s.school_name}</option>)}
-                  </select>
-                </div>
-              )}
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="mb-1 block text-[10px] font-black text-slate-600 uppercase tracking-widest">From Date</label>
-                  <input type="date" className="w-full rounded border p-2 text-sm font-bold bg-slate-50" value={reportFromDate} onChange={e => setReportFromDate(e.target.value)} />
-                </div>
-                <div>
-                  <label className="mb-1 block text-[10px] font-black text-slate-600 uppercase tracking-widest">To Date</label>
-                  <input type="date" className="w-full rounded border p-2 text-sm font-bold bg-slate-50" value={reportToDate} onChange={e => setReportToDate(e.target.value)} />
-                </div>
-              </div>
-              <div className="grid grid-cols-2 gap-3">
-                <div>
-                  <label className="mb-1 block text-[10px] font-black text-slate-600 uppercase tracking-widest">Class</label>
-                  <select className="w-full rounded border p-2 text-sm font-bold bg-slate-50" value={filterClass} onChange={e => { setFilterClass(e.target.value); setFilterDiv("") }} disabled={!!teacherClass}>
-                    <option value="">ALL CLASSES</option>
-                    {classes.map(c => <option key={c} value={c}>CLASS {c}</option>)}
-                  </select>
-                </div>
-                <div>
-                  <label className="mb-1 block text-[10px] font-black text-slate-600 uppercase tracking-widest">Academic Year</label>
-                  <select className="w-full rounded border p-2 text-sm font-bold bg-slate-50" value={filterAy} onChange={e => setFilterAy(e.target.value)}>
-                    <option value="">ALL YEARS</option>
-                    {years.map((y: any) => <option key={y.id} value={y.id}>{y.year_name}</option>)}
-                  </select>
-                </div>
-              </div>
-            </div>
-            <div className="mt-6 flex gap-3">
-              <button className="flex-1 rounded bg-green-600 px-5 py-3 text-xs font-black text-white uppercase tracking-widest hover:bg-green-700 shadow-lg shadow-green-100" onClick={() => {
-                const params = new URLSearchParams()
-                if (filterClass) params.set("class_name", filterClass)
-                if (filterDiv) params.set("division", filterDiv)
-                if (filterAy) params.set("academic_year_id", filterAy)
-                if (reportSchoolId || schoolId) params.set("school_id", String(reportSchoolId || schoolId))
-                if (reportFromDate) params.set("from_date", reportFromDate)
-                if (reportToDate) params.set("to_date", reportToDate)
-                window.open(`/api/fees/export?${params.toString()}`, "_blank")
-              }}>GENERATE EXCEL REPORT</button>
-              <button className="rounded bg-slate-100 px-5 py-3 text-xs font-black text-slate-500 uppercase tracking-widest hover:bg-slate-200" onClick={() => setReportModal(false)}>CANCEL</button>
             </div>
           </div>
         </div>

@@ -37,6 +37,7 @@ export default async function StudentsPage({
   const filterStream = String(params.filterStream || "")
   const filterSchool = String(params.filterSchool || (schoolId ? String(schoolId) : ""))
   const search = String(params.search || "")
+  const filterNotPaid = params.filterNotPaid === "1"
 
   const filters: Record<string, any> = {}
   if (filterSchool) filters.school_id = Number(filterSchool)
@@ -44,6 +45,7 @@ export default async function StudentsPage({
   if (filterDiv) filters.division = filterDiv
   if (filterStream) filters.stream = filterStream
   if (search) filters.search = search
+  if (filterNotPaid) filters.not_paid = true
 
   let years: any[] = []
   try { years = await getAllAcademicYears() } catch (e: any) { console.error("ACADEMIC_YEARS ERROR:", e?.message || e) }

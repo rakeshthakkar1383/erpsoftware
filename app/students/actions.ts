@@ -3,6 +3,13 @@
 import { createClient } from "@/lib/supabase/server"
 import { revalidatePath } from "next/cache"
 
+async function getPaidStudentIds(supabase: any, schoolId?: number | string) {
+  let q = supabase.from("fees").select("student_id").eq("status", "Paid")
+  if (schoolId) q = q.eq("school_id", Number(schoolId))
+  const { data } = await q
+  return new Set((data || []).map((f: any) => f.student_id))
+}
+
 export async function getAllStudents(page = 1, pageSize = 25, filters: any = {}) {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
@@ -27,6 +34,12 @@ export async function getAllStudents(page = 1, pageSize = 25, filters: any = {})
   }
   if (filters.search) {
     query = query.or(`full_name.ilike.%${filters.search}%,gr_no.ilike.%${filters.search}%,father_name.ilike.%${filters.search}%,mother_name.ilike.%${filters.search}%`)
+  }
+  if (filters.not_paid) {
+    const paidIds = await getPaidStudentIds(supabase, filters.school_id || user?.user_metadata?.school_id)
+    if (paidIds.size > 0) {
+      query = query.not("id", "in", `(${Array.from(paidIds).join(",")})`)
+    }
   }
 
   query = query.order("class_name").order("roll_no")
@@ -62,6 +75,12 @@ export async function getStudentsGrouped(groupBy: "school_id" | "class_name", fi
   if (filters.stream) query = query.eq("stream", filters.stream)
   if (filters.search) {
     query = query.or(`full_name.ilike.%${filters.search}%,gr_no.ilike.%${filters.search}%,father_name.ilike.%${filters.search}%,mother_name.ilike.%${filters.search}%`)
+  }
+  if (filters.not_paid) {
+    const paidIds = await getPaidStudentIds(supabase, filters.school_id || user?.user_metadata?.school_id)
+    if (paidIds.size > 0) {
+      query = query.not("id", "in", `(${Array.from(paidIds).join(",")})`)
+    }
   }
 
   query = query.order("class_name").order("roll_no")
