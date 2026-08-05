@@ -825,10 +825,11 @@ export default function FeesClient({ initialFees, students, particulars, feeType
           <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center">
             <button className="flex-1 rounded bg-green-600 px-5 py-3 text-xs font-black text-white uppercase tracking-widest hover:bg-green-700" onClick={() => {
               const params = new URLSearchParams()
+              const exportSchool = reportSchoolId || filterSchool || (schoolId ? String(schoolId) : "")
               if (reportClass) params.set("class_name", reportClass)
               if (reportDiv) params.set("division", reportDiv)
               if (reportAy) params.set("academic_year_id", reportAy)
-              if (reportSchoolId || schoolId) params.set("school_id", String(reportSchoolId || schoolId))
+              if (exportSchool) params.set("school_id", String(exportSchool))
               if (reportFromDate) params.set("from_date", reportFromDate)
               if (reportToDate) params.set("to_date", reportToDate)
               if (reportType === "unpaid") params.set("status", "unpaid")

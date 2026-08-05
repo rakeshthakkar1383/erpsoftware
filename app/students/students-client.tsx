@@ -3,6 +3,7 @@
 import { useState, useCallback, useRef, useMemo } from "react"
 import { useRouter } from "next/navigation"
 import { getAllStudents, getStudentsGrouped, addStudent, updateStudent, deleteStudent, findDuplicateNames, removeDuplicateStudents, bulkDeleteStudents } from "./actions"
+import { getPromotableCount, getPromotableStudents, promoteStudents } from "../student-migration/actions"
 import { createClient } from "@/lib/supabase/client"
 import { formatDate, safeJsonResponse } from "@/lib/utils"
 
@@ -35,13 +36,14 @@ type StudentsClientProps = {
   schoolId: number | null
   schoolName?: string
   schoolLogo?: string
+  years: any[]
 }
 
 export default function StudentsClient({
   students: initStudents, groupedStudents: initGrouped, totalStudents: initTotal,
   totalPages: initPages, currentPage: initPage, pageSize: initPageSize,
   viewMode: initViewMode, filters: initFilters, divisions, streams,
-  allSchools, teacherClass, schoolId, schoolName, schoolLogo
+  allSchools, teacherClass, schoolId, schoolName, schoolLogo, years
 }: StudentsClientProps) {
   const [viewMode, setViewMode] = useState<ViewMode>(initViewMode)
   const [students, setStudents] = useState(initStudents)
@@ -66,7 +68,19 @@ export default function StudentsClient({
   const [showDuplicates, setShowDuplicates] = useState(false)
   const [selectedToRemove, setSelectedToRemove] = useState<Record<number, number[]>>({})
   const [selectedIds, setSelectedIds] = useState<Set<number>>(new Set())
+  const [photoModal, setPhotoModal] = useState(false)
+  const [photoMatchBy, setPhotoMatchBy] = useState("auto")
+  const [photoFiles, setPhotoFiles] = useState<File[]>([])
+  const [photoUploading, setPhotoUploading] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const photoInputRef = useRef<HTMLInputElement>(null)
+  const [promoteModal, setPromoteModal] = useState(false)
+  const [promoteYear, setPromoteYear] = useState("")
+  const [promoteDate, setPromoteDate] = useState(() => new Date().toISOString().slice(0, 10))
+  const [promoteCount, setPromoteCount] = useState<number | null>(null)
+  const [promoteList, setPromoteList] = useState<any[]>([])
+  const [promoteLoading, setPromoteLoading] = useState(false)
+  const [promoting, setPromoting] = useState(false)
   const router = useRouter()
   const supabase = createClient()
 
@@ -257,6 +271,50 @@ export default function StudentsClient({
     if (fileInputRef.current) fileInputRef.current.value = ""
   }
 
+  const downloadStudentsExcel = (cls?: string) => {
+    const params = new URLSearchParams()
+    const exportSchoolId = filterSchool || (schoolId ? String(schoolId) : "")
+    if (exportSchoolId) params.set("school_id", exportSchoolId)
+    if (cls) params.set("class_name", cls)
+    else if (filterClass) params.set("class_name", filterClass)
+    if (filterDiv) params.set("division", filterDiv)
+    if (filterStream) params.set("stream", filterStream)
+    if (search) params.set("search", search)
+    const a = document.createElement("a")
+    a.href = `/api/excel/export/students?${params.toString()}`
+    a.download = cls ? `students_class_${cls}.xlsx` : "students.xlsx"
+    a.click()
+  }
+
+  const handleBulkPhotoUpload = async () => {
+    if (photoFiles.length === 0) return
+    setPhotoUploading(true)
+    setMessage("")
+    const fd = new FormData()
+    fd.append("match_by", photoMatchBy)
+    photoFiles.forEach(f => fd.append("photos", f))
+    try {
+      const res = await fetch("/api/photos/bulk/students", { method: "POST", body: fd })
+      const { data, error } = await safeJsonResponse(res)
+      if (error || !data) { setMessage(error || "Photo upload failed"); return }
+      const parts = [`Uploaded & matched ${data.matched || 0} photo(s).`]
+      if (data.unmatched?.length) {
+        const sample = data.unmatched.slice(0, 10).map((u: any) => `${u.filename} (${u.reason})`).join("\n")
+        parts.push(`${data.unmatched.length} photo(s) not matched:\n${sample}`)
+      }
+      if (data.errors) parts.push(`Errors:\n${data.errors.join("\n")}`)
+      setMessage(parts.join("\n"))
+      setPhotoFiles([])
+      setPhotoModal(false)
+      if (viewMode === "list") await loadList(currentPage)
+      else await loadGrouped(viewMode === "school" ? "school_id" : "class_name")
+    } catch (err: any) {
+      setMessage(err.message || "Photo upload failed")
+    } finally {
+      setPhotoUploading(false)
+    }
+  }
+
   const toggleStudentSelection = (groupIndex: number, studentId: number) => {
     setSelectedToRemove(prev => {
       const current = prev[groupIndex] || []
@@ -361,6 +419,60 @@ export default function StudentsClient({
     }
   }
 
+  const openPromoteModal = async () => {
+    setPromoteModal(true)
+    setPromoteCount(null)
+    setPromoteList([])
+    setPromoteLoading(true)
+    setMessage("")
+    try {
+      const src: Record<string, any> = {}
+      const sid = filterSchool || (schoolId ? String(schoolId) : "")
+      if (sid) src.school_id = Number(sid)
+      if (filterClass) src.class_name = filterClass
+      if (filterDiv) src.division = filterDiv
+      if (filterStream) src.stream = filterStream
+      const [c, list] = await Promise.all([
+        getPromotableCount(src),
+        getPromotableStudents(src, 200),
+      ])
+      setPromoteCount(c)
+      setPromoteList(list)
+    } catch { setPromoteCount(null) }
+    finally { setPromoteLoading(false) }
+  }
+
+  const handlePromote = async () => {
+    if (!promoteYear) { setMessage("Select target academic year for promotion"); return }
+    if (!promoteDate) { setMessage("Select transfer date for promotion"); return }
+    setPromoting(true)
+    setMessage("")
+    try {
+      const src: Record<string, any> = {}
+      const sid = filterSchool || (schoolId ? String(schoolId) : "")
+      if (sid) src.school_id = Number(sid)
+      if (filterClass) src.class_name = filterClass
+      if (filterDiv) src.division = filterDiv
+      if (filterStream) src.stream = filterStream
+      const res = await promoteStudents(src, Number(promoteYear), promoteDate)
+      setMessage(res.message)
+      if (res.success) {
+        setPromoteModal(false)
+        setPromoteYear("")
+        setPromoteCount(null)
+        setPromoteList([])
+        setFilterClass("")
+        setFilterDiv("")
+        setFilterStream("")
+        await applyFilters()
+      }
+    } catch (err: any) {
+      setMessage(err.message || "Promotion failed")
+    } finally {
+      setPromoting(false)
+    }
+  }
+
   const renderRow = (s: any, index: number, showClass = true) => (
     <tr key={s.id} className={`hover:bg-slate-50 transition-colors ${selectedIds.has(s.id) ? "bg-blue-50/60" : ""}`}>
       <td className="px-4 py-3">
@@ -420,6 +532,9 @@ export default function StudentsClient({
           <input type="file" ref={fileInputRef} className="hidden" accept=".xlsx,.xls" onChange={handleImport} />
           <button className="rounded bg-slate-100 px-3 py-2 text-xs font-bold text-slate-600 hover:bg-slate-200 transition-all" onClick={() => { const a = document.createElement("a"); a.href = "/api/excel/template/students"; a.download = "students_template.xlsx"; a.click() }}>Template</button>
           <button className="rounded bg-slate-100 px-3 py-2 text-xs font-bold text-slate-600 hover:bg-slate-200 transition-all" onClick={() => fileInputRef.current?.click()}>Import</button>
+          <button className="rounded bg-slate-100 px-3 py-2 text-xs font-bold text-slate-600 hover:bg-slate-200 transition-all" onClick={() => setPhotoModal(true)}>Bulk Photos</button>
+          <button className="rounded bg-emerald-600 px-3 py-2 text-xs font-bold text-white hover:bg-emerald-700 transition-all" onClick={() => downloadStudentsExcel()}>Download Excel</button>
+          <button className="rounded bg-violet-600 px-3 py-2 text-xs font-bold text-white hover:bg-violet-700 transition-all" onClick={openPromoteModal}>Promote to Next Class</button>
           <button className="rounded bg-amber-500 px-3 py-2 text-xs font-bold text-white hover:bg-amber-600 transition-all" onClick={handleFindDuplicates}>Find Duplicates</button>
           {selectedIds.size > 0 && (
             <button className="rounded bg-red-600 px-4 py-2 text-xs font-black text-white hover:bg-red-700 transition-all shadow-lg" onClick={handleBulkDelete} disabled={loading}>
@@ -739,6 +854,9 @@ export default function StudentsClient({
                         <p className="text-[10px] font-bold text-blue-400 uppercase tracking-widest">{sList.length} students</p>
                       </div>
                     </div>
+                    <button className="rounded-lg bg-blue-600 px-4 py-2 text-[10px] font-black text-white hover:bg-blue-700 transition-all" onClick={() => downloadStudentsExcel(cls)}>
+                      Download Excel
+                    </button>
                   </div>
                   <div className="overflow-x-auto">
                     <table className="min-w-full divide-y text-left text-sm">
@@ -902,6 +1020,129 @@ export default function StudentsClient({
             <div className="mt-6 flex gap-3 border-t pt-4">
               <button className="flex-1 rounded-xl bg-blue-600 py-3 text-sm font-black text-white hover:bg-blue-700 transition-all" onClick={handleSave}>{editing ? "Update" : "Register"}</button>
               <button className="rounded-xl bg-slate-100 px-8 py-3 text-sm font-black text-slate-500 hover:bg-slate-200" onClick={() => setModal(false)}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Bulk Photo Upload Modal */}
+      {photoModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+          <div className="w-full max-w-lg rounded-2xl bg-white p-6 shadow-2xl">
+            <div className="mb-4 flex items-center justify-between border-b pb-4">
+              <div>
+                <h3 className="text-xl font-black uppercase">Bulk Photo Upload</h3>
+                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Match by filename</p>
+              </div>
+              <button className="rounded-full bg-slate-100 p-2 text-slate-400 hover:text-slate-600" onClick={() => { setPhotoModal(false); setPhotoFiles([]) }}>✕</button>
+            </div>
+            <div className="space-y-4">
+              <div className="space-y-1">
+                <label className="text-[10px] font-black text-slate-500 uppercase">Match Photos By</label>
+                <select className="w-full rounded-lg border p-2.5 text-sm font-bold" value={photoMatchBy} onChange={e => setPhotoMatchBy(e.target.value)}>
+                  <option value="auto">Auto (GR No / Admission No / Roll No)</option>
+                  <option value="gr_no">GR No</option>
+                  <option value="admission_no">Admission No</option>
+                  <option value="roll_no">Roll No</option>
+                </select>
+                <p className="text-[10px] text-slate-400">File names must match the selected identifier, e.g. <code className="font-bold">GR12345.jpg</code> or <code className="font-bold">12345.jpg</code>.</p>
+              </div>
+              <div className="rounded-xl border-2 border-dashed bg-slate-50 p-4 text-center cursor-pointer" onClick={() => photoInputRef.current?.click()}>
+                <p className="text-sm font-black text-slate-500">{photoFiles.length ? `${photoFiles.length} file(s) selected` : "Click to select photos"}</p>
+                <p className="text-[10px] font-bold text-slate-400 uppercase">JPG / PNG / WEBP</p>
+                <input ref={photoInputRef} type="file" className="hidden" multiple accept="image/*" onChange={e => setPhotoFiles(Array.from(e.target.files || []))} />
+              </div>
+              {photoFiles.length > 0 && (
+                <div className="max-h-40 overflow-y-auto rounded-lg border divide-y divide-slate-100">
+                  {photoFiles.map((f, i) => (
+                    <div key={i} className="flex items-center justify-between px-3 py-1.5 text-xs">
+                      <span className="font-bold text-slate-600">{f.name}</span>
+                      <span className="text-[10px] text-slate-400">{(f.size / 1024).toFixed(1)} KB</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+              {photoUploading && <p className="text-xs font-black text-blue-600 animate-pulse text-center">Uploading...</p>}
+            </div>
+            <div className="mt-6 flex gap-3 border-t pt-4">
+              <button className="flex-1 rounded-xl bg-blue-600 py-3 text-sm font-black text-white hover:bg-blue-700 transition-all disabled:opacity-50" onClick={handleBulkPhotoUpload} disabled={photoUploading || photoFiles.length === 0}>
+                {photoUploading ? "Uploading..." : "Upload Photos"}
+              </button>
+              <button className="rounded-xl bg-slate-100 px-8 py-3 text-sm font-black text-slate-500 hover:bg-slate-200" onClick={() => { setPhotoModal(false); setPhotoFiles([]) }}>Cancel</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Promote to Next Class Modal */}
+      {promoteModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4" onClick={() => !promoting && setPromoteModal(false)}>
+          <div className="w-full max-w-lg rounded-2xl bg-white p-6 shadow-2xl" onClick={e => e.stopPropagation()}>
+            <div className="mb-4 flex items-center justify-between border-b pb-3">
+              <h3 className="text-lg font-black uppercase text-slate-800">Promote to Next Class</h3>
+              <button className="rounded-full bg-slate-100 p-2 text-slate-400 hover:text-slate-600" onClick={() => setPromoteModal(false)} disabled={promoting}>✕</button>
+            </div>
+            <div className="mb-4 rounded-lg border bg-slate-50 p-3 text-xs text-slate-600 space-y-1">
+              <p><span className="font-bold">Source:</span> {filterClass ? `Class ${filterClass}` : "All classes"}{filterDiv ? ` / ${filterDiv}` : ""}{filterStream ? ` / ${filterStream}` : ""}</p>
+              {filterSchool && <p><span className="font-bold">School:</span> {allSchools.find((s: any) => String(s.id) === filterSchool)?.school_name || filterSchool}</p>}
+              <p className="text-slate-400">Class 12 & unclassified students are skipped. Division / stream are kept as-is.</p>
+            </div>
+            <div className="space-y-4">
+              <div>
+                <label className="mb-1 block text-[10px] font-black text-slate-500 uppercase">Target Academic Year *</label>
+                <select className="w-full rounded-lg border p-2.5 text-sm font-bold" value={promoteYear} onChange={e => setPromoteYear(e.target.value)}>
+                  <option value="">Select Year</option>
+                  {years.map((y: any) => <option key={y.id} value={y.id}>{y.year_name}</option>)}
+                </select>
+              </div>
+              <div>
+                <label className="mb-1 block text-[10px] font-black text-slate-500 uppercase">Transfer / Promotion Date *</label>
+                <input type="date" className="w-full rounded-lg border p-2.5 text-sm font-bold" value={promoteDate} onChange={e => setPromoteDate(e.target.value)} />
+              </div>
+              <div className={`rounded-lg border p-3 text-center text-sm font-bold ${promoteCount !== null ? (promoteCount > 0 ? "border-blue-200 bg-blue-50 text-blue-700" : "border-slate-200 bg-slate-50 text-slate-500") : "border-dashed border-slate-200 bg-slate-50 text-slate-400"}`}>
+                {promoteLoading ? "Counting promotable students..." : promoteCount === null ? "Loading students..." : `${promoteCount} student${promoteCount !== 1 ? "s" : ""} will be promoted`}
+              </div>
+              {!promoteLoading && promoteList.length > 0 && (
+                <div>
+                  <div className="mb-1 flex items-center justify-between">
+                    <label className="text-[10px] font-black text-slate-500 uppercase">Student List</label>
+                    <span className="text-[10px] font-bold text-slate-400">{promoteCount! > promoteList.length ? `Showing first ${promoteList.length}` : `${promoteList.length} students`}</span>
+                  </div>
+                  <div className="max-h-52 overflow-y-auto rounded-lg border border-slate-200">
+                    <table className="min-w-full text-left text-xs">
+                      <thead className="sticky top-0 bg-slate-50 text-[10px] font-black uppercase text-slate-400">
+                        <tr>
+                          <th className="px-3 py-2">GR No</th>
+                          <th className="px-3 py-2">Name</th>
+                          <th className="px-3 py-2">Div</th>
+                          <th className="px-3 py-2 text-center">Class</th>
+                          <th className="px-3 py-2 text-center">→</th>
+                          <th className="px-3 py-2 text-center">Next</th>
+                        </tr>
+                      </thead>
+                      <tbody className="divide-y divide-slate-100 text-slate-600">
+                        {promoteList.map((s: any) => (
+                          <tr key={s.id} className="hover:bg-slate-50">
+                            <td className="px-3 py-1.5 font-bold text-blue-600">{s.gr_no || "-"}</td>
+                            <td className="px-3 py-1.5 font-semibold text-slate-800">{s.full_name}</td>
+                            <td className="px-3 py-1.5">{s.division || "-"}</td>
+                            <td className="px-3 py-1.5 text-center">{s.class_name}</td>
+                            <td className="px-3 py-1.5 text-center text-slate-300">→</td>
+                            <td className="px-3 py-1.5 text-center font-black text-emerald-600">{s.next_class}</td>
+                          </tr>
+                        ))}
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              )}
+            </div>
+            {message && <p className={`mt-3 text-sm font-medium whitespace-pre-line ${message.includes("successfully") ? "text-green-600" : "text-red-600"}`}>{message}</p>}
+            <div className="mt-6 flex gap-3 border-t pt-4">
+              <button className="flex-1 rounded-xl bg-violet-600 py-3 text-sm font-black text-white hover:bg-violet-700 transition-all disabled:opacity-50" onClick={handlePromote} disabled={promoting || !promoteYear || !promoteDate || promoteCount === 0}>
+                {promoting ? "Promoting..." : `Promote ${promoteCount ?? 0} Student${promoteCount !== 1 ? "s" : ""}`}
+              </button>
+              <button className="rounded-xl bg-slate-100 px-8 py-3 text-sm font-black text-slate-500 hover:bg-slate-200" onClick={() => setPromoteModal(false)} disabled={promoting}>Cancel</button>
             </div>
           </div>
         </div>

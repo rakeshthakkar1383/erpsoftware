@@ -20,13 +20,18 @@ const emptyForm = {
 export default function TeachersClient({ allSchools, schoolId, allSubjects, allTrusts }: { allSchools: any[], schoolId: number | null, allSubjects: any[], allTrusts: any[] }) {
   const [teachers, setTeachers] = useState<any[]>([])
   const [search, setSearch] = useState("")
+  const [filterSchool, setFilterSchool] = useState(schoolId ? String(schoolId) : "")
   const [modal, setModal] = useState(false)
   const [editing, setEditing] = useState<any>(null)
   const [form, setForm] = useState<any>({ ...emptyForm })
   const [message, setMessage] = useState("")
   const [uploading, setUploading] = useState<string | null>(null)
+  const [photoModal, setPhotoModal] = useState(false)
+  const [photoFiles, setPhotoFiles] = useState<File[]>([])
+  const [photoUploading, setPhotoUploading] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
   const excelInputRef = useRef<HTMLInputElement>(null)
+  const photoInputRef = useRef<HTMLInputElement>(null)
   const supabase = createClient()
 
   const refresh = useCallback(async () => {
@@ -133,8 +138,49 @@ export default function TeachersClient({ allSchools, schoolId, allSubjects, allT
     if (excelInputRef.current) excelInputRef.current.value = ""
   }
 
+  const handleBulkPhotoUpload = async () => {
+    if (photoFiles.length === 0) return
+    setPhotoUploading(true)
+    setMessage("")
+    const fd = new FormData()
+    photoFiles.forEach(f => fd.append("photos", f))
+    try {
+      const res = await fetch("/api/photos/bulk/teachers", { method: "POST", body: fd })
+      const { data, error } = await safeJsonResponse(res)
+      if (error || !data) { setMessage(error || "Photo upload failed"); return }
+      const parts = [`Uploaded & matched ${data.matched || 0} photo(s).`]
+      if (data.unmatched?.length) {
+        const sample = data.unmatched.slice(0, 10).map((u: any) => `${u.filename} (${u.reason})`).join("\n")
+        parts.push(`${data.unmatched.length} photo(s) not matched:\n${sample}`)
+      }
+      if (data.errors) parts.push(`Errors:\n${data.errors.join("\n")}`)
+      setMessage(parts.join("\n"))
+      setPhotoFiles([])
+      setPhotoModal(false)
+      refresh()
+    } catch (err: any) {
+      setMessage(err.message || "Photo upload failed")
+    } finally {
+      setPhotoUploading(false)
+    }
+  }
+
   const q = search.toLowerCase()
-  const filtered = teachers.filter((t: any) => !q || [t.full_name, t.subjects, t.mobile, t.staff_code, t.designation].some((v: any) => String(v || "").toLowerCase().includes(q)))
+  const filtered = teachers.filter((t: any) =>
+    (!filterSchool || String(t.school_id) === filterSchool) &&
+    (!q || [t.full_name, t.subjects, t.mobile, t.staff_code, t.designation].some((v: any) => String(v || "").toLowerCase().includes(q)))
+  )
+
+  const downloadTeachersExcel = () => {
+    const params = new URLSearchParams()
+    const exportSchoolId = filterSchool || (schoolId ? String(schoolId) : "")
+    if (exportSchoolId) params.set("school_id", exportSchoolId)
+    if (search) params.set("search", search)
+    const a = document.createElement("a")
+    a.href = `/api/excel/export/teachers?${params.toString()}`
+    a.download = "teachers.xlsx"
+    a.click()
+  }
 
   const distinctSubjects = Array.from(new Set(allSubjects.map(s => s.subject_name.toUpperCase())))
 
@@ -145,7 +191,9 @@ export default function TeachersClient({ allSchools, schoolId, allSubjects, allT
         <div className="flex gap-2">
           <input type="file" ref={excelInputRef} className="hidden" accept=".xlsx,.xls" onChange={handleImport} />
           <button className="rounded bg-slate-100 px-4 py-2 text-xs font-black text-slate-600 hover:bg-slate-200 uppercase tracking-widest transition-all" onClick={() => downloadFile("/api/excel/template/teachers", "teachers_template.xlsx")}>Download Template</button>
+          <button className="rounded bg-emerald-600 px-4 py-2 text-xs font-black text-white hover:bg-emerald-700 uppercase tracking-widest transition-all" onClick={downloadTeachersExcel}>Download Excel</button>
           <button className="rounded bg-slate-100 px-4 py-2 text-xs font-black text-slate-600 hover:bg-slate-200 uppercase tracking-widest transition-all" onClick={() => excelInputRef.current?.click()}>Bulk Import</button>
+          <button className="rounded bg-slate-100 px-4 py-2 text-xs font-black text-slate-600 hover:bg-slate-200 uppercase tracking-widest transition-all" onClick={() => setPhotoModal(true)}>Bulk Photos</button>
           <button className="rounded bg-blue-600 px-6 py-2.5 text-sm font-semibold text-white hover:bg-blue-700 shadow-md"
             onClick={() => { setEditing(null); setForm({ ...emptyForm }); setMessage(""); setModal(true) }}>
             Add New Teacher
@@ -155,6 +203,12 @@ export default function TeachersClient({ allSchools, schoolId, allSubjects, allT
 
       <div className="mb-4 flex items-center gap-3">
         <input className="w-64 rounded-lg border p-2.5 text-sm shadow-sm" placeholder="Search by name, code, subject..." value={search} onChange={e => setSearch(e.target.value)} />
+        {allSchools.length > 1 && (
+          <select className="rounded-lg border bg-slate-50 p-2.5 text-sm font-semibold text-slate-600" value={filterSchool} onChange={e => setFilterSchool(e.target.value)}>
+            <option value="">All Schools</option>
+            {allSchools.map((s: any) => <option key={s.id} value={String(s.id)}>{s.school_name}</option>)}
+          </select>
+        )}
         <span className="text-sm font-medium text-slate-500">{filtered.length} Teachers found</span>
       </div>
 
@@ -461,6 +515,46 @@ export default function TeachersClient({ allSchools, schoolId, allSubjects, allT
             <div className="mt-8 flex gap-3 border-t pt-6">
               <button className="flex-1 rounded-lg bg-blue-600 px-6 py-4 text-sm font-black text-white hover:bg-blue-700 shadow-xl tracking-widest transition-all" onClick={handleSave}>{editing ? "UPDATE TEACHER PROFILE" : "CREATE TEACHER RECORD"}</button>
               <button className="rounded-lg bg-slate-100 px-8 py-4 text-sm font-black text-slate-500 hover:bg-slate-200 transition-all" onClick={() => setModal(false)}>CANCEL</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Bulk Photo Upload Modal */}
+      {photoModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+          <div className="w-full max-w-lg rounded-xl bg-white p-6 shadow-2xl">
+            <div className="mb-4 flex items-center justify-between border-b pb-4">
+              <div>
+                <h3 className="text-xl font-bold text-slate-800">Bulk Photo Upload</h3>
+                <p className="text-xs font-bold text-slate-400 uppercase tracking-widest">Match by staff code</p>
+              </div>
+              <button className="text-slate-400 hover:text-slate-600" onClick={() => { setPhotoModal(false); setPhotoFiles([]) }}>✕</button>
+            </div>
+            <div className="space-y-4">
+              <p className="text-xs text-slate-500">Each photo file name must match the teacher's <span className="font-bold">Staff Code</span>, e.g. <code className="font-bold">T001.jpg</code>.</p>
+              <div className="rounded-xl border-2 border-dashed bg-slate-50 p-4 text-center cursor-pointer" onClick={() => photoInputRef.current?.click()}>
+                <p className="text-sm font-black text-slate-500">{photoFiles.length ? `${photoFiles.length} file(s) selected` : "Click to select photos"}</p>
+                <p className="text-[10px] font-bold text-slate-400 uppercase">JPG / PNG / WEBP</p>
+                <input ref={photoInputRef} type="file" className="hidden" multiple accept="image/*" onChange={e => setPhotoFiles(Array.from(e.target.files || []))} />
+              </div>
+              {photoFiles.length > 0 && (
+                <div className="max-h-40 overflow-y-auto rounded-lg border divide-y divide-slate-100">
+                  {photoFiles.map((f, i) => (
+                    <div key={i} className="flex items-center justify-between px-3 py-1.5 text-xs">
+                      <span className="font-bold text-slate-600">{f.name}</span>
+                      <span className="text-[10px] text-slate-400">{(f.size / 1024).toFixed(1)} KB</span>
+                    </div>
+                  ))}
+                </div>
+              )}
+              {photoUploading && <p className="text-xs font-black text-blue-600 animate-pulse text-center">Uploading...</p>}
+            </div>
+            <div className="mt-6 flex gap-3 border-t pt-4">
+              <button className="flex-1 rounded-lg bg-blue-600 py-3 text-sm font-black text-white hover:bg-blue-700 transition-all disabled:opacity-50" onClick={handleBulkPhotoUpload} disabled={photoUploading || photoFiles.length === 0}>
+                {photoUploading ? "Uploading..." : "Upload Photos"}
+              </button>
+              <button className="rounded-lg bg-slate-100 px-8 py-3 text-sm font-black text-slate-500 hover:bg-slate-200 transition-all" onClick={() => { setPhotoModal(false); setPhotoFiles([]) }}>CANCEL</button>
             </div>
           </div>
         </div>

@@ -112,6 +112,7 @@ export default async function StudentsPage({
       schoolId={schoolId}
       schoolName={schoolName}
       schoolLogo={schoolLogo}
+      years={years}
     />
   )
 }
