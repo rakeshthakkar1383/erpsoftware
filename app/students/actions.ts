@@ -129,13 +129,16 @@ export async function addStudent(formData: FormData) {
 
   if (raw.gr_no && raw.gr_no.toString().trim()) {
     const grNo = raw.gr_no.toString().trim()
+    const schoolId = Number(raw.school_id || user?.user_metadata?.school_id)
     const { data: existingGr } = await supabase
       .from("students")
-      .select("id")
+      .select("id, full_name, class_name, division")
+      .eq("school_id", schoolId)
       .eq("gr_no", grNo)
       .limit(1)
-    if (existingGr && existingGr.length > 0) {
-      return { success: false, message: `GR No "${grNo}" already exists for another student`, studentId: null }
+    if (schoolId && existingGr && existingGr.length > 0) {
+      const existingStudent = existingGr[0]
+      return { success: false, message: `GR No "${grNo}" already exists for this school: ${existingStudent.full_name || "Unknown student"} (${existingStudent.class_name || "-"}${existingStudent.division ? `/${existingStudent.division}` : ""})`, studentId: null }
     }
     raw.gr_no = grNo
   }
@@ -165,14 +168,17 @@ export async function updateStudent(id: number, formData: FormData) {
 
   if (raw.gr_no && raw.gr_no.toString().trim()) {
     const grNo = raw.gr_no.toString().trim()
+    const schoolId = Number(raw.school_id || user?.user_metadata?.school_id)
     const { data: existingGr } = await supabase
       .from("students")
-      .select("id")
+      .select("id, full_name, class_name, division")
+      .eq("school_id", schoolId)
       .eq("gr_no", grNo)
       .neq("id", id)
       .limit(1)
-    if (existingGr && existingGr.length > 0) {
-      return { success: false, message: `GR No "${grNo}" already exists for another student` }
+    if (schoolId && existingGr && existingGr.length > 0) {
+      const existingStudent = existingGr[0]
+      return { success: false, message: `GR No "${grNo}" already exists for this school: ${existingStudent.full_name || "Unknown student"} (${existingStudent.class_name || "-"}${existingStudent.division ? `/${existingStudent.division}` : ""})` }
     }
     raw.gr_no = grNo
   }

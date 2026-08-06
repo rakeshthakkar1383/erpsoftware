@@ -100,43 +100,46 @@ export default function Sidebar({ user, schoolName, schoolLogo, schools = [], te
   }
 
   return (
-    <aside className="sticky top-0 flex h-screen w-56 shrink-0 flex-col bg-slate-800 text-slate-100">
-      <div className="relative shrink-0 border-b border-slate-700 px-5 py-5" ref={dropdownRef}>
+    <aside className="sticky top-0 flex h-screen w-72 shrink-0 flex-col border-r border-slate-200/80 bg-gradient-to-b from-slate-950 via-slate-900 to-slate-800 text-slate-100 shadow-[0_20px_60px_rgba(15,23,42,0.25)]">
+      <div className="relative shrink-0 border-b border-slate-700/80 px-5 py-5" ref={dropdownRef}>
         <div
-          className={`flex items-center gap-3 mb-3 ${schools.length > 0 ? "cursor-pointer" : ""}`}
+          className={`mb-4 flex items-center gap-3 ${schools.length > 0 ? "cursor-pointer" : ""}`}
           onClick={() => schools.length > 0 && setShowSchools(!showSchools)}
         >
           {schoolLogo ? (
-            <img src={schoolLogo} alt="Logo" className="h-10 w-10 rounded-lg border border-slate-600 object-contain bg-white shadow-sm" />
+            <img src={schoolLogo} alt="Logo" className="h-12 w-12 rounded-xl border border-slate-600 bg-white object-contain p-1 shadow-sm" />
           ) : (
-            <div className="h-10 w-10 rounded-lg border border-slate-600 bg-slate-700 flex items-center justify-center font-bold text-slate-400">
+            <div className="flex h-12 w-12 items-center justify-center rounded-xl border border-slate-600 bg-slate-700 text-sm font-black text-blue-200">
               ERP
             </div>
           )}
-          <h1 className="text-sm font-bold tracking-tight leading-tight flex-1">
-            {schoolName ? schoolName : "SCHOOL ERP"}
-          </h1>
+          <div className="min-w-0 flex-1">
+            <h1 className="truncate text-sm font-black tracking-tight text-white">
+              {schoolName ? schoolName : "SCHOOL ERP"}
+            </h1>
+            <p className="text-[10px] uppercase tracking-[0.18em] text-slate-400">Smart management</p>
+          </div>
           {schools.length > 0 && (
-            <ChevronDown className={`h-3 w-3 text-slate-400 transition ${showSchools ? "rotate-180" : ""}`} />
+            <ChevronDown className={`h-4 w-4 text-slate-400 transition ${showSchools ? "rotate-180" : ""}`} />
           )}
         </div>
 
         {showSchools && (
-          <div className="absolute left-3 right-3 top-full z-50 mt-1 rounded-lg border border-slate-600 bg-slate-700 shadow-xl max-h-48 overflow-y-auto">
+          <div className="absolute left-3 right-3 top-full z-50 mt-1 max-h-56 overflow-y-auto rounded-xl border border-slate-600 bg-slate-800/95 p-1 shadow-2xl backdrop-blur">
             {schools.map((s) => (
               <button
                 key={s.id}
                 onClick={() => handleSchoolSelect(s.id)}
-                className={`flex w-full items-center gap-3 px-3 py-2.5 text-left text-sm transition ${
+                className={`flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm transition ${
                   s.id === user?.user_metadata?.school_id
-                    ? "bg-slate-600 text-white"
-                    : "text-slate-200 hover:bg-slate-600/50"
+                    ? "bg-blue-600/90 text-white"
+                    : "text-slate-200 hover:bg-slate-700/80"
                 }`}
               >
                 {s.logo_url ? (
-                  <img src={s.logo_url} alt="" className="h-6 w-6 rounded object-contain bg-white" />
+                  <img src={s.logo_url} alt="" className="h-7 w-7 rounded-md bg-white object-contain p-0.5" />
                 ) : (
-                  <div className="h-6 w-6 rounded bg-slate-600 flex items-center justify-center text-[8px] font-bold text-slate-400">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-md bg-slate-700 text-[8px] font-bold text-slate-400">
                     E
                   </div>
                 )}
@@ -147,19 +150,20 @@ export default function Sidebar({ user, schoolName, schoolLogo, schools = [], te
         )}
 
         <div className="space-y-0.5">
-          <p className="text-[10px] font-bold text-slate-300 truncate uppercase">
+          <p className="truncate text-[10px] font-bold uppercase tracking-[0.2em] text-slate-300">
             {user?.user_metadata?.full_name || "User"}
           </p>
-          <p className="text-[9px] text-slate-500 uppercase tracking-wider">
-            {role} {teacherClass || user?.user_metadata?.class_name ? `| CLASS ${teacherClass || user?.user_metadata?.class_name}` : ""}
+          <p className="text-[9px] uppercase tracking-[0.2em] text-slate-500">
+            {role}
+            {teacherClass || user?.user_metadata?.class_name ? ` | CLASS ${teacherClass || user?.user_metadata?.class_name}` : ""}
           </p>
         </div>
       </div>
-      {["admin", "authority", "principal", "clerk"].includes(role) && (
-        <div className="border-b border-slate-700">
+      {['admin', 'authority', 'principal', 'clerk'].includes(role) && (
+        <div className="border-b border-slate-700/80">
           <button
             onClick={() => setShowSchoolManager(!showSchoolManager)}
-            className="flex w-full items-center justify-between px-5 py-2.5 text-[11px] font-bold text-slate-400 uppercase tracking-wider transition hover:bg-slate-700/50 hover:text-white"
+            className="flex w-full items-center justify-between px-5 py-3 text-[11px] font-bold uppercase tracking-[0.18em] text-slate-300 transition hover:bg-slate-700/50 hover:text-white"
           >
             <span>Add School</span>
             <Plus className={`h-3.5 w-3.5 transition ${showSchoolManager ? "rotate-45" : ""}`} />
@@ -170,30 +174,30 @@ export default function Sidebar({ user, schoolName, schoolLogo, schools = [], te
                 placeholder="SCHOOL NAME"
                 value={newSchoolForm.school_name}
                 onChange={e => setNewSchoolForm(prev => ({ ...prev, school_name: e.target.value.toUpperCase() }))}
-                className="w-full rounded border border-slate-600 bg-slate-700 p-2 text-xs text-white placeholder:text-slate-400"
+                className="w-full rounded-lg border border-slate-600 bg-slate-800/80 p-2.5 text-xs text-white placeholder:text-slate-400"
               />
               <input
                 placeholder="TRUST NAME"
                 value={newSchoolForm.trust_name}
                 onChange={e => setNewSchoolForm(prev => ({ ...prev, trust_name: e.target.value.toUpperCase() }))}
-                className="w-full rounded border border-slate-600 bg-slate-700 p-2 text-xs text-white placeholder:text-slate-400"
+                className="w-full rounded-lg border border-slate-600 bg-slate-800/80 p-2.5 text-xs text-white placeholder:text-slate-400"
               />
               <input
                 placeholder="PHONE"
                 value={newSchoolForm.phone}
                 onChange={e => setNewSchoolForm(prev => ({ ...prev, phone: e.target.value }))}
-                className="w-full rounded border border-slate-600 bg-slate-700 p-2 text-xs text-white placeholder:text-slate-400"
+                className="w-full rounded-lg border border-slate-600 bg-slate-800/80 p-2.5 text-xs text-white placeholder:text-slate-400"
               />
               <input
                 placeholder="ADDRESS"
                 value={newSchoolForm.address}
                 onChange={e => setNewSchoolForm(prev => ({ ...prev, address: e.target.value.toUpperCase() }))}
-                className="w-full rounded border border-slate-600 bg-slate-700 p-2 text-xs text-white placeholder:text-slate-400"
+                className="w-full rounded-lg border border-slate-600 bg-slate-800/80 p-2.5 text-xs text-white placeholder:text-slate-400"
               />
               <button
                 onClick={handleAddSchool}
                 disabled={addingSchool || !newSchoolForm.school_name}
-                className="w-full rounded bg-blue-600 py-1.5 text-xs font-bold text-white transition hover:bg-blue-700 disabled:opacity-50"
+                className="w-full rounded-lg bg-blue-600 py-2 text-xs font-bold text-white transition hover:bg-blue-500 disabled:opacity-50"
               >
                 {addingSchool ? "ADDING..." : "ADD SCHOOL"}
               </button>
@@ -202,17 +206,17 @@ export default function Sidebar({ user, schoolName, schoolLogo, schools = [], te
           )}
         </div>
       )}
-      <nav className="flex min-h-0 flex-1 flex-col gap-0.5 overflow-y-auto px-3 py-3">
+      <nav className="flex min-h-0 flex-1 flex-col gap-1.5 overflow-y-auto px-3 py-3">
         {tabs.map((tab) => {
           const Icon = tab.icon
           return (
             <button
               key={tab.key}
               onClick={() => onTabChange(tab.key)}
-              className={`flex items-center gap-3 rounded px-4 py-2.5 text-left text-sm font-medium transition ${
+              className={`flex items-center gap-3 rounded-xl px-4 py-2.5 text-left text-sm font-medium transition ${
                 activeTab === tab.key
-                  ? "bg-slate-700 text-white"
-                  : "text-slate-300 hover:bg-slate-700/50 hover:text-white"
+                  ? "bg-white/10 text-white shadow-inner ring-1 ring-white/10"
+                  : "text-slate-300 hover:bg-slate-700/60 hover:text-white"
               }`}
             >
               <Icon className="h-4 w-4" />
@@ -221,10 +225,10 @@ export default function Sidebar({ user, schoolName, schoolLogo, schools = [], te
           )
         })}
       </nav>
-      <div className="border-t border-slate-700 px-3 py-3">
+      <div className="border-t border-slate-700/80 px-3 py-3">
         <button
           onClick={onLogout}
-          className="flex w-full items-center gap-3 rounded px-4 py-2 text-left text-sm text-slate-400 hover:bg-slate-700/50 hover:text-white"
+          className="flex w-full items-center gap-3 rounded-xl px-4 py-2.5 text-left text-sm text-slate-300 transition hover:bg-slate-700/60 hover:text-white"
         >
           <LogOut className="h-4 w-4" />
           Logout

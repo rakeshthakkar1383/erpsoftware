@@ -2,16 +2,19 @@
 
 import { useState, useCallback } from "react"
 import { createUser, deleteUser, updateUser } from "./actions"
-import { allTabs, roleDefaults } from "@/lib/permissions"
+import { allTabs, roleDefaults, userRoleOptions } from "@/lib/permissions"
 
-const roles = [
-  { id: "authority", label: "Authority", desc: "Full Access across all schools" },
-  { id: "principal", label: "Principal", desc: "School-wide Management" },
-  { id: "supervision", label: "Supervision", desc: "Department/Level Monitoring" },
-  { id: "clerk", label: "Clerk", desc: "School-wide Data Entry & Fees" },
-  { id: "teacher", label: "Teacher", desc: "Class-wise Access" },
-  { id: "student", label: "Student", desc: "Personal Data Only" },
-]
+const roles = userRoleOptions.map((role) => ({
+  ...role,
+  desc: {
+    authority: "Full Access across all schools",
+    principal: "School-wide Management",
+    supervision: "Department/Level Monitoring",
+    clerk: "School-wide Data Entry & Fees",
+    teacher: "Class-wise Access",
+    student: "Personal Data Only",
+  }[role.id] || "User role",
+}))
 
 const emptyForm = { email: "", password: "", full_name: "", role: "authority", school_id: "", teacher_id: "", student_id: "", class_name: "", can_see_all_data: "false" }
 

@@ -59,6 +59,20 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       const raw = fee.particulars
       particulars = typeof raw === "string" ? JSON.parse(raw) : (Array.isArray(raw) ? raw : [])
     } catch { particulars = [] }
+
+    const displayParticulars = particulars.length > 0
+      ? particulars.map((p: any) => ({
+          ...p,
+          particular_name: p.particular_name || p.name || fee.fee_types?.name || "Fee",
+          amount: Number(p.amount) || 0,
+          term: p.term || fee.term || "Yearly",
+        }))
+      : [{
+          particular_name: fee.fee_types?.name || "Fee",
+          amount: Number(fee.amount) || 0,
+          term: fee.term || "Yearly",
+        }]
+
     const copy = request.nextUrl.searchParams.get("copy") || "both"
     
     let logoImage: Buffer | null = null
@@ -189,33 +203,30 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
           doc.moveDown(0.2)
 
           let total = 0
-          if (particulars.length > 0) {
-            particulars.forEach((p: any) => {
-              const name = p.particular_name || p.name || ""
+          if (displayParticulars.length > 0) {
+            displayParticulars.forEach((p: any) => {
+              const name = p.particular_name || p.name || fee.fee_types?.name || "Fee"
               const pTerm = p.term || fee.term || "Yearly"
               const amt = Number(p.amount) || 0
               total += amt
-              
+
               doc.font("Helvetica")
               const currentY = doc.y
-              
-              // Simplify label: avoid "YEARLY (Yearly)"
               const displayLabel = name.toUpperCase() === pTerm.toUpperCase() ? name : `${name} (${pTerm})`
-              
+
               doc.text(displayLabel, 40, currentY, { width: 300 })
               doc.text(amt.toFixed(2), 400, currentY, { width: 155, align: "right" })
-              
-              // Ensure we move down after each row, handling potential wrapping
+
               const textHeight = doc.heightOfString(displayLabel, { width: 300 })
               doc.y = currentY + Math.max(textHeight, 12) + 2
             })
           } else {
             total = Number(fee.amount) || 0
-            const feeTypeName = fee.fee_types?.name || ""
+            const feeTypeName = fee.fee_types?.name || "Fee"
             const pTerm = fee.term || "Yearly"
             const currentY = doc.y
             const displayLabel = (feeTypeName && feeTypeName.toUpperCase() === pTerm.toUpperCase()) ? feeTypeName : `${feeTypeName || "Fee Amount"} (${pTerm})`
-            
+
             doc.text(displayLabel, 40, currentY, { width: 300 })
             doc.text(total.toFixed(2), 400, currentY, { width: 155, align: "right" })
             doc.moveDown(1)
@@ -247,8 +258,11 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
             if (fee.cheque_date) doc.text(`Cheque Date: ${formatDate(fee.cheque_date)}`)
             if (fee.bank_name) doc.text(`Bank: ${fee.bank_name}`)
           }
+          if (fee.receipt_file_url) {
+            doc.text(`Attachment: ${fee.receipt_file_url}`)
+          }
           doc.text(`Status: ${fee.status}`)
-          
+
           doc.moveDown(1)
           const sigY = doc.y
           doc.fontSize(8).text("Office Signature / Seal", 40, sigY, { align: "right" })

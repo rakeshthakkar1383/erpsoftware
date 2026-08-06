@@ -6,14 +6,49 @@ import { revalidatePath } from "next/cache"
 export async function getAllTrusts() {
   const supabase = await createClient()
   try {
-    const { data, error } = await supabase.from("trust_info").select("*").order("trust_name")
+    const { data: trusts, error } = await supabase
+      .from("trust_info")
+      .select("*")
+      .order("trust_name")
+
     if (error) {
       console.error("getAllTrusts error", error)
       return []
     }
-    return data || []
+
+    if (!trusts || trusts.length === 0) return []
+
+    const { data: schools } = await supabase
+      .from("school_info")
+      .select("id, school_name, trust_name, address")
+
+    const schoolMap = new Map()
+    ;(schools || []).forEach((s: any) => schoolMap.set(Number(s.id), s))
+
+    return trusts.map((t: any) => ({
+      ...t,
+      school_info: t.school_id ? schoolMap.get(Number(t.school_id)) || null : null,
+    }))
   } catch (error) {
     console.error("getAllTrusts exception", error)
+    return []
+  }
+}
+
+export async function getAllSchools() {
+  const supabase = await createClient()
+  try {
+    const { data, error } = await supabase
+      .from("school_info")
+      .select("id, school_name, trust_name, address, logo_url")
+      .order("school_name")
+    if (error) {
+      console.error("getAllSchools error", error)
+      return []
+    }
+    return data || []
+  } catch (error) {
+    console.error("getAllSchools exception", error)
     return []
   }
 }
@@ -34,7 +69,17 @@ export async function addTrust(formData: FormData) {
     return { success: false, message: "No school found. Please create a school first." }
   }
   const { error } = await supabase.from("trust_info").insert([raw])
+  if (!error && raw.school_id) {
+    // Keep school_info synchronized with trust_name and address
+    const updatePayload: any = {}
+    if (raw.trust_name) updatePayload.trust_name = raw.trust_name
+    if (raw.address) updatePayload.address = raw.address
+    if (Object.keys(updatePayload).length > 0) {
+      await supabase.from("school_info").update(updatePayload).eq("id", raw.school_id)
+    }
+  }
   revalidatePath("/trust-info")
+  revalidatePath("/manage-schools")
   return { success: !error, message: error?.message || "Trust added" }
 }
 
@@ -45,7 +90,17 @@ export async function updateTrust(id: number, formData: FormData) {
   if (raw.school_id) raw.school_id = Number(raw.school_id)
   else delete raw.school_id
   const { error } = await supabase.from("trust_info").update(raw).eq("id", id)
+  if (!error && raw.school_id) {
+    // Keep school_info synchronized with trust_name and address
+    const updatePayload: any = {}
+    if (raw.trust_name) updatePayload.trust_name = raw.trust_name
+    if (raw.address) updatePayload.address = raw.address
+    if (Object.keys(updatePayload).length > 0) {
+      await supabase.from("school_info").update(updatePayload).eq("id", raw.school_id)
+    }
+  }
   revalidatePath("/trust-info")
+  revalidatePath("/manage-schools")
   return { success: !error, message: error?.message || "Trust updated" }
 }
 
@@ -58,5 +113,6 @@ export async function deleteTrust(id: number) {
   }
   const { error } = await supabase.from("trust_info").delete().eq("id", id)
   revalidatePath("/trust-info")
+  revalidatePath("/manage-schools")
   return { success: !error, message: error?.message || "Trust deleted" }
 }

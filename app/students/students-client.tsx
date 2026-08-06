@@ -251,14 +251,34 @@ export default function StudentsClient({
   const handleImport = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0]
     if (!file) return
-    const fd = new FormData()
-    fd.append("file", file)
-    if (schoolId) fd.append("school_id", String(schoolId))
-    try {
-      const res = await fetch("/api/excel/import/students", { method: "POST", body: fd })
-      const { data, error } = await safeJsonResponse(res)
-      if (error || !data) setMessage(error || `Import failed (${res.status})`)
-      else {
+
+    const doImport = async (forceOverwrite = false) => {
+      const fd = new FormData()
+      fd.append("file", file)
+      if (schoolId) fd.append("school_id", String(schoolId))
+      if (forceOverwrite) fd.append("overwrite", "true")
+      try {
+        const res = await fetch("/api/excel/import/students", { method: "POST", body: fd })
+        const { data, error } = await safeJsonResponse(res)
+        if (error || !data) {
+          setMessage(error || `Import failed (${res.status})`)
+          return
+        }
+
+        const conflicts = data.conflicts || []
+        if (conflicts.length > 0 && !forceOverwrite) {
+          const summary = conflicts
+            .map((c: any) => `GR ${c.gr_no}: ${c.student.full_name || "Unknown student"} (${c.student.class_name || "-"}${c.student.division ? `/${c.student.division}` : ""})`)
+            .join("\n")
+          const overwrite = window.confirm(`These GR numbers already belong to students in this school:\n\n${summary}\n\nOverwrite the existing student records with the Excel data?`)
+          if (!overwrite) {
+            setMessage("Student import cancelled.")
+            return
+          }
+          await doImport(true)
+          return
+        }
+
         const errCount = data.errors?.length || 0
         const msg = errCount > 0
           ? `Imported ${data.imported || 0} students. ${errCount} error(s):\n${data.errorDetails || data.errors.join("; ")}`
@@ -266,8 +286,12 @@ export default function StudentsClient({
         setMessage(msg)
         if (viewMode === "list") await loadList(currentPage)
         else await loadGrouped(viewMode === "school" ? "school_id" : "class_name")
+      } catch (err: any) {
+        setMessage(err.message || "Import failed")
       }
-    } catch (err: any) { setMessage(err.message || "Import failed") }
+    }
+
+    await doImport(false)
     if (fileInputRef.current) fileInputRef.current.value = ""
   }
 

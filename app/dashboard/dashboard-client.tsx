@@ -158,69 +158,89 @@ export default function DashboardClient({
   }, [filteredStudents, studentFilterClass, studentFilterDiv, studentSearch])
 
   return (
-    <div>
-      <div className="mb-6 border-b pb-4">
-        <h2 className="text-2xl font-bold text-slate-800 uppercase">DASHBOARD</h2>
-        <p className="text-xs font-medium text-slate-500 uppercase tracking-wider">School Performance Overview</p>
-      </div>
+    <div className="space-y-6">
+      <div className="rounded-2xl border border-slate-200/80 bg-white/80 p-6 shadow-[0_20px_45px_rgba(15,23,42,0.08)] backdrop-blur-sm">
+        <div className="flex flex-col gap-4 lg:flex-row lg:items-end lg:justify-between">
+          <div>
+            <p className="text-[11px] font-bold uppercase tracking-[0.24em] text-blue-600">Overview</p>
+            <h2 className="mt-2 text-3xl font-black tracking-tight text-slate-900 uppercase">Dashboard</h2>
+            <p className="mt-1 text-sm text-slate-500">School performance overview</p>
+          </div>
 
-      <div className="mb-6">
-        <label className="mb-1 block text-xs font-medium text-slate-600 uppercase tracking-wider">Select School</label>
-        <select
-          className="w-full max-w-md rounded border p-3 text-sm"
-          value={selectedSchoolId ?? ""}
-          onChange={e => setSelectedSchoolId(e.target.value ? Number(e.target.value) : null)}
-        >
-          <option value="">-- All Schools --</option>
-          {schools.map(s => (
-            <option key={s.id} value={s.id}>{s.school_name}</option>
-          ))}
-        </select>
+          <div className="w-full max-w-md">
+            <label className="mb-2 block text-[11px] font-bold uppercase tracking-[0.2em] text-slate-500">Select School</label>
+            <select
+              className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3 py-3 text-sm font-medium text-slate-700 shadow-sm outline-none ring-0 focus:border-blue-500 focus:bg-white"
+              value={selectedSchoolId ?? ""}
+              onChange={e => setSelectedSchoolId(e.target.value ? Number(e.target.value) : null)}
+            >
+              <option value="">-- All Schools --</option>
+              {schools.map(s => (
+                <option key={s.id} value={s.id}>{s.school_name}</option>
+              ))}
+            </select>
+          </div>
+        </div>
+
+        {school && (
+          <div className="mt-5 rounded-2xl border border-blue-100 bg-gradient-to-r from-blue-50 via-sky-50 to-indigo-50 p-5">
+            <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+              <div>
+                <p className="text-[10px] font-black uppercase tracking-[0.2em] text-blue-700">Selected School</p>
+                <h3 className="mt-2 text-2xl font-black text-slate-900">{school.school_name}</h3>
+              </div>
+              <div className="text-left md:text-right">
+                <p className="text-sm font-semibold text-slate-700">{school.trust_name || "Trust"}</p>
+                <p className="text-sm text-slate-600">{school.address || "Address not available"}</p>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
 
       {selectedSchoolId && school && (
-        <div className="mb-6 grid grid-cols-2 gap-4 sm:grid-cols-4">
-          <div className="rounded-lg border border-blue-200 bg-blue-50 p-4 shadow-sm">
-            <div className="text-xs uppercase tracking-wide text-blue-600">{school.school_name}</div>
-            <div className="text-3xl font-bold text-blue-800">{filteredStudents.length}</div>
-            <div className="mt-1 text-sm text-blue-600">Total Students</div>
+        <div className="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-5">
+          <div className="rounded-2xl border border-blue-200 bg-gradient-to-br from-blue-50 to-blue-100 p-5 shadow-sm">
+            <div className="text-[11px] font-bold uppercase tracking-[0.2em] text-blue-700">{school.school_name}</div>
+            <div className="mt-3 text-3xl font-black text-blue-900">{filteredStudents.length}</div>
+            <div className="mt-1 text-sm text-blue-700">Total Students</div>
           </div>
-          <div className="rounded-lg border border-green-200 bg-green-50 p-4 shadow-sm">
-            <div className="text-xs uppercase tracking-wide text-green-600">Teachers</div>
-            <div className="text-3xl font-bold text-green-800">{filteredTeachers.length}</div>
+          <div className="rounded-2xl border border-emerald-200 bg-gradient-to-br from-emerald-50 to-emerald-100 p-5 shadow-sm">
+            <div className="text-[11px] font-bold uppercase tracking-[0.2em] text-emerald-700">Teachers</div>
+            <div className="mt-3 text-3xl font-black text-emerald-900">{filteredTeachers.length}</div>
           </div>
-          <div className="rounded-lg border border-purple-200 bg-purple-50 p-4 shadow-sm">
-            <div className="text-xs uppercase tracking-wide text-purple-600">Divisions</div>
-            <div className="text-3xl font-bold text-purple-800">{filteredDivisions.length}</div>
+          <div className="rounded-2xl border border-violet-200 bg-gradient-to-br from-violet-50 to-violet-100 p-5 shadow-sm">
+            <div className="text-[11px] font-bold uppercase tracking-[0.2em] text-violet-700">Divisions</div>
+            <div className="mt-3 text-3xl font-black text-violet-900">{filteredDivisions.length}</div>
           </div>
-          <div className="rounded-lg border border-amber-200 bg-amber-50 p-4 shadow-sm">
-            <div className="text-xs uppercase tracking-wide text-amber-600">Fees Paid</div>
-            <div className="text-3xl font-bold text-amber-800">{paidStudentIds.size}</div>
+          <div className="rounded-2xl border border-amber-200 bg-gradient-to-br from-amber-50 to-amber-100 p-5 shadow-sm">
+            <div className="text-[11px] font-bold uppercase tracking-[0.2em] text-amber-700">Fees Paid</div>
+            <div className="mt-3 text-3xl font-black text-amber-900">{paidStudentIds.size}</div>
           </div>
-          <div className="rounded-lg border border-indigo-200 bg-indigo-50 p-4 shadow-sm">
-            <div className="text-xs uppercase tracking-wide text-indigo-600">Trust Fees Paid</div>
-            <div className="text-3xl font-bold text-indigo-800">{trustPaidStudentIds.size}</div>
+          <div className="rounded-2xl border border-indigo-200 bg-gradient-to-br from-indigo-50 to-indigo-100 p-5 shadow-sm">
+            <div className="text-[11px] font-bold uppercase tracking-[0.2em] text-indigo-700">Trust Fees Paid</div>
+            <div className="mt-3 text-3xl font-black text-indigo-900">{trustPaidStudentIds.size}</div>
           </div>
         </div>
       )}
 
       {selectedSchoolId && (
-        <div className="mb-6 rounded-xl border bg-white shadow-sm overflow-hidden">
-          <div className="flex flex-wrap items-center justify-between gap-3 border-b bg-slate-50 px-6 py-4">
+        <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-[0_18px_45px_rgba(15,23,42,0.08)]">
+          <div className="flex flex-wrap items-center justify-between gap-3 border-b border-slate-200 bg-slate-50 px-6 py-4">
             <div className="flex items-center gap-3">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-600 text-white text-sm font-black">{displayStudents.length}</div>
+              <div className="flex h-11 w-11 items-center justify-center rounded-xl bg-gradient-to-br from-blue-600 to-indigo-600 text-sm font-black text-white shadow-md">{displayStudents.length}</div>
               <div>
-                <h3 className="text-sm font-black text-slate-800 uppercase">Students List</h3>
-                <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">{school?.school_name}</p>
+                <h3 className="text-sm font-black uppercase tracking-[0.18em] text-slate-800">Students List</h3>
+                <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-slate-400">{school?.school_name}</p>
               </div>
             </div>
             <div className="flex flex-wrap items-center gap-2">
-              <input className="w-48 rounded-lg border bg-white p-2 text-xs" placeholder="Search name, GR No..." value={studentSearch} onChange={e => setStudentSearch(e.target.value)} />
-              <select className="rounded-lg border bg-white p-2 text-xs font-semibold text-slate-600" value={studentFilterClass} onChange={e => { setStudentFilterClass(e.target.value); setStudentFilterDiv("") }}>
+              <input className="w-52 rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-xs text-slate-700 outline-none focus:border-blue-500" placeholder="Search name, GR No..." value={studentSearch} onChange={e => setStudentSearch(e.target.value)} />
+              <select className="rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-xs font-semibold text-slate-700 outline-none focus:border-blue-500" value={studentFilterClass} onChange={e => { setStudentFilterClass(e.target.value); setStudentFilterDiv("") }}>
                 <option value="">All Classes</option>
                 {classes.map(c => <option key={c} value={c}>Class {c}</option>)}
               </select>
-              <select className="rounded-lg border bg-white p-2 text-xs font-semibold text-slate-600" value={studentFilterDiv} onChange={e => setStudentFilterDiv(e.target.value)}>
+              <select className="rounded-xl border border-slate-200 bg-white px-3 py-2.5 text-xs font-semibold text-slate-700 outline-none focus:border-blue-500" value={studentFilterDiv} onChange={e => setStudentFilterDiv(e.target.value)}>
                 <option value="">All Divisions</option>
                 {filteredDivisions.filter((d: any) => !studentFilterClass || d.class_name === studentFilterClass).map((d: any) => (
                   <option key={d.id} value={d.division_name}>{d.division_name}</option>
@@ -230,7 +250,7 @@ export default function DashboardClient({
           </div>
           <div className="max-h-[50vh] overflow-y-auto">
             {displayStudents.length === 0 ? (
-              <div className="p-12 text-center"><p className="text-sm font-bold uppercase tracking-widest text-slate-400">No students found.</p></div>
+              <div className="p-12 text-center"><p className="text-sm font-bold uppercase tracking-[0.24em] text-slate-400">No students found.</p></div>
             ) : (
               renderStudentTable(displayStudents)
             )}

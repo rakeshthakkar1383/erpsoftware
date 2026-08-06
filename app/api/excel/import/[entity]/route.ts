@@ -28,6 +28,7 @@ export async function POST(request: NextRequest, { params }: { params: { entity:
     const formData = await request.formData()
     const file = formData.get("file") as File | null
     const explicitSchoolId = formData.get("school_id")
+    const overwrite = formData.get("overwrite") === "true" || formData.get("overwrite") === "1"
     
     if (!file) return NextResponse.json({ error: "No file provided" }, { status: 400 })
 
@@ -63,6 +64,7 @@ export async function POST(request: NextRequest, { params }: { params: { entity:
     }
 
     const errors: string[] = []
+    const conflicts: Array<{ row: number; gr_no: string; student: { full_name: string; class_name?: string; division?: string; school_id?: number } }> = []
     let imported = 0
 
     for (let i = 0; i < rows.length; i++) {
@@ -157,17 +159,35 @@ export async function POST(request: NextRequest, { params }: { params: { entity:
         }
       }
 
-      // Normalize students - check for duplicate GR numbers
+      // Normalize students - check for duplicate GR numbers within the same school
       if (entity === "students" && row.gr_no && row.gr_no.toString().trim()) {
         const grNo = row.gr_no.toString().trim()
+        const targetSchoolId = Number(row.school_id || schoolId || schoolIdFromMetadata)
         const { data: existingGr } = await supabase
           .from("students")
-          .select("id")
+          .select("id, full_name, class_name, division, school_id")
+          .eq("school_id", targetSchoolId)
           .eq("gr_no", grNo)
           .limit(1)
-        if (existingGr && existingGr.length > 0) {
-          errors.push(`Row ${i + 2}: GR No "${grNo}" already exists for another student`)
-          continue
+        if (targetSchoolId && existingGr && existingGr.length > 0) {
+          const existingStudent = existingGr[0]
+          if (overwrite) {
+            row.id = existingStudent.id
+            row.gr_no = grNo
+          } else {
+            conflicts.push({
+              row: i + 2,
+              gr_no: grNo,
+              student: {
+                full_name: existingStudent.full_name || "Unknown student",
+                class_name: existingStudent.class_name || "",
+                division: existingStudent.division || "",
+                school_id: existingStudent.school_id
+              }
+            })
+            errors.push(`Row ${i + 2}: GR No "${grNo}" already exists for ${existingStudent.full_name || "Unknown student"} (${existingStudent.class_name || "-"}${existingStudent.division ? `/${existingStudent.division}` : ""})`)
+            continue
+          }
         }
         row.gr_no = grNo
       }
@@ -183,6 +203,17 @@ export async function POST(request: NextRequest, { params }: { params: { entity:
         }
       }
 
+      if (row.id && overwrite && entity === "students") {
+        const { id, ...updateRow } = row
+        const { error } = await supabase.from("students").update(updateRow).eq("id", id)
+        if (error) {
+          errors.push(`Row ${i + 2}: ${error.message}`)
+        } else {
+          imported++
+        }
+        continue
+      }
+
       const { error } = await supabase.from(entity as any).insert([row])
       if (error) {
         errors.push(`Row ${i + 2}: ${error.message}`)
@@ -191,7 +222,7 @@ export async function POST(request: NextRequest, { params }: { params: { entity:
       }
     }
 
-    return NextResponse.json({ imported, errors, errorDetails: errors.length > 0 ? errors.join("; ") : null })
+    return NextResponse.json({ imported, errors, conflicts, errorDetails: errors.length > 0 ? errors.join("; ") : null })
   } catch (err: any) {
     console.error(`Excel Import Error (${entity}):`, err)
     return NextResponse.json({ error: `Import failed: ${err.message || "Unknown error"}` }, { status: 500 })

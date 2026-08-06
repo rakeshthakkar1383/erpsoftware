@@ -1,3 +1,12 @@
+export const userRoleOptions = [
+  { id: "authority", label: "Authority" },
+  { id: "principal", label: "Principal" },
+  { id: "supervision", label: "Supervision" },
+  { id: "clerk", label: "Clerk" },
+  { id: "teacher", label: "Teacher" },
+  { id: "student", label: "Student" },
+]
+
 export const allTabs = [
   { key: "dashboard", label: "Dashboard" },
   { key: "admission", label: "Admission Entry" },

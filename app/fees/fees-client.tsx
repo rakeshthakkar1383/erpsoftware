@@ -4,6 +4,7 @@ import { useState, useCallback, useRef, useEffect, useMemo } from "react"
 import { getAllFees, addFee, updateFee, deleteFee } from "./actions"
 import { getInstallmentsByFeeId, updateInstallmentStatus } from "./installment-actions"
 import { addStudent, updateStudent } from "@/app/students/actions"
+import { createClient } from "@/lib/supabase/client"
 import { formatDate, safeJsonResponse } from "@/lib/utils"
 
 const classes = ["Balvatika", ...Array.from({ length: 12 }, (_, i) => String(i + 1))]
@@ -61,7 +62,10 @@ export default function FeesClient({ initialFees, students, particulars, feeType
   const [unpaidSearch, setUnpaidSearch] = useState("")
   const [unpaidClass, setUnpaidClass] = useState(teacherClass)
   const [unpaidDiv, setUnpaidDiv] = useState("")
+  const [receiptFile, setReceiptFile] = useState<File | null>(null)
+  const [uploadingReceipt, setUploadingReceipt] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const supabase = createClient()
 
   useEffect(() => {
     setGuidedSearchRoll("")
@@ -361,6 +365,30 @@ export default function FeesClient({ initialFees, students, particulars, feeType
       ? form.particulars.reduce((sum: number, p: any) => sum + (Number(p.amount) || 0), 0)
       : (Number(form.amount) || 0)
 
+  const handleReceiptFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    if (file.type && !file.type.toLowerCase().includes("pdf")) {
+      setMessage("Please upload a PDF file for the receipt attachment.")
+      return
+    }
+    setUploadingReceipt(true)
+    try {
+      const path = `fees/receipts/${Date.now()}_${file.name}`
+      const { error } = await supabase.storage.from("school-files").upload(path, file)
+      if (error) throw error
+      const { data: { publicUrl } } = supabase.storage.from("school-files").getPublicUrl(path)
+      setForm(prev => ({ ...prev, receipt_file_url: publicUrl }))
+      setReceiptFile(file)
+      setMessage("Receipt PDF attached successfully.")
+    } catch (err: any) {
+      setMessage(err.message || "PDF upload failed")
+    } finally {
+      setUploadingReceipt(false)
+      e.target.value = ""
+    }
+  }
+
   const handleSave = async () => {
     setMessage("")
 
@@ -409,8 +437,8 @@ export default function FeesClient({ initialFees, students, particulars, feeType
     }
 
     const primaryFeeTypeId = form.selectedFeeTypeIds.find(id => id !== "bhojan" && id !== "record") || null
-    const payload: any = { 
-      ...form, 
+    let payload: any = {
+      ...form,
       student_id: studentId,
       fee_type_id: primaryFeeTypeId || "",
       fee_category: form.fee_category === "Advance" ? "School" : form.fee_category,
@@ -423,8 +451,12 @@ export default function FeesClient({ initialFees, students, particulars, feeType
           return [{ particular_name: names.length > 0 ? names.join(", ") : `Fee Type ${activeTypeIds[0]}`, amount: String(form.amount || "0"), duration_months: 1, term: form.term || "Yearly" }]
         }
         return filtered
-      })(), 
-      duration_months: 1 
+      })(),
+      duration_months: 1
+    }
+
+    if (form.receipt_file_url) {
+      payload.receipt_file_url = form.receipt_file_url
     }
     delete payload.selectedFeeTypeIds
     delete payload.full_name
@@ -1100,6 +1132,12 @@ export default function FeesClient({ initialFees, students, particulars, feeType
                       <input className="w-full rounded border p-3 text-sm" placeholder="Bank Name" value={form.bank_name} onChange={set("bank_name")} />
                     </div>
                   )}
+                  <div className="rounded border bg-slate-50 p-3">
+                    <label className="mb-2 block text-xs font-black uppercase tracking-widest text-slate-600">Receipt PDF Attachment</label>
+                    <input type="file" accept=".pdf" onChange={handleReceiptFileChange} className="block w-full text-sm text-slate-600 file:mr-3 file:rounded file:border-0 file:bg-blue-600 file:px-3 file:py-2 file:text-xs file:font-bold file:text-white" />
+                    {uploadingReceipt && <p className="mt-2 text-xs text-blue-600">Uploading PDF...</p>}
+                    {form.receipt_file_url && <a href={form.receipt_file_url} target="_blank" rel="noreferrer" className="mt-2 inline-block text-xs font-semibold text-blue-600 hover:underline">View attached PDF</a>}
+                  </div>
                   <input className="w-full rounded border p-3 text-sm" type="date" value={form.payment_date} onChange={setRaw("payment_date")} />
                 </>
               )}
