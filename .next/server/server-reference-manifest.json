@@ -2,202 +2,92 @@
   "node": {
     "0ee35b41d0488aaf36d19ab60f102373ab13aa2c": {
       "workers": {
+        "app/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
         "app/login/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
         "app/dashboard/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/admission/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/trust-info/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/fees/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Factions.ts%22%2C%5B%22getAllFees%22%2C%22addFee%22%2C%22updateFee%22%2C%22deleteFee%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Finstallment-actions.ts%22%2C%5B%22generateInstallments%22%2C%22updateInstallmentStatus%22%2C%22getInstallmentsByFeeId%22%2C%22deleteInstallmentsByFeeId%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
+        "app/fees/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Factions.ts%22%2C%5B%22getAllFees%22%2C%22addFee%22%2C%22updateFee%22%2C%22deleteFee%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Finstallment-actions.ts%22%2C%5B%22generateInstallments%22%2C%22updateInstallmentStatus%22%2C%22getInstallmentsByFeeId%22%2C%22deleteInstallmentsByFeeId%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
+        "app/students/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudent-migration%2Factions.ts%22%2C%5B%22getPromotableCount%22%2C%22migrateStudents%22%2C%22promoteStudents%22%2C%22getPromotableStudents%22%2C%22getFilteredCount%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
+        "app/students/[id]/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
       },
       "layer": {
+        "app/page": "action-browser",
         "app/login/page": "action-browser",
         "app/dashboard/page": "action-browser",
-        "app/admission/page": "action-browser",
-        "app/trust-info/page": "action-browser",
-        "app/fees/page": "action-browser"
+        "app/fees/page": "action-browser",
+        "app/students/page": "action-browser",
+        "app/students/[id]/page": "action-browser"
       }
     },
     "1032b681b35ab85b113b48f7479bd10b250bea7a": {
       "workers": {
+        "app/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
         "app/login/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
         "app/dashboard/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/admission/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/trust-info/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/fees/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Factions.ts%22%2C%5B%22getAllFees%22%2C%22addFee%22%2C%22updateFee%22%2C%22deleteFee%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Finstallment-actions.ts%22%2C%5B%22generateInstallments%22%2C%22updateInstallmentStatus%22%2C%22getInstallmentsByFeeId%22%2C%22deleteInstallmentsByFeeId%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
+        "app/fees/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Factions.ts%22%2C%5B%22getAllFees%22%2C%22addFee%22%2C%22updateFee%22%2C%22deleteFee%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Finstallment-actions.ts%22%2C%5B%22generateInstallments%22%2C%22updateInstallmentStatus%22%2C%22getInstallmentsByFeeId%22%2C%22deleteInstallmentsByFeeId%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
+        "app/students/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudent-migration%2Factions.ts%22%2C%5B%22getPromotableCount%22%2C%22migrateStudents%22%2C%22promoteStudents%22%2C%22getPromotableStudents%22%2C%22getFilteredCount%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
+        "app/students/[id]/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
       },
       "layer": {
+        "app/page": "action-browser",
         "app/login/page": "action-browser",
         "app/dashboard/page": "action-browser",
-        "app/admission/page": "action-browser",
-        "app/trust-info/page": "action-browser",
-        "app/fees/page": "action-browser"
+        "app/fees/page": "action-browser",
+        "app/students/page": "action-browser",
+        "app/students/[id]/page": "action-browser"
       }
     },
     "3f1126cd6dea36798eed8e98e29a233f988b3be9": {
       "workers": {
+        "app/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
         "app/login/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
         "app/dashboard/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/admission/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/trust-info/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/fees/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Factions.ts%22%2C%5B%22getAllFees%22%2C%22addFee%22%2C%22updateFee%22%2C%22deleteFee%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Finstallment-actions.ts%22%2C%5B%22generateInstallments%22%2C%22updateInstallmentStatus%22%2C%22getInstallmentsByFeeId%22%2C%22deleteInstallmentsByFeeId%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
+        "app/fees/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Factions.ts%22%2C%5B%22getAllFees%22%2C%22addFee%22%2C%22updateFee%22%2C%22deleteFee%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Finstallment-actions.ts%22%2C%5B%22generateInstallments%22%2C%22updateInstallmentStatus%22%2C%22getInstallmentsByFeeId%22%2C%22deleteInstallmentsByFeeId%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
+        "app/students/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudent-migration%2Factions.ts%22%2C%5B%22getPromotableCount%22%2C%22migrateStudents%22%2C%22promoteStudents%22%2C%22getPromotableStudents%22%2C%22getFilteredCount%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
+        "app/students/[id]/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
       },
       "layer": {
+        "app/page": "action-browser",
         "app/login/page": "action-browser",
         "app/dashboard/page": "action-browser",
-        "app/admission/page": "action-browser",
-        "app/trust-info/page": "action-browser",
-        "app/fees/page": "action-browser"
+        "app/fees/page": "action-browser",
+        "app/students/page": "action-browser",
+        "app/students/[id]/page": "action-browser"
       }
     },
     "d0a135f19415a7682d73938cddad8e09b0fa8e7a": {
       "workers": {
+        "app/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
         "app/login/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
         "app/dashboard/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/admission/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/trust-info/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/fees/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Factions.ts%22%2C%5B%22getAllFees%22%2C%22addFee%22%2C%22updateFee%22%2C%22deleteFee%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Finstallment-actions.ts%22%2C%5B%22generateInstallments%22%2C%22updateInstallmentStatus%22%2C%22getInstallmentsByFeeId%22%2C%22deleteInstallmentsByFeeId%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
+        "app/fees/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Factions.ts%22%2C%5B%22getAllFees%22%2C%22addFee%22%2C%22updateFee%22%2C%22deleteFee%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Finstallment-actions.ts%22%2C%5B%22generateInstallments%22%2C%22updateInstallmentStatus%22%2C%22getInstallmentsByFeeId%22%2C%22deleteInstallmentsByFeeId%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
+        "app/students/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudent-migration%2Factions.ts%22%2C%5B%22getPromotableCount%22%2C%22migrateStudents%22%2C%22promoteStudents%22%2C%22getPromotableStudents%22%2C%22getFilteredCount%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
+        "app/students/[id]/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
       },
       "layer": {
+        "app/page": "action-browser",
         "app/login/page": "action-browser",
         "app/dashboard/page": "action-browser",
-        "app/admission/page": "action-browser",
-        "app/trust-info/page": "action-browser",
-        "app/fees/page": "action-browser"
+        "app/fees/page": "action-browser",
+        "app/students/page": "action-browser",
+        "app/students/[id]/page": "action-browser"
       }
     },
     "ec4bc750b79bdea553e9bbe87014c21b2db652f8": {
       "workers": {
+        "app/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
         "app/login/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
         "app/dashboard/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/admission/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/trust-info/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/fees/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Factions.ts%22%2C%5B%22getAllFees%22%2C%22addFee%22%2C%22updateFee%22%2C%22deleteFee%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Finstallment-actions.ts%22%2C%5B%22generateInstallments%22%2C%22updateInstallmentStatus%22%2C%22getInstallmentsByFeeId%22%2C%22deleteInstallmentsByFeeId%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
+        "app/fees/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Factions.ts%22%2C%5B%22getAllFees%22%2C%22addFee%22%2C%22updateFee%22%2C%22deleteFee%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Finstallment-actions.ts%22%2C%5B%22generateInstallments%22%2C%22updateInstallmentStatus%22%2C%22getInstallmentsByFeeId%22%2C%22deleteInstallmentsByFeeId%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
+        "app/students/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudent-migration%2Factions.ts%22%2C%5B%22getPromotableCount%22%2C%22migrateStudents%22%2C%22promoteStudents%22%2C%22getPromotableStudents%22%2C%22getFilteredCount%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
+        "app/students/[id]/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
       },
       "layer": {
+        "app/page": "action-browser",
         "app/login/page": "action-browser",
         "app/dashboard/page": "action-browser",
-        "app/admission/page": "action-browser",
-        "app/trust-info/page": "action-browser",
-        "app/fees/page": "action-browser"
-      }
-    },
-    "03510f5a7022562039fe3e273d55a32f0a5e580a": {
-      "workers": {
-        "app/admission/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/fees/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Factions.ts%22%2C%5B%22getAllFees%22%2C%22addFee%22%2C%22updateFee%22%2C%22deleteFee%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Finstallment-actions.ts%22%2C%5B%22generateInstallments%22%2C%22updateInstallmentStatus%22%2C%22getInstallmentsByFeeId%22%2C%22deleteInstallmentsByFeeId%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
-      },
-      "layer": {
-        "app/admission/page": "action-browser",
-        "app/fees/page": "action-browser"
-      }
-    },
-    "09205d25050aebfa85205ea9c4c98c4ff58901c3": {
-      "workers": {
-        "app/admission/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/fees/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Factions.ts%22%2C%5B%22getAllFees%22%2C%22addFee%22%2C%22updateFee%22%2C%22deleteFee%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Finstallment-actions.ts%22%2C%5B%22generateInstallments%22%2C%22updateInstallmentStatus%22%2C%22getInstallmentsByFeeId%22%2C%22deleteInstallmentsByFeeId%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
-      },
-      "layer": {
-        "app/admission/page": "action-browser",
-        "app/fees/page": "action-browser"
-      }
-    },
-    "2051ff41a84ccac538e3a2aa1f5ec2177b3e729c": {
-      "workers": {
-        "app/admission/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/fees/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Factions.ts%22%2C%5B%22getAllFees%22%2C%22addFee%22%2C%22updateFee%22%2C%22deleteFee%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Finstallment-actions.ts%22%2C%5B%22generateInstallments%22%2C%22updateInstallmentStatus%22%2C%22getInstallmentsByFeeId%22%2C%22deleteInstallmentsByFeeId%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
-      },
-      "layer": {
-        "app/admission/page": "action-browser",
-        "app/fees/page": "action-browser"
-      }
-    },
-    "5c1a46249e76713260608d6d815a578abe99a40f": {
-      "workers": {
-        "app/admission/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/fees/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Factions.ts%22%2C%5B%22getAllFees%22%2C%22addFee%22%2C%22updateFee%22%2C%22deleteFee%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Finstallment-actions.ts%22%2C%5B%22generateInstallments%22%2C%22updateInstallmentStatus%22%2C%22getInstallmentsByFeeId%22%2C%22deleteInstallmentsByFeeId%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
-      },
-      "layer": {
-        "app/admission/page": "action-browser",
-        "app/fees/page": "action-browser"
-      }
-    },
-    "8459b47671b0689ce56fe0aa69cf5796e349ed2e": {
-      "workers": {
-        "app/admission/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/fees/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Factions.ts%22%2C%5B%22getAllFees%22%2C%22addFee%22%2C%22updateFee%22%2C%22deleteFee%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Finstallment-actions.ts%22%2C%5B%22generateInstallments%22%2C%22updateInstallmentStatus%22%2C%22getInstallmentsByFeeId%22%2C%22deleteInstallmentsByFeeId%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
-      },
-      "layer": {
-        "app/admission/page": "action-browser",
-        "app/fees/page": "action-browser"
-      }
-    },
-    "bcf9c29ca560ad20c21cd79ecebf466faa98efd9": {
-      "workers": {
-        "app/admission/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/fees/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Factions.ts%22%2C%5B%22getAllFees%22%2C%22addFee%22%2C%22updateFee%22%2C%22deleteFee%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Finstallment-actions.ts%22%2C%5B%22generateInstallments%22%2C%22updateInstallmentStatus%22%2C%22getInstallmentsByFeeId%22%2C%22deleteInstallmentsByFeeId%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
-      },
-      "layer": {
-        "app/admission/page": "action-browser",
-        "app/fees/page": "action-browser"
-      }
-    },
-    "d02c445b935348b3d97eaa721a2cd6695c56dca8": {
-      "workers": {
-        "app/admission/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/fees/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Factions.ts%22%2C%5B%22getAllFees%22%2C%22addFee%22%2C%22updateFee%22%2C%22deleteFee%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Finstallment-actions.ts%22%2C%5B%22generateInstallments%22%2C%22updateInstallmentStatus%22%2C%22getInstallmentsByFeeId%22%2C%22deleteInstallmentsByFeeId%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
-      },
-      "layer": {
-        "app/admission/page": "action-browser",
-        "app/fees/page": "action-browser"
-      }
-    },
-    "f1c2b43a216ef714fa180af5f95979e348691a0b": {
-      "workers": {
-        "app/admission/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
-        "app/fees/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Factions.ts%22%2C%5B%22getAllFees%22%2C%22addFee%22%2C%22updateFee%22%2C%22deleteFee%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Finstallment-actions.ts%22%2C%5B%22generateInstallments%22%2C%22updateInstallmentStatus%22%2C%22getInstallmentsByFeeId%22%2C%22deleteInstallmentsByFeeId%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
-      },
-      "layer": {
-        "app/admission/page": "action-browser",
-        "app/fees/page": "action-browser"
-      }
-    },
-    "01ba26b6974e6054d94e527534d1fe7fe90ee166": {
-      "workers": {
-        "app/trust-info/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ftrust-info%2Factions.ts%22%2C%5B%22deleteTrust%22%2C%22getAllSchools%22%2C%22addTrust%22%2C%22updateTrust%22%2C%22getAllTrusts%22%5D%5D%5D&__client_imported__=!"
-      },
-      "layer": {
-        "app/trust-info/page": "rsc"
-      }
-    },
-    "0f43c48810443a82f2136737d42db7cebfd87e9e": {
-      "workers": {
-        "app/trust-info/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ftrust-info%2Factions.ts%22%2C%5B%22deleteTrust%22%2C%22getAllSchools%22%2C%22addTrust%22%2C%22updateTrust%22%2C%22getAllTrusts%22%5D%5D%5D&__client_imported__=!"
-      },
-      "layer": {
-        "app/trust-info/page": "rsc"
-      }
-    },
-    "11438436e6ecc856050ab2f52f722b9085391e3e": {
-      "workers": {
-        "app/trust-info/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ftrust-info%2Factions.ts%22%2C%5B%22deleteTrust%22%2C%22getAllSchools%22%2C%22addTrust%22%2C%22updateTrust%22%2C%22getAllTrusts%22%5D%5D%5D&__client_imported__=!"
-      },
-      "layer": {
-        "app/trust-info/page": "rsc"
-      }
-    },
-    "9e7fecfc11de3846259c3069527781630ec1bcce": {
-      "workers": {
-        "app/trust-info/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ftrust-info%2Factions.ts%22%2C%5B%22deleteTrust%22%2C%22getAllSchools%22%2C%22addTrust%22%2C%22updateTrust%22%2C%22getAllTrusts%22%5D%5D%5D&__client_imported__=!"
-      },
-      "layer": {
-        "app/trust-info/page": "rsc"
-      }
-    },
-    "bf25053d26e4c6db5a325dd1d9404f202f802d28": {
-      "workers": {
-        "app/trust-info/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ftrust-info%2Factions.ts%22%2C%5B%22deleteTrust%22%2C%22getAllSchools%22%2C%22addTrust%22%2C%22updateTrust%22%2C%22getAllTrusts%22%5D%5D%5D&__client_imported__=!"
-      },
-      "layer": {
-        "app/trust-info/page": "rsc"
+        "app/fees/page": "action-browser",
+        "app/students/page": "action-browser",
+        "app/students/[id]/page": "action-browser"
       }
     },
     "50c75a08c02b0b7f0291dde15362c83df40533ef": {
@@ -263,8 +153,240 @@
       "layer": {
         "app/fees/page": "action-browser"
       }
+    },
+    "03510f5a7022562039fe3e273d55a32f0a5e580a": {
+      "workers": {
+        "app/fees/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Factions.ts%22%2C%5B%22getAllFees%22%2C%22addFee%22%2C%22updateFee%22%2C%22deleteFee%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Finstallment-actions.ts%22%2C%5B%22generateInstallments%22%2C%22updateInstallmentStatus%22%2C%22getInstallmentsByFeeId%22%2C%22deleteInstallmentsByFeeId%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
+        "app/students/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fdivisions%2Factions.ts%22%2C%5B%22updateDivision%22%2C%22addDivision%22%2C%22deleteDivision%22%2C%22bulkAddDivisions%22%2C%22getAllDivisions%22%2C%22getAllTeachers%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstreams%2Factions.ts%22%2C%5B%22updateStream%22%2C%22addStream%22%2C%22getAllStreams%22%2C%22deleteStream%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Facademic-years%2Factions.ts%22%2C%5B%22updateAcademicYear%22%2C%22getAllAcademicYears%22%2C%22addAcademicYear%22%2C%22deleteAcademicYear%22%5D%5D%5D&__client_imported__=!"
+      },
+      "layer": {
+        "app/fees/page": "action-browser",
+        "app/students/page": "rsc"
+      }
+    },
+    "09205d25050aebfa85205ea9c4c98c4ff58901c3": {
+      "workers": {
+        "app/fees/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Factions.ts%22%2C%5B%22getAllFees%22%2C%22addFee%22%2C%22updateFee%22%2C%22deleteFee%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Finstallment-actions.ts%22%2C%5B%22generateInstallments%22%2C%22updateInstallmentStatus%22%2C%22getInstallmentsByFeeId%22%2C%22deleteInstallmentsByFeeId%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
+        "app/students/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fdivisions%2Factions.ts%22%2C%5B%22updateDivision%22%2C%22addDivision%22%2C%22deleteDivision%22%2C%22bulkAddDivisions%22%2C%22getAllDivisions%22%2C%22getAllTeachers%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstreams%2Factions.ts%22%2C%5B%22updateStream%22%2C%22addStream%22%2C%22getAllStreams%22%2C%22deleteStream%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Facademic-years%2Factions.ts%22%2C%5B%22updateAcademicYear%22%2C%22getAllAcademicYears%22%2C%22addAcademicYear%22%2C%22deleteAcademicYear%22%5D%5D%5D&__client_imported__=!"
+      },
+      "layer": {
+        "app/fees/page": "action-browser",
+        "app/students/page": "rsc"
+      }
+    },
+    "2051ff41a84ccac538e3a2aa1f5ec2177b3e729c": {
+      "workers": {
+        "app/fees/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Factions.ts%22%2C%5B%22getAllFees%22%2C%22addFee%22%2C%22updateFee%22%2C%22deleteFee%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Finstallment-actions.ts%22%2C%5B%22generateInstallments%22%2C%22updateInstallmentStatus%22%2C%22getInstallmentsByFeeId%22%2C%22deleteInstallmentsByFeeId%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
+        "app/students/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fdivisions%2Factions.ts%22%2C%5B%22updateDivision%22%2C%22addDivision%22%2C%22deleteDivision%22%2C%22bulkAddDivisions%22%2C%22getAllDivisions%22%2C%22getAllTeachers%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstreams%2Factions.ts%22%2C%5B%22updateStream%22%2C%22addStream%22%2C%22getAllStreams%22%2C%22deleteStream%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Facademic-years%2Factions.ts%22%2C%5B%22updateAcademicYear%22%2C%22getAllAcademicYears%22%2C%22addAcademicYear%22%2C%22deleteAcademicYear%22%5D%5D%5D&__client_imported__=!"
+      },
+      "layer": {
+        "app/fees/page": "action-browser",
+        "app/students/page": "rsc"
+      }
+    },
+    "5c1a46249e76713260608d6d815a578abe99a40f": {
+      "workers": {
+        "app/fees/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Factions.ts%22%2C%5B%22getAllFees%22%2C%22addFee%22%2C%22updateFee%22%2C%22deleteFee%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Finstallment-actions.ts%22%2C%5B%22generateInstallments%22%2C%22updateInstallmentStatus%22%2C%22getInstallmentsByFeeId%22%2C%22deleteInstallmentsByFeeId%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
+        "app/students/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fdivisions%2Factions.ts%22%2C%5B%22updateDivision%22%2C%22addDivision%22%2C%22deleteDivision%22%2C%22bulkAddDivisions%22%2C%22getAllDivisions%22%2C%22getAllTeachers%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstreams%2Factions.ts%22%2C%5B%22updateStream%22%2C%22addStream%22%2C%22getAllStreams%22%2C%22deleteStream%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Facademic-years%2Factions.ts%22%2C%5B%22updateAcademicYear%22%2C%22getAllAcademicYears%22%2C%22addAcademicYear%22%2C%22deleteAcademicYear%22%5D%5D%5D&__client_imported__=!"
+      },
+      "layer": {
+        "app/fees/page": "action-browser",
+        "app/students/page": "rsc"
+      }
+    },
+    "8459b47671b0689ce56fe0aa69cf5796e349ed2e": {
+      "workers": {
+        "app/fees/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Factions.ts%22%2C%5B%22getAllFees%22%2C%22addFee%22%2C%22updateFee%22%2C%22deleteFee%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Finstallment-actions.ts%22%2C%5B%22generateInstallments%22%2C%22updateInstallmentStatus%22%2C%22getInstallmentsByFeeId%22%2C%22deleteInstallmentsByFeeId%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
+        "app/students/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fdivisions%2Factions.ts%22%2C%5B%22updateDivision%22%2C%22addDivision%22%2C%22deleteDivision%22%2C%22bulkAddDivisions%22%2C%22getAllDivisions%22%2C%22getAllTeachers%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstreams%2Factions.ts%22%2C%5B%22updateStream%22%2C%22addStream%22%2C%22getAllStreams%22%2C%22deleteStream%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Facademic-years%2Factions.ts%22%2C%5B%22updateAcademicYear%22%2C%22getAllAcademicYears%22%2C%22addAcademicYear%22%2C%22deleteAcademicYear%22%5D%5D%5D&__client_imported__=!"
+      },
+      "layer": {
+        "app/fees/page": "action-browser",
+        "app/students/page": "rsc"
+      }
+    },
+    "bcf9c29ca560ad20c21cd79ecebf466faa98efd9": {
+      "workers": {
+        "app/fees/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Factions.ts%22%2C%5B%22getAllFees%22%2C%22addFee%22%2C%22updateFee%22%2C%22deleteFee%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Finstallment-actions.ts%22%2C%5B%22generateInstallments%22%2C%22updateInstallmentStatus%22%2C%22getInstallmentsByFeeId%22%2C%22deleteInstallmentsByFeeId%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
+        "app/students/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fdivisions%2Factions.ts%22%2C%5B%22updateDivision%22%2C%22addDivision%22%2C%22deleteDivision%22%2C%22bulkAddDivisions%22%2C%22getAllDivisions%22%2C%22getAllTeachers%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstreams%2Factions.ts%22%2C%5B%22updateStream%22%2C%22addStream%22%2C%22getAllStreams%22%2C%22deleteStream%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Facademic-years%2Factions.ts%22%2C%5B%22updateAcademicYear%22%2C%22getAllAcademicYears%22%2C%22addAcademicYear%22%2C%22deleteAcademicYear%22%5D%5D%5D&__client_imported__=!"
+      },
+      "layer": {
+        "app/fees/page": "action-browser",
+        "app/students/page": "rsc"
+      }
+    },
+    "d02c445b935348b3d97eaa721a2cd6695c56dca8": {
+      "workers": {
+        "app/fees/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Factions.ts%22%2C%5B%22getAllFees%22%2C%22addFee%22%2C%22updateFee%22%2C%22deleteFee%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Finstallment-actions.ts%22%2C%5B%22generateInstallments%22%2C%22updateInstallmentStatus%22%2C%22getInstallmentsByFeeId%22%2C%22deleteInstallmentsByFeeId%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
+        "app/students/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fdivisions%2Factions.ts%22%2C%5B%22updateDivision%22%2C%22addDivision%22%2C%22deleteDivision%22%2C%22bulkAddDivisions%22%2C%22getAllDivisions%22%2C%22getAllTeachers%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstreams%2Factions.ts%22%2C%5B%22updateStream%22%2C%22addStream%22%2C%22getAllStreams%22%2C%22deleteStream%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Facademic-years%2Factions.ts%22%2C%5B%22updateAcademicYear%22%2C%22getAllAcademicYears%22%2C%22addAcademicYear%22%2C%22deleteAcademicYear%22%5D%5D%5D&__client_imported__=!"
+      },
+      "layer": {
+        "app/fees/page": "action-browser",
+        "app/students/page": "rsc"
+      }
+    },
+    "f1c2b43a216ef714fa180af5f95979e348691a0b": {
+      "workers": {
+        "app/fees/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Factions.ts%22%2C%5B%22getAllFees%22%2C%22addFee%22%2C%22updateFee%22%2C%22deleteFee%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Ffees%2Finstallment-actions.ts%22%2C%5B%22generateInstallments%22%2C%22updateInstallmentStatus%22%2C%22getInstallmentsByFeeId%22%2C%22deleteInstallmentsByFeeId%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!",
+        "app/students/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fdivisions%2Factions.ts%22%2C%5B%22updateDivision%22%2C%22addDivision%22%2C%22deleteDivision%22%2C%22bulkAddDivisions%22%2C%22getAllDivisions%22%2C%22getAllTeachers%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstreams%2Factions.ts%22%2C%5B%22updateStream%22%2C%22addStream%22%2C%22getAllStreams%22%2C%22deleteStream%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Facademic-years%2Factions.ts%22%2C%5B%22updateAcademicYear%22%2C%22getAllAcademicYears%22%2C%22addAcademicYear%22%2C%22deleteAcademicYear%22%5D%5D%5D&__client_imported__=!"
+      },
+      "layer": {
+        "app/fees/page": "action-browser",
+        "app/students/page": "rsc"
+      }
+    },
+    "008cdda95fd57192eb3e20576241c7625acd6b53": {
+      "workers": {
+        "app/students/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fdivisions%2Factions.ts%22%2C%5B%22updateDivision%22%2C%22addDivision%22%2C%22deleteDivision%22%2C%22bulkAddDivisions%22%2C%22getAllDivisions%22%2C%22getAllTeachers%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstreams%2Factions.ts%22%2C%5B%22updateStream%22%2C%22addStream%22%2C%22getAllStreams%22%2C%22deleteStream%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Facademic-years%2Factions.ts%22%2C%5B%22updateAcademicYear%22%2C%22getAllAcademicYears%22%2C%22addAcademicYear%22%2C%22deleteAcademicYear%22%5D%5D%5D&__client_imported__=!"
+      },
+      "layer": {
+        "app/students/page": "rsc"
+      }
+    },
+    "32653e5ec73fb3223d4429ba30459f421314cafe": {
+      "workers": {
+        "app/students/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fdivisions%2Factions.ts%22%2C%5B%22updateDivision%22%2C%22addDivision%22%2C%22deleteDivision%22%2C%22bulkAddDivisions%22%2C%22getAllDivisions%22%2C%22getAllTeachers%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstreams%2Factions.ts%22%2C%5B%22updateStream%22%2C%22addStream%22%2C%22getAllStreams%22%2C%22deleteStream%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Facademic-years%2Factions.ts%22%2C%5B%22updateAcademicYear%22%2C%22getAllAcademicYears%22%2C%22addAcademicYear%22%2C%22deleteAcademicYear%22%5D%5D%5D&__client_imported__=!"
+      },
+      "layer": {
+        "app/students/page": "rsc"
+      }
+    },
+    "983b6a389841bf451fcbec74b7cf65d10664035d": {
+      "workers": {
+        "app/students/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fdivisions%2Factions.ts%22%2C%5B%22updateDivision%22%2C%22addDivision%22%2C%22deleteDivision%22%2C%22bulkAddDivisions%22%2C%22getAllDivisions%22%2C%22getAllTeachers%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstreams%2Factions.ts%22%2C%5B%22updateStream%22%2C%22addStream%22%2C%22getAllStreams%22%2C%22deleteStream%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Facademic-years%2Factions.ts%22%2C%5B%22updateAcademicYear%22%2C%22getAllAcademicYears%22%2C%22addAcademicYear%22%2C%22deleteAcademicYear%22%5D%5D%5D&__client_imported__=!"
+      },
+      "layer": {
+        "app/students/page": "rsc"
+      }
+    },
+    "d5f7fc2e27527c33a05e6477d0a1ffd122000209": {
+      "workers": {
+        "app/students/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fdivisions%2Factions.ts%22%2C%5B%22updateDivision%22%2C%22addDivision%22%2C%22deleteDivision%22%2C%22bulkAddDivisions%22%2C%22getAllDivisions%22%2C%22getAllTeachers%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstreams%2Factions.ts%22%2C%5B%22updateStream%22%2C%22addStream%22%2C%22getAllStreams%22%2C%22deleteStream%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Facademic-years%2Factions.ts%22%2C%5B%22updateAcademicYear%22%2C%22getAllAcademicYears%22%2C%22addAcademicYear%22%2C%22deleteAcademicYear%22%5D%5D%5D&__client_imported__=!"
+      },
+      "layer": {
+        "app/students/page": "rsc"
+      }
+    },
+    "dd3e01b94073b63069adf490ad65a2aa4802eba9": {
+      "workers": {
+        "app/students/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fdivisions%2Factions.ts%22%2C%5B%22updateDivision%22%2C%22addDivision%22%2C%22deleteDivision%22%2C%22bulkAddDivisions%22%2C%22getAllDivisions%22%2C%22getAllTeachers%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstreams%2Factions.ts%22%2C%5B%22updateStream%22%2C%22addStream%22%2C%22getAllStreams%22%2C%22deleteStream%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Facademic-years%2Factions.ts%22%2C%5B%22updateAcademicYear%22%2C%22getAllAcademicYears%22%2C%22addAcademicYear%22%2C%22deleteAcademicYear%22%5D%5D%5D&__client_imported__=!"
+      },
+      "layer": {
+        "app/students/page": "rsc"
+      }
+    },
+    "ed21f7b6c7b9dc136bc62ce09d962b5c2b2191fe": {
+      "workers": {
+        "app/students/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fdivisions%2Factions.ts%22%2C%5B%22updateDivision%22%2C%22addDivision%22%2C%22deleteDivision%22%2C%22bulkAddDivisions%22%2C%22getAllDivisions%22%2C%22getAllTeachers%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstreams%2Factions.ts%22%2C%5B%22updateStream%22%2C%22addStream%22%2C%22getAllStreams%22%2C%22deleteStream%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Facademic-years%2Factions.ts%22%2C%5B%22updateAcademicYear%22%2C%22getAllAcademicYears%22%2C%22addAcademicYear%22%2C%22deleteAcademicYear%22%5D%5D%5D&__client_imported__=!"
+      },
+      "layer": {
+        "app/students/page": "rsc"
+      }
+    },
+    "5843140531e174af727d7707a085102892a11dcb": {
+      "workers": {
+        "app/students/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fdivisions%2Factions.ts%22%2C%5B%22updateDivision%22%2C%22addDivision%22%2C%22deleteDivision%22%2C%22bulkAddDivisions%22%2C%22getAllDivisions%22%2C%22getAllTeachers%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstreams%2Factions.ts%22%2C%5B%22updateStream%22%2C%22addStream%22%2C%22getAllStreams%22%2C%22deleteStream%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Facademic-years%2Factions.ts%22%2C%5B%22updateAcademicYear%22%2C%22getAllAcademicYears%22%2C%22addAcademicYear%22%2C%22deleteAcademicYear%22%5D%5D%5D&__client_imported__=!"
+      },
+      "layer": {
+        "app/students/page": "rsc"
+      }
+    },
+    "5d0cb7458fc157039185e240f72d38d931e0983b": {
+      "workers": {
+        "app/students/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fdivisions%2Factions.ts%22%2C%5B%22updateDivision%22%2C%22addDivision%22%2C%22deleteDivision%22%2C%22bulkAddDivisions%22%2C%22getAllDivisions%22%2C%22getAllTeachers%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstreams%2Factions.ts%22%2C%5B%22updateStream%22%2C%22addStream%22%2C%22getAllStreams%22%2C%22deleteStream%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Facademic-years%2Factions.ts%22%2C%5B%22updateAcademicYear%22%2C%22getAllAcademicYears%22%2C%22addAcademicYear%22%2C%22deleteAcademicYear%22%5D%5D%5D&__client_imported__=!"
+      },
+      "layer": {
+        "app/students/page": "rsc"
+      }
+    },
+    "6d8df1f75334a074468e3926102458819fece9ff": {
+      "workers": {
+        "app/students/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fdivisions%2Factions.ts%22%2C%5B%22updateDivision%22%2C%22addDivision%22%2C%22deleteDivision%22%2C%22bulkAddDivisions%22%2C%22getAllDivisions%22%2C%22getAllTeachers%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstreams%2Factions.ts%22%2C%5B%22updateStream%22%2C%22addStream%22%2C%22getAllStreams%22%2C%22deleteStream%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Facademic-years%2Factions.ts%22%2C%5B%22updateAcademicYear%22%2C%22getAllAcademicYears%22%2C%22addAcademicYear%22%2C%22deleteAcademicYear%22%5D%5D%5D&__client_imported__=!"
+      },
+      "layer": {
+        "app/students/page": "rsc"
+      }
+    },
+    "dd91c85778ec9713d438465098ea0c9baa82920e": {
+      "workers": {
+        "app/students/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fdivisions%2Factions.ts%22%2C%5B%22updateDivision%22%2C%22addDivision%22%2C%22deleteDivision%22%2C%22bulkAddDivisions%22%2C%22getAllDivisions%22%2C%22getAllTeachers%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstreams%2Factions.ts%22%2C%5B%22updateStream%22%2C%22addStream%22%2C%22getAllStreams%22%2C%22deleteStream%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Facademic-years%2Factions.ts%22%2C%5B%22updateAcademicYear%22%2C%22getAllAcademicYears%22%2C%22addAcademicYear%22%2C%22deleteAcademicYear%22%5D%5D%5D&__client_imported__=!"
+      },
+      "layer": {
+        "app/students/page": "rsc"
+      }
+    },
+    "59b7102170673239744571e5666efc051557606a": {
+      "workers": {
+        "app/students/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fdivisions%2Factions.ts%22%2C%5B%22updateDivision%22%2C%22addDivision%22%2C%22deleteDivision%22%2C%22bulkAddDivisions%22%2C%22getAllDivisions%22%2C%22getAllTeachers%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstreams%2Factions.ts%22%2C%5B%22updateStream%22%2C%22addStream%22%2C%22getAllStreams%22%2C%22deleteStream%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Facademic-years%2Factions.ts%22%2C%5B%22updateAcademicYear%22%2C%22getAllAcademicYears%22%2C%22addAcademicYear%22%2C%22deleteAcademicYear%22%5D%5D%5D&__client_imported__=!"
+      },
+      "layer": {
+        "app/students/page": "rsc"
+      }
+    },
+    "99c40c25087b6c3db527c255c5825f21802c70e6": {
+      "workers": {
+        "app/students/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fdivisions%2Factions.ts%22%2C%5B%22updateDivision%22%2C%22addDivision%22%2C%22deleteDivision%22%2C%22bulkAddDivisions%22%2C%22getAllDivisions%22%2C%22getAllTeachers%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstreams%2Factions.ts%22%2C%5B%22updateStream%22%2C%22addStream%22%2C%22getAllStreams%22%2C%22deleteStream%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Facademic-years%2Factions.ts%22%2C%5B%22updateAcademicYear%22%2C%22getAllAcademicYears%22%2C%22addAcademicYear%22%2C%22deleteAcademicYear%22%5D%5D%5D&__client_imported__=!"
+      },
+      "layer": {
+        "app/students/page": "rsc"
+      }
+    },
+    "f048fff8b8525102e75b4b1fcff2a4237d72a115": {
+      "workers": {
+        "app/students/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fdivisions%2Factions.ts%22%2C%5B%22updateDivision%22%2C%22addDivision%22%2C%22deleteDivision%22%2C%22bulkAddDivisions%22%2C%22getAllDivisions%22%2C%22getAllTeachers%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstreams%2Factions.ts%22%2C%5B%22updateStream%22%2C%22addStream%22%2C%22getAllStreams%22%2C%22deleteStream%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Facademic-years%2Factions.ts%22%2C%5B%22updateAcademicYear%22%2C%22getAllAcademicYears%22%2C%22addAcademicYear%22%2C%22deleteAcademicYear%22%5D%5D%5D&__client_imported__=!"
+      },
+      "layer": {
+        "app/students/page": "rsc"
+      }
+    },
+    "f478dc7b8197bb50d97e454f9c7e702f18fefc15": {
+      "workers": {
+        "app/students/page": "(rsc)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudents%2Factions.ts%22%2C%5B%22addStudent%22%2C%22findDuplicateNames%22%2C%22deleteStudent%22%2C%22updateStudent%22%2C%22getStudentsGrouped%22%2C%22removeDuplicateStudents%22%2C%22bulkDeleteStudents%22%2C%22getAllStudents%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fdivisions%2Factions.ts%22%2C%5B%22updateDivision%22%2C%22addDivision%22%2C%22deleteDivision%22%2C%22bulkAddDivisions%22%2C%22getAllDivisions%22%2C%22getAllTeachers%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstreams%2Factions.ts%22%2C%5B%22updateStream%22%2C%22addStream%22%2C%22getAllStreams%22%2C%22deleteStream%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Facademic-years%2Factions.ts%22%2C%5B%22updateAcademicYear%22%2C%22getAllAcademicYears%22%2C%22addAcademicYear%22%2C%22deleteAcademicYear%22%5D%5D%5D&__client_imported__=!"
+      },
+      "layer": {
+        "app/students/page": "rsc"
+      }
+    },
+    "35cfb241547f5c7b1e9a1aa0ba8ff042d8e13ddb": {
+      "workers": {
+        "app/students/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudent-migration%2Factions.ts%22%2C%5B%22getPromotableCount%22%2C%22migrateStudents%22%2C%22promoteStudents%22%2C%22getPromotableStudents%22%2C%22getFilteredCount%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/students/page": "action-browser"
+      }
+    },
+    "49ec033234abae18d73bbb5b3f403fe2a57e5447": {
+      "workers": {
+        "app/students/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudent-migration%2Factions.ts%22%2C%5B%22getPromotableCount%22%2C%22migrateStudents%22%2C%22promoteStudents%22%2C%22getPromotableStudents%22%2C%22getFilteredCount%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/students/page": "action-browser"
+      }
+    },
+    "7789bb65385020752df2d30fe47dc0b1cb2dd228": {
+      "workers": {
+        "app/students/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudent-migration%2Factions.ts%22%2C%5B%22getPromotableCount%22%2C%22migrateStudents%22%2C%22promoteStudents%22%2C%22getPromotableStudents%22%2C%22getFilteredCount%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/students/page": "action-browser"
+      }
+    },
+    "83ea65d6465e38c4c2dd1080be24e247d6e1dc72": {
+      "workers": {
+        "app/students/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudent-migration%2Factions.ts%22%2C%5B%22getPromotableCount%22%2C%22migrateStudents%22%2C%22promoteStudents%22%2C%22getPromotableStudents%22%2C%22getFilteredCount%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/students/page": "action-browser"
+      }
+    },
+    "8aa741a5d7fdd94f4b698207c8b0cc41e135a60b": {
+      "workers": {
+        "app/students/page": "(action-browser)/./node_modules/next/dist/build/webpack/loaders/next-flight-action-entry-loader.js?actions=%5B%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fstudent-migration%2Factions.ts%22%2C%5B%22getPromotableCount%22%2C%22migrateStudents%22%2C%22promoteStudents%22%2C%22getPromotableStudents%22%2C%22getFilteredCount%22%5D%5D%2C%5B%22%2Fworkspaces%2Ferpsoftware%2Fapp%2Fmanage-schools%2Factions.ts%22%2C%5B%22updateSchoolById%22%2C%22deleteSchool%22%2C%22switchSchool%22%2C%22addSchool%22%2C%22getAllSchools%22%5D%5D%5D&__client_imported__=true!"
+      },
+      "layer": {
+        "app/students/page": "action-browser"
+      }
     }
   },
   "edge": {},
-  "encryptionKey": "eUEE27IW/BlYt8zOkza+clUnCwLpnd0SON9JXrnzGDQ="
+  "encryptionKey": "gpfglIwP7vrmFQQivRIfSDlhStpHq1fHRh6opwvPAPU="
 }

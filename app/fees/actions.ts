@@ -1,6 +1,7 @@
 "use server"
 
 import { createClient } from "@/lib/supabase/server"
+import { fetchAllRows } from "@/lib/supabase/fetch-all"
 import { revalidatePath } from "next/cache"
 import { generateInstallments, deleteInstallmentsByFeeId } from "./installment-actions"
 
@@ -34,7 +35,9 @@ async function generateReceiptNo(supabase: any, studentId: number, feeCategory: 
 
 export async function getAllFees() {
   const supabase = await createClient()
-  const { data } = await supabase.from("fees").select("*")
+  const data = await fetchAllRows(supabase, (q) =>
+    q.from("fees").select("*").order("id", { ascending: true })
+  )
   return (data || []).map((f: any) => ({
     ...f,
     payment_date: f.payment_date ? f.payment_date.split("T")[0] : null,

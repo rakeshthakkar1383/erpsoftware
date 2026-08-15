@@ -1,12 +1,15 @@
 "use server"
 
 import { createClient } from "@/lib/supabase/server"
+import { fetchAllRows } from "@/lib/supabase/fetch-all"
 import { revalidatePath } from "next/cache"
 
 async function getPaidStudentIds(supabase: any, schoolId?: number | string) {
-  let q = supabase.from("fees").select("student_id").eq("status", "Paid")
-  if (schoolId) q = q.eq("school_id", Number(schoolId))
-  const { data } = await q
+  const data = await fetchAllRows(supabase, (q) => {
+    let b = q.from("fees").select("student_id").eq("status", "Paid")
+    if (schoolId) b = b.eq("school_id", Number(schoolId))
+    return b
+  })
   return new Set((data || []).map((f: any) => f.student_id))
 }
 

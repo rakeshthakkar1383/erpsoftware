@@ -43,8 +43,10 @@ export default function FeesClient({ initialFees, students, particulars, feeType
   const [installmentModal, setInstallmentModal] = useState(false)
   const [admissionType, setAdmissionType] = useState<"new" | "old">("old")
   const [activeTab, setActiveTab] = useState<"fees" | "report" | "unpaid">("fees")
+  const [filterFromDate, setFilterFromDate] = useState("")
+  const [filterToDate, setFilterToDate] = useState("")
   const [reportSchoolId, setReportSchoolId] = useState("")
-  const [reportType, setReportType] = useState<"all" | "unpaid">("unpaid")
+  const [reportType, setReportType] = useState<"all" | "unpaid" | "paid">("unpaid")
   const [reportFeeCategory, setReportFeeCategory] = useState<"all" | "School" | "Trust">("all")
   const [reportTrustId, setReportTrustId] = useState("")
   const [reportClass, setReportClass] = useState("")
@@ -59,6 +61,7 @@ export default function FeesClient({ initialFees, students, particulars, feeType
   const [guidedSearchRoll, setGuidedSearchRoll] = useState("")
   const [guidedSearchGr, setGuidedSearchGr] = useState("")
   const [guidedSearchName, setGuidedSearchName] = useState("")
+  const [studentSearch, setStudentSearch] = useState("")
   const [unpaidSearch, setUnpaidSearch] = useState("")
   const [unpaidClass, setUnpaidClass] = useState(teacherClass)
   const [unpaidDiv, setUnpaidDiv] = useState("")
@@ -86,30 +89,51 @@ export default function FeesClient({ initialFees, students, particulars, feeType
   trusts.forEach((t: any) => { trustMap[t.id] = t.trust_name })
 
   const paidStudentIds = useMemo(
-    () => new Set(fees.filter((f: any) => f.status === "Paid").map((f: any) => f.student_id)),
+    () => new Set(fees.filter((f: any) => (f.status || "").toLowerCase() === "paid").map((f: any) => f.student_id)),
     [fees]
   )
+
+  const studentUnpaidFees = useMemo(() => {
+    const map: Record<string, any[]> = {}
+    fees.forEach((f: any) => {
+      const status = (f.status || "").toLowerCase()
+      if (status !== "paid") {
+        const studentId = String(f.student_id)
+        if (!map[studentId]) map[studentId] = []
+        map[studentId].push(f)
+      }
+    })
+    return map
+  }, [fees])
 
   const unpaidStudents = useMemo(() => {
     const qq = unpaidSearch.toLowerCase()
     return students.filter((s: any) => {
-      if (paidStudentIds.has(s.id)) return false
-      if (filterSchool && String(s.school_id) !== filterSchool) return false
+      const unpaid = studentUnpaidFees[String(s.id)]
+      const hasUnpaid = unpaid && unpaid.length > 0
+      if (paidStudentIds.has(s.id) && !hasUnpaid) return false
+      if (filterSchool) {
+        if (!s.school_id || String(s.school_id) !== filterSchool) return false
+      }
       if (unpaidClass && s.class_name !== unpaidClass) return false
       if (unpaidDiv && s.division !== unpaidDiv) return false
       if (qq && !String(s.full_name || "").toLowerCase().includes(qq) && !String(s.gr_no || "").toLowerCase().includes(qq) && !String(s.roll_no || "").toLowerCase().includes(qq) && !String(s.father_name || "").toLowerCase().includes(qq)) return false
       return true
     })
-  }, [students, paidStudentIds, filterSchool, unpaidSearch, unpaidClass, unpaidDiv])
+  }, [students, studentUnpaidFees, paidStudentIds, filterSchool, unpaidSearch, unpaidClass, unpaidDiv])
 
-  const downloadUnpaidCsv = () => {
-    const header = ["GR No", "Roll No", "Student Name", "Class", "Division", "Father Name", "Mobile"]
-    const rows = unpaidStudents.map((s: any) => [s.gr_no || "", s.roll_no || "", s.full_name || "", s.class_name || "", s.division || "", s.father_name || "", s.mobile || ""])
+  const downloadUnpaidFeesCsv = () => {
+    const header = ["GR No", "Roll No", "Student Name", "Class", "Division", "Father Name", "Mobile", "Unpaid Count", "Unpaid Amount"]
+    const rows = unpaidStudents.map((s: any) => {
+      const unpaid = studentUnpaidFees[String(s.id)] || []
+      const totalUnpaid = unpaid.reduce((sum, f) => sum + Number(f.amount), 0)
+      return [s.gr_no || "", s.roll_no || "", s.full_name || "", s.class_name || "", s.division || "", s.father_name || "", s.mobile || "", unpaid.length, totalUnpaid.toFixed(2)]
+    })
     const csv = [header, ...rows].map(r => r.map(v => `"${String(v ?? "").replace(/"/g, '""')}"`).join(",")).join("\n")
     const blob = new Blob(["\ufeff" + csv], { type: "text/csv;charset=utf-8;" })
     const a = document.createElement("a")
     a.href = URL.createObjectURL(blob)
-    a.download = "unpaid_students.csv"
+    a.download = "unpaid_fees_students.csv"
     a.click()
     URL.revokeObjectURL(a.href)
   }
@@ -182,7 +206,9 @@ export default function FeesClient({ initialFees, students, particulars, feeType
   }
 
   const filteredStudents = students.filter((s: any) => {
-    if (filterSchool && String(s.school_id) !== filterSchool) return false
+    if (filterSchool) {
+      if (!s.school_id || String(s.school_id) !== filterSchool) return false
+    }
     if (filterClass && s.class_name !== filterClass) return false
     if (filterDiv && s.division !== filterDiv) return false
     if (filterAy && String(s.academic_year_id) !== filterAy) return false
@@ -192,9 +218,12 @@ export default function FeesClient({ initialFees, students, particulars, feeType
   const filteredStudentIds = new Set(filteredStudents.map((s: any) => s.id))
   const q = search.toLowerCase()
   const filtered = fees.filter((f: any) => {
-    if (filterSchool && String(f.school_id) !== filterSchool) return false
+    if (filterSchool && f.school_id && String(f.school_id) !== filterSchool) return false
     if (!filteredStudentIds.has(f.student_id)) return false
     if (filterFeeType && String(f.fee_type_id) !== filterFeeType) return false
+    const payDate = (f.payment_date || "").split("T")[0].split(" ")[0]
+    if (filterFromDate && (!payDate || payDate < filterFromDate)) return false
+    if (filterToDate && (!payDate || payDate > filterToDate)) return false
     if (!q) return true
     const s = studentMap[f.student_id]
     return [f.amount, f.status, f.payment_mode, f.transaction_id, f.cheque_number, f.bank_name, f.payment_date, s?.full_name, s?.class_name].some((v: any) => String(v || "").toLowerCase().includes(q))
@@ -321,6 +350,43 @@ export default function FeesClient({ initialFees, students, particulars, feeType
   const handleStudentSelect = (studentId: string) => {
     if (String(studentId) === String(form.student_id)) return
     reloadParticulars(studentId, form.selectedFeeTypeIds)
+    const unpaid = studentUnpaidFees[String(studentId)]
+    if (unpaid && unpaid.length > 0) {
+      const totalUnpaid = unpaid.reduce((sum, f) => sum + Number(f.amount), 0)
+      setMessage(`⚠️ This student has ${unpaid.length} unpaid fee record(s) totaling ₹${totalUnpaid.toFixed(2)}. Please collect old dues.`)
+    } else {
+      setMessage("")
+    }
+  }
+
+  const studentSearchResults = useMemo(() => {
+    const query = studentSearch.trim().toLowerCase()
+    if (!query) return []
+    return students
+      .filter((s: any) => {
+        if (filterSchool && String(s.school_id) !== filterSchool) return false
+        return (
+          String(s.full_name || "").toLowerCase().includes(query) ||
+          String(s.gr_no || "").toLowerCase().includes(query) ||
+          String(s.roll_no || "").toLowerCase().includes(query) ||
+          String(s.father_name || "").toLowerCase().includes(query)
+        )
+      })
+      .slice(0, 30)
+  }, [students, studentSearch, filterSchool])
+
+  const handleStudentSearchSelect = (s: any) => {
+    setStudentSearch("")
+    setGuidedClass(s.class_name || "")
+    setGuidedFeeTypeId("")
+    reloadParticulars(String(s.id), [])
+    const unpaid = studentUnpaidFees[String(s.id)]
+    if (unpaid && unpaid.length > 0) {
+      const totalUnpaid = unpaid.reduce((sum, f) => sum + Number(f.amount), 0)
+      setMessage(`⚠️ This student has ${unpaid.length} unpaid fee record(s) totaling ₹${totalUnpaid.toFixed(2)}. Please collect old dues.`)
+    } else {
+      setMessage("")
+    }
   }
 
   const handleFeeTypeToggle = (id: string) => {
@@ -540,7 +606,7 @@ export default function FeesClient({ initialFees, students, particulars, feeType
       <div className="mb-4 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
         <div className="flex flex-wrap gap-2">
           <button className={`rounded px-4 py-2 text-sm font-semibold uppercase tracking-wide transition ${activeTab === "fees" ? "bg-blue-600 text-white" : "bg-slate-100 text-slate-700 hover:bg-slate-200"}`} onClick={() => setActiveTab("fees")}>Fees</button>
-          <button className={`rounded px-4 py-2 text-sm font-semibold uppercase tracking-wide transition ${activeTab === "unpaid" ? "bg-red-600 text-white" : "bg-slate-100 text-slate-700 hover:bg-slate-200"}`} onClick={() => setActiveTab("unpaid")}>Unpaid Students</button>
+          <button className={`rounded px-4 py-2 text-sm font-semibold uppercase tracking-wide transition ${activeTab === "unpaid" ? "bg-red-600 text-white" : "bg-slate-100 text-slate-700 hover:bg-slate-200"}`} onClick={() => setActiveTab("unpaid")}>Unpaid Fees</button>
           <button className={`rounded px-4 py-2 text-sm font-semibold uppercase tracking-wide transition ${activeTab === "report" ? "bg-green-600 text-white" : "bg-slate-100 text-slate-700 hover:bg-slate-200"}`} onClick={() => setActiveTab("report")}>Reports</button>
         </div>
         <div className="flex flex-wrap items-center gap-2">
@@ -579,6 +645,8 @@ export default function FeesClient({ initialFees, students, particulars, feeType
           <option value="">All Fee Types</option>
           {feeTypes.map((t: any) => <option key={t.id} value={String(t.id)}>{t.name}</option>)}
         </select>
+        <input type="date" className="rounded border p-2 text-sm" title="Payment From Date" value={filterFromDate} onChange={e => setFilterFromDate(e.target.value)} />
+        <input type="date" className="rounded border p-2 text-sm" title="Payment To Date" value={filterToDate} onChange={e => setFilterToDate(e.target.value)} />
         <span className="self-center text-sm text-slate-500">{filtered.length} records</span>
       </div>
       {sortedFees.length === 0 ? <p>No fee records found.</p> : (
@@ -637,10 +705,19 @@ export default function FeesClient({ initialFees, students, particulars, feeType
               </tr>
               {sortedFees.map((f: any, i: number) => {
                 const s = studentMap[f.student_id]
+                const unpaid = studentUnpaidFees[String(f.student_id)]
+                const hasUnpaid = unpaid && unpaid.length > 0
                 return (
                   <tr key={f.id}>
                     <td className="px-3 py-2">{i + 1}</td>
-                    <td className="px-3 py-2">{s?.full_name || f.student_id}</td>
+                    <td className="px-3 py-2 flex items-center gap-2">
+                      {s?.full_name || f.student_id}
+                      {hasUnpaid && (
+                        <span className="rounded bg-red-100 text-red-700 px-1.5 py-0.5 text-xs font-medium cursor-help" title={`${unpaid.length} unpaid fee(s) totaling ₹${unpaid.reduce((sum: number, uf: any) => sum + Number(uf.amount), 0).toFixed(2)}`}>
+                          ⚠ {unpaid.length}
+                        </span>
+                      )}
+                    </td>
                     <td className="px-3 py-2">{s?.class_name || "-"}</td>
                     <td className="px-3 py-2 text-xs font-mono">{f.receipt_year && f.receipt_no ? `FEE-${f.receipt_year}-${String(f.receipt_no).padStart(4, "0")}` : "-"}</td>
                     <td className="px-3 py-2"><span className={`rounded px-2 py-0.5 text-xs font-medium ${f.fee_category === "Trust" ? "bg-orange-100 text-orange-700" : "bg-blue-100 text-blue-700"}`}>{f.fee_category || "School"}</span></td>
@@ -673,7 +750,13 @@ export default function FeesClient({ initialFees, students, particulars, feeType
                           selectedFeeTypeIds: selectedIds, 
                           particulars: f.particulars?.length > 0 ? f.particulars.map((p: any) => ({ ...p, term: p.term || "Yearly" })) : [{ particular_name: "Tuition Fee", amount: String(f.amount), term: "Yearly" }] 
                         })
-                        setMessage("")
+                        const unpaid = studentUnpaidFees[String(f.student_id)]
+                        if (unpaid && unpaid.length > 0) {
+                          const totalUnpaid = unpaid.reduce((sum, uf) => sum + Number(uf.amount), 0)
+                          setMessage(`⚠️ This student has ${unpaid.length} unpaid fee record(s) totaling ₹${totalUnpaid.toFixed(2)}. Please collect old dues.`)
+                        } else {
+                          setMessage("")
+                        }
                         setModal(true)
                         const inst = await getInstallmentsByFeeId(f.id)
                         setInstallments(inst)
@@ -699,11 +782,11 @@ export default function FeesClient({ initialFees, students, particulars, feeType
         <div className="rounded border bg-white p-6 shadow-sm">
           <div className="mb-4 flex flex-wrap gap-3 items-center justify-between">
             <div>
-              <h3 className="text-xl font-semibold text-red-700">Unpaid Students</h3>
-              <p className="text-sm text-slate-500">Students who have not paid any fees ({unpaidStudents.length}).</p>
+              <h3 className="text-xl font-semibold text-red-700">Students with Unpaid Fees</h3>
+              <p className="text-sm text-slate-500">Students having pending/unpaid fee records ({unpaidStudents.length}).</p>
             </div>
             <div className="flex gap-2">
-              <button className="rounded bg-green-600 px-4 py-2 text-sm font-semibold text-white hover:bg-green-700" onClick={downloadUnpaidCsv}>Download CSV</button>
+              <button className="rounded bg-green-600 px-4 py-2 text-sm font-semibold text-white hover:bg-green-700" onClick={downloadUnpaidFeesCsv}>Download CSV</button>
               <button className="rounded bg-slate-100 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-200" onClick={() => setActiveTab("fees")}>Back to Fees</button>
             </div>
           </div>
@@ -797,8 +880,9 @@ export default function FeesClient({ initialFees, students, particulars, feeType
             </div>
             <div>
               <label className="mb-1 block text-xs font-black uppercase tracking-widest text-slate-600">Report Type</label>
-              <select className="w-full rounded border p-2 text-sm bg-slate-50" value={reportType} onChange={e => setReportType(e.target.value as "all" | "unpaid")}>
+              <select className="w-full rounded border p-2 text-sm bg-slate-50" value={reportType} onChange={e => setReportType(e.target.value as "all" | "unpaid" | "paid")}>
                 <option value="unpaid">Unpaid Fees Only</option>
+                <option value="paid">Paid Fees Only</option>
                 <option value="all">All Fees</option>
               </select>
             </div>
@@ -865,6 +949,7 @@ export default function FeesClient({ initialFees, students, particulars, feeType
               if (reportFromDate) params.set("from_date", reportFromDate)
               if (reportToDate) params.set("to_date", reportToDate)
               if (reportType === "unpaid") params.set("status", "unpaid")
+              if (reportType === "paid") params.set("status", "Paid")
               if (reportFeeCategory !== "all") params.set("fee_category", reportFeeCategory)
               if (reportTrustId) params.set("trust_id", reportTrustId)
               if (reportFeeTypeId) params.set("fee_type_ids", reportFeeTypeId)
@@ -976,6 +1061,29 @@ export default function FeesClient({ initialFees, students, particulars, feeType
                 </div>
               ) : (
                 <div className="space-y-3">
+                  <div className="rounded border bg-blue-50/50 p-3">
+                    <h4 className="mb-2 text-xs font-black text-blue-700 uppercase tracking-widest">Search Student</h4>
+                    <input
+                      type="text"
+                      placeholder="Search by Name / GR No / Roll No..."
+                      className="w-full rounded border p-3 text-sm font-bold"
+                      value={studentSearch}
+                      onChange={e => setStudentSearch(e.target.value)}
+                    />
+                    {studentSearch && studentSearchResults.length === 0 && (
+                      <p className="mt-1 text-xs text-slate-500">No students found.</p>
+                    )}
+                    {studentSearchResults.length > 0 && (
+                      <div className="mt-2 max-h-48 overflow-y-auto rounded border bg-white">
+                        {studentSearchResults.map((s: any) => (
+                          <button key={s.id} type="button" className="flex w-full items-center justify-between gap-2 border-b px-3 py-2 text-left text-sm hover:bg-blue-50" onClick={() => handleStudentSearchSelect(s)}>
+                            <span className="font-semibold text-slate-800">{s.full_name}</span>
+                            <span className="text-xs text-slate-500">{s.class_name}{s.division ? ` - ${s.division}` : ""} | GR: {s.gr_no || "-"} | Roll: {s.roll_no || "-"}</span>
+                          </button>
+                        ))}
+                      </div>
+                    )}
+                  </div>
                   <select className="w-full rounded border p-3 text-sm font-bold bg-slate-50" value={guidedClass} onChange={e => handleGuidedClassChange(e.target.value)} disabled={!!editing}>
                     <option value="">STEP 1: SELECT CLASS *</option>
                     {classes.map(c => <option key={c} value={c}>CLASS {c}</option>)}

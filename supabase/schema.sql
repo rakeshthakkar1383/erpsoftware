@@ -248,6 +248,25 @@ CREATE TABLE IF NOT EXISTS trust_info (
   created_at timestamp DEFAULT now()
 );
 
+-- 18. timetables
+CREATE TABLE IF NOT EXISTS timetables (
+  id bigint PRIMARY KEY GENERATED ALWAYS AS IDENTITY,
+  school_id bigint REFERENCES school_info(id) ON DELETE CASCADE,
+  class_name text NOT NULL,
+  division text DEFAULT '',
+  day text NOT NULL,
+  period_no integer NOT NULL,
+  start_time text,
+  end_time text,
+  subject_id bigint REFERENCES subjects(id) ON DELETE SET NULL,
+  teacher_id bigint REFERENCES teachers(id) ON DELETE SET NULL,
+  created_at timestamp DEFAULT now()
+);
+
+-- Prevent duplicate entries for the same class/division/day/period
+CREATE UNIQUE INDEX IF NOT EXISTS timetables_class_day_period_uidx
+  ON timetables (school_id, class_name, division, day, period_no);
+
 -- auth_sessions (used by Supabase Auth — handled automatically)
 -- No custom table needed; Supabase manages auth internally.
 
@@ -272,6 +291,7 @@ ALTER TABLE teacher_subjects ENABLE ROW LEVEL SECURITY;
 ALTER TABLE leave_types ENABLE ROW LEVEL SECURITY;
 ALTER TABLE leaves ENABLE ROW LEVEL SECURITY;
 ALTER TABLE trust_info ENABLE ROW LEVEL SECURITY;
+ALTER TABLE timetables ENABLE ROW LEVEL SECURITY;
 
 -- Drop existing policies to allow idempotent re-runs
 DROP POLICY IF EXISTS school_info_select ON school_info;

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server"
 import { createClient } from "@/lib/supabase/server"
+import { fetchAllRows } from "@/lib/supabase/fetch-all"
 import * as XLSX from "xlsx"
 
 export const dynamic = "force-dynamic"
@@ -22,31 +23,37 @@ export async function GET(request: NextRequest) {
   const toDate = searchParams.get("to_date") || ""
   const groupBy = searchParams.get("group_by") || ""
 
-  let query = supabase
-    .from("fees")
-    .select("*, students!student_id(full_name, class_name, division, roll_no, gr_no, mobile), school_info(school_name), trust_info(trust_name), fee_types(name)")
-    .order("payment_date", { ascending: false })
-
-  if (schoolId) query = query.eq("school_id", schoolId)
-  if (feeCategory) query = query.eq("fee_category", feeCategory)
-  if (trustId) query = query.eq("trust_id", Number(trustId))
-  if (status) {
-    if (status === "unpaid") query = query.not("status", "eq", "Paid")
-    else query = query.eq("status", status)
-  }
-  if (fromDate) query = query.gte("payment_date", fromDate)
-  if (toDate) query = query.lte("payment_date", toDate)
-
-  const { data: fees } = await query
-  if (!fees) return NextResponse.json({ error: "No data" }, { status: 404 })
+  const fees = await fetchAllRows(supabase, (q) => {
+    let b = q
+      .from("fees")
+      .select("*, students!student_id(full_name, class_name, division, roll_no, gr_no, mobile), school_info(school_name), trust_info(trust_name), fee_types(name)")
+      .order("payment_date", { ascending: false })
+      .order("id", { ascending: true })
+    if (schoolId) b = b.eq("school_id", schoolId)
+    if (feeCategory) b = b.eq("fee_category", feeCategory)
+    if (trustId) b = b.eq("trust_id", Number(trustId))
+    if (status) {
+      if (status === "unpaid") b = b.not("status", "ilike", "Paid")
+      else b = b.ilike("status", status)
+    }
+    return b
+  })
 
   const feeTypeIds = feeTypeIdsParam ? feeTypeIdsParam.split(",").map(Number).filter(n => !isNaN(n)) : []
+
+  const dateOnly = (value: string) => String(value || "").split("T")[0].split(" ")[0]
 
   let filtered = fees.filter((f: any) => {
     const s = f.students
     if (className && s?.class_name !== className) return false
     if (division && s?.division !== division) return false
     if (feeTypeIds.length > 0 && !feeTypeIds.includes(Number(f.fee_type_id))) return false
+    if (fromDate || toDate) {
+      const d = dateOnly(f.payment_date)
+      if (!d) return false
+      if (fromDate && d < fromDate) return false
+      if (toDate && d > toDate) return false
+    }
     return true
   })
 
