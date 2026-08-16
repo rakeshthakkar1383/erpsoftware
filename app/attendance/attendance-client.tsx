@@ -53,6 +53,39 @@ export default function AttendanceClient({ initialRecords, students, divisions, 
     await deleteAttendance(id); refresh()
   }
 
+  const normalizePhoneNumber = (value?: string) => {
+    if (!value) return ""
+    const digits = value.replace(/\D/g, "")
+    if (!digits) return ""
+    if (digits.startsWith("0")) return `91${digits}`
+    if (!digits.startsWith("91") && digits.length === 10) return `91${digits}`
+    return digits
+  }
+
+  const sendAbsentAlert = (student: any, r: any, channel: "sms" | "whatsapp") => {
+    const dateText = r?.attendance_date ? new Date(r.attendance_date).toLocaleDateString("en-GB", { day: "2-digit", month: "short", year: "numeric" }) : "today"
+    const message = `Dear Parent, this is to inform you that ${student?.full_name || "your child"} was marked ABSENT on ${dateText}. Kindly contact the school office for further information. Thank you.`
+
+    const mobileNumbers = [student?.father_mobile, student?.mother_mobile]
+      .map(normalizePhoneNumber)
+      .filter(Boolean)
+      .filter((value, index, array) => array.indexOf(value) === index)
+
+    if (mobileNumbers.length === 0) {
+      alert("No parent mobile number is available for this absent student.")
+      return
+    }
+
+    const target = mobileNumbers[0]
+
+    if (channel === "sms") {
+      window.location.href = `sms:${target}?body=${encodeURIComponent(message)}`
+      return
+    }
+
+    window.open(`https://wa.me/${target}?text=${encodeURIComponent(message)}`, "_blank", "noopener,noreferrer")
+  }
+
   const downloadFile = async (url: string, filename: string) => {
     try {
       const res = await fetch(url)
@@ -125,8 +158,14 @@ export default function AttendanceClient({ initialRecords, students, divisions, 
                     <td className="px-3 py-2">{s ? `${s.full_name} (${s.class_name})` : r.student_id}</td>
                     <td className="px-3 py-2">{formatDate(r.attendance_date)}</td>
                     <td className="px-3 py-2">{r.status}</td>
-                    <td className="flex gap-2 px-3 py-2">
+                    <td className="flex flex-wrap gap-2 px-3 py-2">
                       <button className="text-blue-600 hover:underline" onClick={() => { setEditing(r); setForm({ ...r }); setMessage(""); setModal(true) }}>Edit</button>
+                      {r.status === "Absent" && s && (
+                        <>
+                          <button className="text-emerald-600 hover:underline" onClick={() => sendAbsentAlert(s, r, "whatsapp")}>WhatsApp</button>
+                          <button className="text-sky-600 hover:underline" onClick={() => sendAbsentAlert(s, r, "sms")}>SMS</button>
+                        </>
+                      )}
                       <button className="text-red-600 hover:underline" onClick={() => handleDelete(r.id)}>Delete</button>
                     </td>
                   </tr>

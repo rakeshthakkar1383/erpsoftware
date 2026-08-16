@@ -367,7 +367,7 @@ DROP POLICY IF EXISTS trust_info_insert ON trust_info;
 DROP POLICY IF EXISTS trust_info_update ON trust_info;
 DROP POLICY IF EXISTS trust_info_delete ON trust_info;
 DROP POLICY IF EXISTS "authenticated users can upload" ON storage.objects;
-DROP POLICY IF EXISTS "authenticated users can view" ON storage.objects;
+DROP POLICY IF EXISTS "public can view school files" ON storage.objects;
 DROP POLICY IF EXISTS "authenticated users can delete" ON storage.objects;
 
 -- Helper function to get current user's school_id from JWT user_metadata
@@ -412,22 +412,39 @@ CREATE POLICY users_update ON users FOR UPDATE USING (get_user_role() = 'admin')
 CREATE POLICY users_delete ON users FOR DELETE USING (get_user_role() = 'admin');
 
 -- students
-CREATE POLICY students_select ON students FOR SELECT USING (school_id = get_school_id() OR get_user_role() = 'admin');
-CREATE POLICY students_insert ON students FOR INSERT WITH CHECK (school_id = get_school_id() OR get_user_role() = 'admin');
-CREATE POLICY students_update ON students FOR UPDATE USING (school_id = get_school_id() OR get_user_role() = 'admin');
-CREATE POLICY students_delete ON students FOR DELETE USING (school_id = get_school_id() OR get_user_role() = 'admin');
+CREATE POLICY students_select ON students FOR SELECT USING (
+  can_see_all()
+  OR (get_user_role() IN ('principal', 'supervision', 'clerk') AND school_id = get_school_id())
+  OR (
+    get_user_role() = 'teacher'
+    AND school_id = get_school_id()
+    AND (get_user_classes() = '' OR class_name = ANY(string_to_array(get_user_classes(), ',')))
+  )
+  OR (get_user_role() = 'student' AND id = get_linked_student_id())
+);
+CREATE POLICY students_insert ON students FOR INSERT WITH CHECK (can_manage_all() OR (is_school_staff() AND school_id = get_school_id()));
+CREATE POLICY students_update ON students FOR UPDATE USING (can_manage_all() OR (is_school_staff() AND school_id = get_school_id()));
+CREATE POLICY students_delete ON students FOR DELETE USING (can_manage_all() OR (is_school_staff() AND school_id = get_school_id()));
 
 -- teachers
-CREATE POLICY teachers_select ON teachers FOR SELECT USING (school_id = get_school_id() OR get_user_role() = 'admin');
-CREATE POLICY teachers_insert ON teachers FOR INSERT WITH CHECK (school_id = get_school_id() OR get_user_role() = 'admin');
-CREATE POLICY teachers_update ON teachers FOR UPDATE USING (school_id = get_school_id() OR get_user_role() = 'admin');
-CREATE POLICY teachers_delete ON teachers FOR DELETE USING (school_id = get_school_id() OR get_user_role() = 'admin');
+CREATE POLICY teachers_select ON teachers FOR SELECT USING (
+  can_see_all()
+  OR (get_user_role() IN ('principal', 'supervision', 'clerk', 'teacher') AND school_id = get_school_id())
+);
+CREATE POLICY teachers_insert ON teachers FOR INSERT WITH CHECK (can_manage_all() OR (is_school_staff() AND school_id = get_school_id()));
+CREATE POLICY teachers_update ON teachers FOR UPDATE USING (can_manage_all() OR (is_school_staff() AND school_id = get_school_id()));
+CREATE POLICY teachers_delete ON teachers FOR DELETE USING (can_manage_all() OR (is_school_staff() AND school_id = get_school_id()));
 
 -- fees
-CREATE POLICY fees_select ON fees FOR SELECT USING (school_id = get_school_id() OR get_user_role() = 'admin');
-CREATE POLICY fees_insert ON fees FOR INSERT WITH CHECK (school_id = get_school_id() OR get_user_role() = 'admin');
-CREATE POLICY fees_update ON fees FOR UPDATE USING (school_id = get_school_id() OR get_user_role() = 'admin');
-CREATE POLICY fees_delete ON fees FOR DELETE USING (school_id = get_school_id() OR get_user_role() = 'admin');
+CREATE POLICY fees_select ON fees FOR SELECT USING (
+  can_see_all()
+  OR (get_user_role() IN ('principal', 'supervision', 'clerk') AND school_id = get_school_id())
+  OR (get_user_role() = 'teacher' AND school_id = get_school_id())
+  OR (get_user_role() = 'student' AND student_id = get_linked_student_id())
+);
+CREATE POLICY fees_insert ON fees FOR INSERT WITH CHECK (can_manage_all() OR (is_school_staff() AND school_id = get_school_id()));
+CREATE POLICY fees_update ON fees FOR UPDATE USING (can_manage_all() OR (is_school_staff() AND school_id = get_school_id()));
+CREATE POLICY fees_delete ON fees FOR DELETE USING (can_manage_all() OR (is_school_staff() AND school_id = get_school_id()));
 
 -- fee_particulars
 CREATE POLICY fee_particulars_select ON fee_particulars FOR SELECT USING (school_id = get_school_id() OR get_user_role() = 'admin');
@@ -449,10 +466,24 @@ CREATE POLICY fee_types_update ON fee_types FOR UPDATE USING (school_id = get_sc
 CREATE POLICY fee_types_delete ON fee_types FOR DELETE USING (school_id = get_school_id() OR get_user_role() = 'admin');
 
 -- attendance
-CREATE POLICY attendance_select ON attendance FOR SELECT USING (school_id = get_school_id() OR get_user_role() = 'admin');
-CREATE POLICY attendance_insert ON attendance FOR INSERT WITH CHECK (school_id = get_school_id() OR get_user_role() = 'admin');
-CREATE POLICY attendance_update ON attendance FOR UPDATE USING (school_id = get_school_id() OR get_user_role() = 'admin');
-CREATE POLICY attendance_delete ON attendance FOR DELETE USING (school_id = get_school_id() OR get_user_role() = 'admin');
+CREATE POLICY attendance_select ON attendance FOR SELECT USING (
+  can_see_all()
+  OR (get_user_role() IN ('principal', 'supervision', 'clerk') AND school_id = get_school_id())
+  OR (
+    get_user_role() = 'teacher'
+    AND school_id = get_school_id()
+    AND student_id IN (
+      SELECT id
+      FROM students
+      WHERE school_id = get_school_id()
+        AND (get_user_classes() = '' OR class_name = ANY(string_to_array(get_user_classes(), ',')))
+    )
+  )
+  OR (get_user_role() = 'student' AND student_id = get_linked_student_id())
+);
+CREATE POLICY attendance_insert ON attendance FOR INSERT WITH CHECK (can_manage_all() OR school_id = get_school_id());
+CREATE POLICY attendance_update ON attendance FOR UPDATE USING (can_manage_all() OR school_id = get_school_id());
+CREATE POLICY attendance_delete ON attendance FOR DELETE USING (can_manage_all() OR school_id = get_school_id());
 
 -- exams
 CREATE POLICY exams_select ON exams FOR SELECT USING (school_id = get_school_id() OR get_user_role() = 'admin');

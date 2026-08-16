@@ -16,6 +16,7 @@ const allTabs = [
   { key: "manage-schools", label: "All Schools", icon: FileText },
   { key: "teachers", label: "Teacher Entry", icon: GraduationCap },
   { key: "teacher-subjects", label: "Teacher Subjects", icon: UserCheck },
+  { key: "timetable", label: "Time Table", icon: Calendar },
   { key: "students", label: "Students Entry", icon: Users },
   { key: "divisions", label: "Divisions", icon: GitBranch },
   { key: "subjects", label: "Subjects", icon: BookOpen },
