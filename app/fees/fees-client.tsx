@@ -1032,11 +1032,27 @@ export default function FeesClient({ initialFees, students, particulars, feeType
                   
                   <input className="w-full rounded border p-3 text-sm font-bold" placeholder="MOBILE NO" value={form.mobile} onChange={set("mobile")} />
                   
-                  {/* Receipt Number editing - Always visible for manual override */}
-                  <div className="grid grid-cols-2 gap-3">
-                      <input className="w-full rounded border p-3 text-sm font-bold" placeholder="Receipt No (Auto-generated if empty)" value={form.receipt_no || ""} onChange={set("receipt_no")} />
-                      <input className="w-full rounded border p-3 text-sm font-bold" placeholder="Receipt Year" value={form.receipt_year || ""} onChange={set("receipt_year")} />
-                  </div>
+                  {/* Receipt Number - only for School and Trust */}
+                  {(form.fee_category === "School" || form.fee_category === "Trust") && (
+                    <div className="grid grid-cols-2 gap-3">
+                      <input
+                        className="w-full rounded border p-3 text-sm font-bold"
+                        placeholder="Receipt No (Auto-generated if empty)"
+                        value={form.receipt_no || ""}
+                        onChange={set("receipt_no")}
+                        disabled={!!(editing && form.receipt_no)}
+                        readOnly={!!(editing && form.receipt_no)}
+                      />
+                      <input
+                        className="w-full rounded border p-3 text-sm font-bold"
+                        placeholder="Receipt Year"
+                        value={form.receipt_year || ""}
+                        onChange={set("receipt_year")}
+                        disabled={!!(editing && form.receipt_no)}
+                        readOnly={!!(editing && form.receipt_no)}
+                      />
+                    </div>
+                  )}
 
                   <div className="grid grid-cols-2 gap-3">
                     <select className="rounded border bg-white p-3 text-sm font-bold" value={form.gender} onChange={set("gender")}>
