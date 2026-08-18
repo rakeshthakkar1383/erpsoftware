@@ -1040,16 +1040,12 @@ export default function FeesClient({ initialFees, students, particulars, feeType
                         placeholder="Receipt No (Auto-generated if empty)"
                         value={form.receipt_no || ""}
                         onChange={set("receipt_no")}
-                        disabled={!!(editing && form.receipt_no)}
-                        readOnly={!!(editing && form.receipt_no)}
                       />
                       <input
                         className="w-full rounded border p-3 text-sm font-bold"
                         placeholder="Receipt Year"
                         value={form.receipt_year || ""}
                         onChange={set("receipt_year")}
-                        disabled={!!(editing && form.receipt_no)}
-                        readOnly={!!(editing && form.receipt_no)}
                       />
                     </div>
                   )}
