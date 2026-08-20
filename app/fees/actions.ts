@@ -170,13 +170,26 @@ export async function updateFee(id: number, formData: FormData) {
   
   if (raw.status === "Paid" && raw.student_id) {
     const { data: existing } = await supabase.from("fees").select("receipt_no, receipt_year").eq("id", id).maybeSingle()
-    if (existing?.receipt_no) {
-      // Receipt already assigned — preserve it, ignore any changes
+    const userProvidedReceiptNo = raw.receipt_no !== undefined && raw.receipt_no !== "" && raw.receipt_no !== null
+    const userChangedReceiptNo = userProvidedReceiptNo && existing?.receipt_no && Number(raw.receipt_no) !== existing.receipt_no
+    const userProvidedNewReceiptNo = userProvidedReceiptNo && !existing?.receipt_no
+
+    if (userChangedReceiptNo || userProvidedNewReceiptNo) {
+      // User explicitly changed the receipt number — use it and update the sequence
+      raw.receipt_no = Number(raw.receipt_no)
+      await supabase.from("receipt_sequences").upsert({
+        school_id: raw.school_id || 0,
+        receipt_year: raw.receipt_year,
+        fee_category: raw.fee_category || "School",
+        last_receipt_no: raw.receipt_no
+      }, { onConflict: 'school_id, receipt_year, fee_category' })
+    } else if (existing?.receipt_no) {
+      // Preserve existing receipt number
       raw.receipt_no = existing.receipt_no
       raw.receipt_year = existing.receipt_year
-    } else if (raw.receipt_no) {
+    } else if (userProvidedReceiptNo) {
+      // Manual override: ensure sequence is maintained
       raw.receipt_no = Number(raw.receipt_no)
-      // Manual override during update: ensure sequence is maintained
       await supabase.from("receipt_sequences").upsert({
         school_id: raw.school_id || 0,
         receipt_year: raw.receipt_year,
@@ -184,6 +197,7 @@ export async function updateFee(id: number, formData: FormData) {
         last_receipt_no: raw.receipt_no
       }, { onConflict: 'school_id, receipt_year, fee_category' })
     } else {
+      // Auto-generate receipt number
       const receipt = await generateReceiptNo(supabase, raw.student_id, raw.fee_category || "School", raw.school_id)
       if (receipt) {
         raw.receipt_no = receipt.receipt_no
